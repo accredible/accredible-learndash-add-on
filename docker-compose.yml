@@ -34,7 +34,7 @@ services:
       - ".:/var/www/html/wp-content/plugins/accredible-learndash-add-on"
 
   phpmyadmin:
-    image: phpmyadmin/phpmyadmin
+    image: phpmyadmin/phpmyadmin:5.1
     ports:
       - "8082:80"
     depends_on:
