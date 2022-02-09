@@ -97,3 +97,12 @@ Certain sniff violations can be automatically fixed with PHP Code Beautifier and
 ```
 vendor/bin/phpcbf
 ```
+
+### phpMyAdmin
+
+You can access phpMyAdmin at port `8082` of your Docker Host and log in with:
+
+```
+WORDPRESS_DB_USER : wordpress
+WORDPRESS_DATABASE_PASSWORD: wordpress
+```
