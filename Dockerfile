@@ -1,9 +1,5 @@
 FROM wordpress:5.9-php7.4-apache
 
-# For bin/install-wp-tests.sh
-ENV WORDPRESS_VERSION 5.9
-ENV PLUGIN_DIR /var/www/html/wp-content/plugins/accredible-learndash-add-on
-
 # Install wp-cli & composer
 RUN apt-get update && apt-get install -y vim sudo git default-mysql-client subversion
 # wp-cli for wp setups: https://wp-cli.org/#installing

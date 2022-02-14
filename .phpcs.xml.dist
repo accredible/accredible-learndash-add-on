@@ -32,7 +32,7 @@
 	<rule ref="WordPress.NamingConventions.PrefixAllGlobals">
 		<properties>
 			<!-- Value: replace the function, class, and variable prefixes used. Separate multiple prefixes with a comma. -->
-			<property name="prefixes" type="array" value="accredible_learndash_add_on"/>
+			<property name="prefixes" type="array" value="accredible_learndash, ACCREDILBE_LEARNDASH"/>
 		</properties>
 	</rule>
 	<!-- maybe-later: Ignore WP.I18n -->

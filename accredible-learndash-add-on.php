@@ -10,4 +10,16 @@
  * Version:     1.0.0
  * Author:      Accredible
  * Author URI:  https://www.accredible.com/
+ * License:     GPL v2
+ * License URI: https://www.gnu.org/licenses/gpl-2.0.html
  */
+
+defined( 'ABSPATH' ) || die;
+
+define( 'ACCREDILBE_LEARNDASH_PLUGIN_BASENAME', plugin_basename( __FILE__ ) );
+define( 'ACCREDILBE_LEARNDASH_PLUGIN_PATH', plugin_dir_path( __FILE__ ) );
+
+if ( is_admin() ) {
+	require_once plugin_dir_path( __FILE__ ) . '/includes/class-accredible-learndash-admin.php';
+	Accredible_Learndash_Admin::init();
+}
