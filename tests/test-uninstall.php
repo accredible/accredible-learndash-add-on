@@ -40,6 +40,7 @@ class Accredible_Learndash_Uninstall_Test extends WP_UnitTestCase {
 		foreach ( Accredible_Learndash_Admin_Database::TABLE_NAMES as $table_name ) {
 			$this->assertFalse( $this->table_exists( $table_name ) );
 		}
+		$this->assertFalse( get_option( 'accredible_learndash_db_version' ) );
 	}
 
 	/**

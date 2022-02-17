@@ -12,8 +12,9 @@ if ( ! class_exists( 'Accredible_Learndash_Admin_Database' ) ) :
 	 * Accredible LearnDash Add-on admin database class
 	 */
 	class Accredible_Learndash_Admin_Database {
-		const PLUGIN_PREFIX = 'accredible_learndash_';
-		const VERSION       = '1.0';
+		const PLUGIN_PREFIX  = 'accredible_learndash_';
+		const OPTION_VERSION = self::PLUGIN_PREFIX . 'db_version';
+		const VERSION        = '1.0';
 
 		// Custom table names.
 		const AUTO_ISSUANCES_TABLE_NAME     = self::PLUGIN_PREFIX . 'auto_issuances';
@@ -62,7 +63,7 @@ if ( ! class_exists( 'Accredible_Learndash_Admin_Database' ) ) :
 			dbDelta( $auto_issuance_log_create_sql );
 			// phpcs:enable WordPress.DB.PreparedSQL.NotPrepared
 
-			add_option( self::PLUGIN_PREFIX . 'db_version', self::VERSION );
+			add_option( self::OPTION_VERSION, self::VERSION );
 		}
 
 		/**
@@ -77,6 +78,8 @@ if ( ! class_exists( 'Accredible_Learndash_Admin_Database' ) ) :
 				$wpdb->query( $drop_sql );
 			}
 			// phpcs:enable WordPress.DB.PreparedSQL.NotPrepared
+
+			delete_option( self::OPTION_VERSION );
 		}
 	}
 endif;

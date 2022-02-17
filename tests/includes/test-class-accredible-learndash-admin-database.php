@@ -21,6 +21,7 @@ class Accredible_Learndash_Admin_Database_Test extends WP_UnitTestCase {
 		foreach ( Accredible_Learndash_Admin_Database::TABLE_NAMES as $table_name ) {
 			$this->assertFalse( $this->table_exists( $table_name ) );
 		}
+		delete_option( 'accredible_learndash_db_version' );
 
 		// XXX Stop transforming all `CREATE TABLE` to `CREATE TEMPORARY TABLE`.
 		remove_filter( 'query', array( $this, '_create_temporary_tables' ) );
@@ -28,6 +29,8 @@ class Accredible_Learndash_Admin_Database_Test extends WP_UnitTestCase {
 		foreach ( Accredible_Learndash_Admin_Database::TABLE_NAMES as $table_name ) {
 			$this->assertTrue( $this->table_exists( $table_name ) );
 		}
+
+		$this->assertEquals( '1.0', get_option( 'accredible_learndash_db_version' ) );
 	}
 
 	/**
@@ -44,6 +47,8 @@ class Accredible_Learndash_Admin_Database_Test extends WP_UnitTestCase {
 		foreach ( Accredible_Learndash_Admin_Database::TABLE_NAMES as $table_name ) {
 			$this->assertFalse( $this->table_exists( $table_name ) );
 		}
+
+		$this->assertFalse( get_option( 'accredible_learndash_db_version' ) );
 	}
 
 	/**
