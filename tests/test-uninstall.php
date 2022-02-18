@@ -51,7 +51,7 @@ class Accredible_Learndash_Uninstall_Test extends WP_UnitTestCase {
 	private function table_exists( $table_name ) {
 		global $wpdb;
 		$table_name = $wpdb->prefix . $table_name;
-		// Disable `PreparedSQL` since there are not inputs from users.
+		// Disable `PreparedSQL` since there are no inputs from users.
 		// phpcs:disable WordPress.DB.PreparedSQL.NotPrepared
 		$sql = "SHOW TABLES LIKE '$table_name'";
 		return $wpdb->get_var( $sql ) === $table_name;

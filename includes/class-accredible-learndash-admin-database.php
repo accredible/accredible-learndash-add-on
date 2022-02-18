@@ -33,13 +33,13 @@ if ( ! class_exists( 'Accredible_Learndash_Admin_Database' ) ) :
 
 			require_once ABSPATH . 'wp-admin/includes/upgrade.php';
 
-			// Disable `PreparedSQL` since there are not inputs from users.
+			// Disable `PreparedSQL` since there are no inputs from users.
 			// phpcs:disable WordPress.DB.PreparedSQL.NotPrepared
 			$auto_issuance_create_sql = 'CREATE TABLE ' . $wpdb->prefix . self::AUTO_ISSUANCES_TABLE_NAME . " (
-				id bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+				id int(11) NOT NULL AUTO_INCREMENT,
 				kind varchar(50) NOT NULL,
 				post_id bigint(20) unsigned NOT NULL,
-				accredible_group_id bigint(20) unsigned NOT NULL,
+				accredible_group_id int(11) NOT NULL,
 				trigger_value varchar(255),
 				created_at datetime DEFAULT '0000-00-00 00:00:00' NOT NULL,
 				PRIMARY KEY (id),
@@ -51,9 +51,9 @@ if ( ! class_exists( 'Accredible_Learndash_Admin_Database' ) ) :
 			$auto_issuance_id             = self::PLUGIN_PREFIX . 'auto_issuance_id';
 			$auto_issuance_log_create_sql = 'CREATE TABLE ' . $wpdb->prefix . self::AUTO_ISSUANCE_LOGS_TABLE_NAME . " (
 				id bigint(20) unsigned NOT NULL AUTO_INCREMENT,
-				$auto_issuance_id bigint(20) unsigned NOT NULL,
+				$auto_issuance_id int(11) NOT NULL,
 				user_id bigint(20) unsigned NOT NULL,
-				accredible_group_id bigint(20) unsigned,
+				accredible_group_id int(11),
 				error_message text,
 				created_at datetime DEFAULT '0000-00-00 00:00:00' NOT NULL,
 				PRIMARY KEY (id),
@@ -71,7 +71,7 @@ if ( ! class_exists( 'Accredible_Learndash_Admin_Database' ) ) :
 		 */
 		public static function drop_all() {
 			global $wpdb;
-			// Disable `PreparedSQL` since there are not inputs from users.
+			// Disable `PreparedSQL` since there are no inputs from users.
 			// phpcs:disable WordPress.DB.PreparedSQL.NotPrepared
 			foreach ( self::TABLE_NAMES as $table_name ) {
 				$drop_sql = 'DROP TABLE IF EXISTS ' . $wpdb->prefix . $table_name;
