@@ -1,0 +1,71 @@
+@import url('https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,900');
+
+body {
+    font: 400 16px/24px Source Sans Pro;
+    background: white;
+}
+
+label, .label {
+    color: var(--color-natural-100);
+}
+
+.accredible-wrapper {
+    padding-right: 20px;
+}
+
+.accredible-header-tile {
+    margin-bottom: 20px;
+    border-bottom: 1px solid #EFF0F2;
+}
+
+.accredible-form-field {
+    margin-bottom: 20px;
+}
+
+.accredible-form-field > label {
+    display: block;
+    padding-bottom: 10px;
+}
+
+.accredible-form-field input[type="text"] {
+    display: flex;
+    align-items: center;
+    flex: 1;
+    padding: 0 var(--spacing-2x);
+    border: 1px solid var(--color-natural-40);
+    border-radius: 4px;
+    width: 500px;
+    height: 40px;
+}
+
+.accredible-form-field input[type="text"]:hover {
+    border-color: var(--color-secondary-80);
+}
+
+.accredible-form-field input[type="text"]:focus {
+    border-color: var(--color-secondary-120);
+    outline: none;
+    box-shadow: none;
+}
+
+.accredible-form-field input[type="text"][readonly] {
+    color: var(--color-natural-60);
+    border-color: var(--color-natural-20);
+}
+
+.accredible-radio-group {
+    display: flex;
+}
+
+.radio-group-item {
+    display: flex;
+    align-items: center;
+}
+
+.accredible-radio-group .radio-group-item {
+    margin-right: 10px;
+}
+
+.accredible-radio-group input[type="radio"] {
+    margin-top: 2px;
+}
