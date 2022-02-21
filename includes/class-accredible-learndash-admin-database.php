@@ -41,7 +41,7 @@ if ( ! class_exists( 'Accredible_Learndash_Admin_Database' ) ) :
 				post_id bigint(20) unsigned NOT NULL,
 				accredible_group_id int(11) NOT NULL,
 				trigger_value varchar(255),
-				created_at datetime DEFAULT '0000-00-00 00:00:00' NOT NULL,
+				created_at datetime DEFAULT '1970-01-01 00:00:00' NOT NULL,
 				PRIMARY KEY (id),
 				KEY kind (kind),
 				KEY post_id (post_id)
@@ -55,7 +55,7 @@ if ( ! class_exists( 'Accredible_Learndash_Admin_Database' ) ) :
 				user_id bigint(20) unsigned NOT NULL,
 				accredible_group_id int(11),
 				error_message text,
-				created_at datetime DEFAULT '0000-00-00 00:00:00' NOT NULL,
+				created_at datetime DEFAULT '1970-01-01 00:00:00' NOT NULL,
 				PRIMARY KEY (id),
 				KEY $auto_issuance_id ($auto_issuance_id),
 				KEY user_id (user_id)
