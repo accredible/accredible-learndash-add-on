@@ -7,8 +7,9 @@
 
 defined( 'ABSPATH' ) || die;
 
-require_once plugin_dir_path( __FILE__ ) . '/class-accredible-learndash-admin-setting.php';
+require_once plugin_dir_path( __FILE__ ) . '/class-accredible-learndash-admin-database.php';
 require_once plugin_dir_path( __FILE__ ) . '/class-accredible-learndash-admin-menu.php';
+require_once plugin_dir_path( __FILE__ ) . '/class-accredible-learndash-admin-setting.php';
 
 if ( ! class_exists( 'Accredible_Learndash_Admin' ) ) :
 	/**
@@ -38,7 +39,10 @@ if ( ! class_exists( 'Accredible_Learndash_Admin' ) ) :
 				ACCREDILBE_LEARNDASH_PLUGIN_BASENAME,
 				array( 'Accredible_Learndash_Admin_Setting', 'set_default' )
 			);
-			// TODO: NTGR-522 custom DB table creation.
+			register_activation_hook(
+				ACCREDILBE_LEARNDASH_PLUGIN_BASENAME,
+				array( 'Accredible_Learndash_Admin_Database', 'setup' )
+			);
 		}
 
 		/**
