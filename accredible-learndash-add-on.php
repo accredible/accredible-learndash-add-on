@@ -21,5 +21,8 @@ define( 'ACCREDILBE_LEARNDASH_PLUGIN_PATH', plugin_dir_path( __FILE__ ) );
 
 if ( is_admin() ) {
 	require_once plugin_dir_path( __FILE__ ) . '/includes/class-accredible-learndash-admin.php';
-	Accredible_Learndash_Admin::init();
+	add_action( 'plugins_loaded', array( 'Accredible_Learndash_Admin', 'init' ), 11 );
 }
+
+require_once plugin_dir_path( __FILE__ ) . '/includes/class-accredible-learndash.php';
+add_action( 'plugins_loaded', array( 'Accredible_Learndash', 'init' ), 11 );
