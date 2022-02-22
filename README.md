@@ -6,6 +6,8 @@
 
 ### Development setup
 
+⚠ Be careful to **UNINSTALL** the plugin in this docker environment since **WordPress completely removes your local plugin directory** on uninstallation including `.git` so you will lose all your work in the directory. (In contrast, activation and deactivation of the plugin do not trigger any dangerous operations.)
+
 #### Prerequisites
 
 - [Docker](https://www.docker.com/)
