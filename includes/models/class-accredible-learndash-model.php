@@ -15,17 +15,16 @@ if ( ! class_exists( 'Accredible_Learndash_Model' ) ) :
 		/**
 		 * Return a list of DB records.
 		 *
-		 * @param string $where SQL where clause.
+		 * @param string $where_sql SQL where clause.
 		 */
-		public static function get_results( $where = '' ) {
+		public static function get_results( $where_sql = '' ) {
 			global $wpdb;
 			$sql = 'SELECT * FROM ' . static::table_name();
-			if ( ! empty( $where ) ) {
-				$sql .= " WHERE $where";
+			if ( ! empty( $where_sql ) ) {
+				$sql .= " WHERE $where_sql";
 			}
-			return $wpdb->get_results(
-				$wpdb->prepare( '%1s;', $sql ) // phpcs:disable WordPress.DB.PreparedSQLPlaceholders.UnquotedComplexPlaceholder
-			);
+			// XXX `$where_sql` is a raw SQL so `$wpdb->prepare` cannot be used.
+			return $wpdb->get_results( $sql ); // phpcs:disable WordPress.DB.PreparedSQL.NotPrepared
 		}
 
 		/**
