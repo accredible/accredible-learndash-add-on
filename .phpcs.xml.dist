@@ -51,4 +51,7 @@
 			<property name="blank_line_check" value="true"/>
 		</properties>
 	</rule>
+	<rule ref="WordPress.Files.FileName.InvalidClassFileName">
+		<exclude-pattern>*/tests/*</exclude-pattern>
+	</rule>
 </ruleset>

@@ -38,24 +38,26 @@ if ( ! class_exists( 'Accredible_Learndash_Event_Handler' ) ) :
 				$recipient_name = $user->display_name;
 			}
 
-			$where   = "kind = 'course_completed' AND post_id = 1";
-			$results = Accredible_Learndash_Model_Auto_Issuance::get_results( $where );
-			if ( empty( $results ) ) {
+			$where          = "kind = 'course_completed' AND post_id = 1";
+			$auto_issuances = Accredible_Learndash_Model_Auto_Issuance::get_results( $where );
+			if ( empty( $auto_issuances ) ) {
 				return;
 			}
-
 			$api_key = get_option( Accredible_Learndash_Admin_Setting::OPTION_API_KEY );
 			if ( false === $api_key ) {
 				return;
 			}
+
 			$client = new Accredible_Learndash_Api_V1_Client();
-			foreach ( $results as $auto_issuance ) {
+			foreach ( $auto_issuances as $auto_issuance ) {
+				// Issue a credential.
 				$res = $client->create_credential(
 					$auto_issuance->accredible_group_id,
 					$recipient_name,
 					$recipient_email
 				);
 
+				// Create an AutoIssuanceLog.
 				$auto_issuance_id_name = Accredible_Learndash_Admin_Database::PLUGIN_PREFIX . 'auto_issuance_id';
 				$auto_issuance_log     = array(
 					$auto_issuance_id_name => $auto_issuance->id,

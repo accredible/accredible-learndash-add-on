@@ -9,31 +9,12 @@ defined( 'ABSPATH' ) || die;
 
 require_once ACCREDILBE_LEARNDASH_PLUGIN_PATH . '/includes/class-accredible-learndash-admin-database.php';
 require_once ACCREDILBE_LEARNDASH_PLUGIN_PATH . '/includes/models/class-accredible-learndash-model-auto-issuance-log.php';
+require_once ACCREDILBE_LEARNDASH_PLUGIN_PATH . '/tests/class-accredible-learndash-custom-unit-test-case.php';
 
 /**
  * Unit tests for Accredible_Learndash_Model_Auto_Issuance_Log
  */
-class Accredible_Learndash_Model_Auto_Issuance_Log_Test extends WP_UnitTestCase {
-	/**
-	 * Add custom logic to setUp.
-	 */
-	public function setUp(): void { // phpcs:disable PHPCompatibility.FunctionDeclarations.NewReturnTypeDeclarations.voidFound
-		parent::setUp();
-		// XXX Stop transforming all `CREATE TABLE` to `CREATE TEMPORARY TABLE`.
-		remove_filter( 'query', array( $this, '_create_temporary_tables' ) );
-		Accredible_Learndash_Admin_Database::setup();
-	}
-
-	/**
-	 * Add custom logic to tearDown.
-	 */
-	public function tearDown(): void { // phpcs:disable PHPCompatibility.FunctionDeclarations.NewReturnTypeDeclarations.voidFound
-		// XXX Stop transforming all `DROP TABLE` to `DROP TEMPORARY TABLE`.
-		remove_filter( 'query', array( $this, '_drop_temporary_tables' ) );
-		Accredible_Learndash_Admin_Database::drop_all();
-		parent::tearDown();
-	}
-
+class Accredible_Learndash_Model_Auto_Issuance_Log_Test extends Accredible_Learndash_Custom_Unit_Test_Case {
 	/**
 	 * Test if it returns a list of auto issuance logs with a WHERE clause.
 	 */
@@ -98,6 +79,5 @@ class Accredible_Learndash_Model_Auto_Issuance_Log_Test extends WP_UnitTestCase 
 			$wpdb->prepare( 'SELECT * FROM %1s;', $table_name )
 		);
 		$this->assertCount( 1, $results );
-    // phpcs:enable 
 	}
 }
