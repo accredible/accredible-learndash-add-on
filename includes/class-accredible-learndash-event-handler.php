@@ -24,6 +24,11 @@ if ( ! class_exists( 'Accredible_Learndash_Event_Handler' ) ) :
 		 * @param Array $data course data.
 		 */
 		public static function handle_course_completed( $data ) {
+			$api_key = get_option( Accredible_Learndash_Admin_Setting::OPTION_API_KEY );
+			if ( false === $api_key ) {
+				return;
+			}
+
 			$course_id       = $data['course']->id;
 			$user            = $data['user'];
 			$recipient_email = $user->email;
@@ -38,45 +43,46 @@ if ( ! class_exists( 'Accredible_Learndash_Event_Handler' ) ) :
 				$recipient_name = $user->display_name;
 			}
 
-			$where          = "kind = 'course_completed' AND post_id = 1";
-			$auto_issuances = Accredible_Learndash_Model_Auto_Issuance::get_results( $where );
-			if ( empty( $auto_issuances ) ) {
-				return;
-			}
-			$api_key = get_option( Accredible_Learndash_Admin_Setting::OPTION_API_KEY );
-			if ( false === $api_key ) {
-				return;
-			}
-
-			$client = new Accredible_Learndash_Api_V1_Client();
+			$where_sql      = "kind = 'course_completed' AND post_id = 1";
+			$auto_issuances = Accredible_Learndash_Model_Auto_Issuance::get_results( $where_sql );
 			foreach ( $auto_issuances as $auto_issuance ) {
-				// Issue a credential.
-				$res = $client->create_credential(
-					$auto_issuance->accredible_group_id,
-					$recipient_name,
-					$recipient_email
-				);
-
-				// Create an AutoIssuanceLog.
-				$auto_issuance_id_name = Accredible_Learndash_Admin_Database::PLUGIN_PREFIX . 'auto_issuance_id';
-				$auto_issuance_log     = array(
-					$auto_issuance_id_name => $auto_issuance->id,
-					'user_id'              => $user->id,
-					'accredible_group_id'  => $auto_issuance->accredible_group_id,
-					'recipient_name'       => $recipient_name,
-					'recipient_email'      => $recipient_email,
-				);
-				if ( empty( $res ) ) {
-					$auto_issuance_log['error_message'] = 'The server could not respond. Your API key might be invalid.';
-				} elseif ( $res->errors ) {
-					$auto_issuance_log['error_message'] =
-						is_string( $res->errors ) ? $res->errors : $res->errors->credential[0];
-				} else {
-					$auto_issuance_log['accredible_group_name'] = $res->credential->group_name;
-					$auto_issuance_log['credential_url']        = $res->credential->url;
-				}
-				Accredible_Learndash_Model_Auto_Issuance_Log::insert( $auto_issuance_log );
+				static::create_credential( $auto_issuance, $user->id, $recipient_name, $recipient_email );
 			}
+		}
+
+		/**
+		 * Create a credential as auto-issuance.
+		 *
+		 * @param object $auto_issuance An auto issuance record.
+		 * @param int    $user_id User ID.
+		 * @param string $recipient_name Recipient's name.
+		 * @param string $recipient_email Recipient's email.
+		 */
+		private static function create_credential( $auto_issuance, $user_id, $recipient_name, $recipient_email ) {
+			$client = new Accredible_Learndash_Api_V1_Client();
+			$res    = $client->create_credential(
+				$auto_issuance->accredible_group_id,
+				$recipient_name,
+				$recipient_email
+			);
+
+			// Create an AutoIssuanceLog.
+			$auto_issuance_id_name = Accredible_Learndash_Admin_Database::PLUGIN_PREFIX . 'auto_issuance_id';
+			$auto_issuance_log     = array(
+				$auto_issuance_id_name => $auto_issuance->id,
+				'user_id'              => $user_id,
+				'accredible_group_id'  => $auto_issuance->accredible_group_id,
+				'recipient_name'       => $recipient_name,
+				'recipient_email'      => $recipient_email,
+			);
+			if ( $res['errors'] ) {
+				$auto_issuance_log['error_message'] =
+					is_string( $res['errors'] ) ? $res['errors'] : $res['errors']['credential'][0];
+			} else {
+				$auto_issuance_log['accredible_group_name'] = $res['credential']['group_name'];
+				$auto_issuance_log['credential_url']        = $res['credential']['url'];
+			}
+			Accredible_Learndash_Model_Auto_Issuance_Log::insert( $auto_issuance_log );
 		}
 	}
 endif;

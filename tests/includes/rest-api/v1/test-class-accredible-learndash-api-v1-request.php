@@ -52,7 +52,7 @@ class Accredible_Learndash_Api_V1_Request_Test extends WP_UnitTestCase {
 	/**
 	 * Test if it makes a GET request and return parsed body.
 	 */
-	public function test_get() {
+	public function test_get_when_success() {
 		// Stub the HTTP request.
 		add_filter(
 			'pre_http_request',
@@ -70,13 +70,8 @@ class Accredible_Learndash_Api_V1_Request_Test extends WP_UnitTestCase {
 				);
 
 				return array(
-					'headers'     => array(),
-					'cookies'     => array(),
-					'filename'    => null,
-					'response'    => 200,
-					'status_code' => 200,
-					'success'     => 1,
-					'body'        => $this->response_body,
+					'response' => array( 'code' => 200 ),
+					'body'     => $this->response_body,
 				);
 			},
 			10,
@@ -85,7 +80,75 @@ class Accredible_Learndash_Api_V1_Request_Test extends WP_UnitTestCase {
 
 		$request = new Accredible_Learndash_Api_V1_Request( $this->base_url, $this->api_key );
 		$res     = $request->get( '/credentials' );
-		$this->assertEquals( json_decode( $this->response_body ), $res );
+		$this->assertEquals( json_decode( $this->response_body, true ), $res );
+	}
+
+	/**
+	 * Test if it makes a GET request and return parsed body when unauthorized.
+	 */
+	public function test_get_when_unauthorized() {
+		// Stub the HTTP request.
+		add_filter(
+			'pre_http_request',
+			function( $_preempt, $args, $url ) {
+				$this->assertEquals( 'https://api.accredible.com/v1/credentials', $url );
+				$this->assertEquals( 'GET', $args['method'] );
+				$this->assertEquals( null, $args['body'] );
+				$this->assertEquals(
+					array(
+						'Authorization'          => 'Token ' . $this->api_key,
+						'Content-Type'           => 'application/json',
+						'Accredible-Integration' => 'Learndash',
+					),
+					$args['headers']
+				);
+
+				return array(
+					'response' => array( 'code' => 401 ),
+					'body'     => 'HTTP Token: Access denied.',
+				);
+			},
+			10,
+			3
+		);
+
+		$request = new Accredible_Learndash_Api_V1_Request( $this->base_url, $this->api_key );
+		$res     = $request->get( '/credentials' );
+		$this->assertEquals( array( 'errors' => '401: HTTP Token: Access denied.' ), $res );
+	}
+
+	/**
+	 * Test if it makes a GET request and return parsed body when bad request.
+	 */
+	public function test_get_when_bad_request() {
+		// Stub the HTTP request.
+		add_filter(
+			'pre_http_request',
+			function( $_preempt, $args, $url ) {
+				$this->assertEquals( 'https://api.accredible.com/v1/credentials', $url );
+				$this->assertEquals( 'GET', $args['method'] );
+				$this->assertEquals( null, $args['body'] );
+				$this->assertEquals(
+					array(
+						'Authorization'          => 'Token ' . $this->api_key,
+						'Content-Type'           => 'application/json',
+						'Accredible-Integration' => 'Learndash',
+					),
+					$args['headers']
+				);
+
+				return array(
+					'response' => array( 'code' => 400 ),
+					'body'     => wp_json_encode( array( 'errors' => 'Invalid group' ) ),
+				);
+			},
+			10,
+			3
+		);
+
+		$request = new Accredible_Learndash_Api_V1_Request( $this->base_url, $this->api_key );
+		$res     = $request->get( '/credentials' );
+		$this->assertEquals( array( 'errors' => 'Invalid group' ), $res );
 	}
 
 	/**
@@ -109,13 +172,8 @@ class Accredible_Learndash_Api_V1_Request_Test extends WP_UnitTestCase {
 				);
 
 				return array(
-					'headers'     => array(),
-					'cookies'     => array(),
-					'filename'    => null,
-					'response'    => 200,
-					'status_code' => 200,
-					'success'     => 1,
-					'body'        => $this->response_body,
+					'response' => array( 'code' => 200 ),
+					'body'     => $this->response_body,
 				);
 			},
 			10,
@@ -124,6 +182,74 @@ class Accredible_Learndash_Api_V1_Request_Test extends WP_UnitTestCase {
 
 		$request = new Accredible_Learndash_Api_V1_Request( $this->base_url, $this->api_key );
 		$res     = $request->post( '/credentials', $this->post_data );
-		$this->assertEquals( json_decode( $this->response_body ), $res );
+		$this->assertEquals( json_decode( $this->response_body, true ), $res );
+	}
+
+	/**
+	 * Test if it makes a POST request and return parsed body when unauthorized.
+	 */
+	public function test_post_when_unauthorized() {
+		// Stub the HTTP request.
+		add_filter(
+			'pre_http_request',
+			function( $_preempt, $args, $url ) {
+				$this->assertEquals( 'https://api.accredible.com/v1/credentials', $url );
+				$this->assertEquals( 'POST', $args['method'] );
+				$this->assertEquals( wp_json_encode( $this->post_data ), $args['body'] );
+				$this->assertEquals(
+					array(
+						'Authorization'          => 'Token ' . $this->api_key,
+						'Content-Type'           => 'application/json',
+						'Accredible-Integration' => 'Learndash',
+					),
+					$args['headers']
+				);
+
+				return array(
+					'response' => array( 'code' => 401 ),
+					'body'     => 'HTTP Token: Access denied.',
+				);
+			},
+			10,
+			3
+		);
+
+		$request = new Accredible_Learndash_Api_V1_Request( $this->base_url, $this->api_key );
+		$res     = $request->post( '/credentials', $this->post_data );
+		$this->assertEquals( array( 'errors' => '401: HTTP Token: Access denied.' ), $res );
+	}
+
+	/**
+	 * Test if it makes a POST request and return parsed body when bad request.
+	 */
+	public function test_post_when_bad_request() {
+		// Stub the HTTP request.
+		add_filter(
+			'pre_http_request',
+			function( $_preempt, $args, $url ) {
+				$this->assertEquals( 'https://api.accredible.com/v1/credentials', $url );
+				$this->assertEquals( 'POST', $args['method'] );
+				$this->assertEquals( wp_json_encode( $this->post_data ), $args['body'] );
+				$this->assertEquals(
+					array(
+						'Authorization'          => 'Token ' . $this->api_key,
+						'Content-Type'           => 'application/json',
+						'Accredible-Integration' => 'Learndash',
+					),
+					$args['headers']
+				);
+
+				return array(
+					'response' => array( 'code' => 400 ),
+					'body'     => wp_json_encode( array( 'errors' => 'Invalid group' ) ),
+				);
+			},
+			10,
+			3
+		);
+
+		$request = new Accredible_Learndash_Api_V1_Request( $this->base_url, $this->api_key );
+		$res     = $request->post( '/credentials', $this->post_data );
+		$this->assertEquals( array( 'errors' => 'Invalid group' ), $res );
 	}
 }

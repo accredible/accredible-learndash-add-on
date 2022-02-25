@@ -71,8 +71,21 @@ if ( ! class_exists( 'Accredible_Learndash_Api_V1_Request' ) ) :
 		 * @param array $response The response from `wp_remote_get` or `wp_remote_post`.
 		 */
 		private function parse_response_body( $response ) {
-			$body = wp_remote_retrieve_body( $response );
-			return json_decode( $body );
+			$status_code = wp_remote_retrieve_response_code( $response );
+			$body        = wp_remote_retrieve_body( $response );
+			$parsed_body = json_decode( $body, true );
+			if ( $status_code < 400 ) {
+				return $parsed_body;
+			}
+
+			// Always include the `errors` attribute when the request fails.
+			if ( empty( $parsed_body ) ) {
+				return array( 'errors' => $status_code . ': ' . $body );
+			}
+			if ( empty( $parsed_body['errors'] ) ) {
+				$parsed_body['errors'] = $status_code;
+			}
+			return $parsed_body;
 		}
 	}
 endif;
