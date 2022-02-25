@@ -16,18 +16,9 @@ if ( ! class_exists( 'Accredible_Learndash_Api_V1_Client' ) ) :
 	 */
 	class Accredible_Learndash_Api_V1_Client {
 		/**
-		 * The HTTP request object used to make HTTP requests.
-		 *
-		 * @var Accredible_Learndash_Api_V1_Request $request Make HTTP requests.
-		 */
-		private $request;
-
-		/**
 		 * Accredible_Learndash_Api_V1 constructor
-		 *
-		 * @param Accredible_Learndash_Api_V1_Request $request Pass a mock request when unit testing.
 		 */
-		public function __construct( $request = null ) {
+		public function __construct() {
 			$server_region = get_option( Accredible_Learndash_Admin_Setting::OPTION_SERVER_REGION );
 			if ( Accredible_Learndash_Admin_Setting::SERVER_REGION_EU === $server_region ) {
 				$base_url = 'https://eu.api.accredible.com/v1';
@@ -36,12 +27,7 @@ if ( ! class_exists( 'Accredible_Learndash_Api_V1_Client' ) ) :
 			}
 			$api_key = get_option( Accredible_Learndash_Admin_Setting::OPTION_API_KEY );
 
-			// A mock request is passed when unit testing.
-			if ( $request ) {
-				$this->request = $request;
-			} else {
-				$this->request = new Accredible_Learndash_Api_V1_Request( $base_url, $api_key );
-			}
+			$this->request = new Accredible_Learndash_Api_V1_Request( $base_url, $api_key );
 		}
 
 		/**
