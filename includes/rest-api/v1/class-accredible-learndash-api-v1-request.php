@@ -61,7 +61,7 @@ if ( ! class_exists( 'Accredible_Learndash_Api_V1_Request' ) ) :
 		 *
 		 * @param array $custom_args Custom request args.
 		 */
-		private function args( $custom_args ) {
+		private function args( $custom_args = array() ) {
 			return $custom_args + array( 'headers' => $this->headers );
 		}
 
