@@ -29,25 +29,35 @@ if ( ! class_exists( 'Accredible_Learndash_Event_Handler' ) ) :
 				return;
 			}
 
-			$course_id       = $data['course']->id;
+			$course_id       = $data['course']->ID;
 			$user            = $data['user'];
 			$recipient_email = $user->email;
-			$user_names      = array_filter(
+			$recipient_name  = self::get_recipient_name( $user );
+
+			$where_sql      = "kind = 'course_completed' AND post_id = $course_id";
+			$auto_issuances = Accredible_Learndash_Model_Auto_Issuance::get_results( $where_sql );
+			foreach ( $auto_issuances as $auto_issuance ) {
+				self::create_credential( $auto_issuance, $user->id, $recipient_name, $recipient_email );
+			}
+		}
+
+		/**
+		 * Create a credential as auto-issuance.
+		 *
+		 * @param object $user User object.
+		 */
+		private static function get_recipient_name( $user ) {
+			$user_names     = array_filter(
 				array(
-					get_user_meta( $user->id, 'first_name', true ),
-					get_user_meta( $user->id, 'last_name', true ),
+					get_user_meta( $user->ID, 'first_name', true ),
+					get_user_meta( $user->ID, 'last_name', true ),
 				)
 			);
-			$recipient_name  = join( ' ', $user_names );
+			$recipient_name = join( ' ', $user_names );
 			if ( empty( $recipient_name ) ) {
 				$recipient_name = $user->display_name;
 			}
-
-			$where_sql      = "kind = 'course_completed' AND post_id = 1";
-			$auto_issuances = Accredible_Learndash_Model_Auto_Issuance::get_results( $where_sql );
-			foreach ( $auto_issuances as $auto_issuance ) {
-				static::create_credential( $auto_issuance, $user->id, $recipient_name, $recipient_email );
-			}
+			return $recipient_name;
 		}
 
 		/**
