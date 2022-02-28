@@ -47,7 +47,7 @@ if ( ! class_exists( 'Accredible_Learndash_Event_Handler' ) ) :
 		}
 
 		/**
-		 * Create a credential as auto-issuance.
+		 * Return the recipient name for credential issuance.
 		 *
 		 * @param object $user User object.
 		 */
