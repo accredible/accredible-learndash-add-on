@@ -152,6 +152,37 @@ class Accredible_Learndash_Api_V1_Request_Test extends WP_UnitTestCase {
 	}
 
 	/**
+	 * Test if it makes a GET request and return an error message when WP_Error is raised.
+	 */
+	public function test_get_when_wp_error() {
+		// Stub the HTTP request.
+		add_filter(
+			'pre_http_request',
+			function( $_preempt, $args, $url ) {
+				$this->assertEquals( 'https://api.accredible.com/v1/credentials', $url );
+				$this->assertEquals( 'GET', $args['method'] );
+				$this->assertEquals( null, $args['body'] );
+				$this->assertEquals(
+					array(
+						'Authorization'          => 'Token ' . $this->api_key,
+						'Content-Type'           => 'application/json',
+						'Accredible-Integration' => 'Learndash',
+					),
+					$args['headers']
+				);
+
+				return new WP_Error( 'http_request_failed' );
+			},
+			10,
+			3
+		);
+
+		$request = new Accredible_Learndash_Api_V1_Request( $this->base_url, $this->api_key );
+		$res     = $request->get( '/credentials' );
+		$this->assertEquals( array( 'errors' => 'http_request_failed' ), $res );
+	}
+
+	/**
 	 * Test if it makes a POST request and return parsed body.
 	 */
 	public function test_post() {
@@ -251,5 +282,36 @@ class Accredible_Learndash_Api_V1_Request_Test extends WP_UnitTestCase {
 		$request = new Accredible_Learndash_Api_V1_Request( $this->base_url, $this->api_key );
 		$res     = $request->post( '/credentials', $this->post_data );
 		$this->assertEquals( array( 'errors' => 'Invalid group' ), $res );
+	}
+
+		/**
+		 * Test if it makes a POST request and return an error message when WP_Error is raised.
+		 */
+	public function test_post_when_wp_error() {
+		// Stub the HTTP request.
+		add_filter(
+			'pre_http_request',
+			function( $_preempt, $args, $url ) {
+				$this->assertEquals( 'https://api.accredible.com/v1/credentials', $url );
+				$this->assertEquals( 'POST', $args['method'] );
+				$this->assertEquals( wp_json_encode( $this->post_data ), $args['body'] );
+				$this->assertEquals(
+					array(
+						'Authorization'          => 'Token ' . $this->api_key,
+						'Content-Type'           => 'application/json',
+						'Accredible-Integration' => 'Learndash',
+					),
+					$args['headers']
+				);
+
+				return new WP_Error( 'http_request_failed' );
+			},
+			10,
+			3
+		);
+
+		$request = new Accredible_Learndash_Api_V1_Request( $this->base_url, $this->api_key );
+		$res     = $request->post( '/credentials', $this->post_data );
+		$this->assertEquals( array( 'errors' => 'http_request_failed' ), $res );
 	}
 }
