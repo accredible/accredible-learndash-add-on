@@ -56,16 +56,21 @@ class Accredible_Learndash_Model_Auto_Issuance_Test extends Accredible_Learndash
 		);
 		$this->assertCount( 0, $results );
 
-		$data   = array(
+		$before_time = time();
+		$data        = array(
 			'kind'                => 'course_completed',
 			'post_id'             => 1,
 			'accredible_group_id' => 1,
 		);
+
 		$result = Accredible_Learndash_Model_Auto_Issuance::insert( $data );
 		$this->assertEquals( 1, $result );
+
 		$results = $wpdb->get_results(
 			$wpdb->prepare( 'SELECT * FROM %1s;', $table_name )
 		);
 		$this->assertCount( 1, $results );
+
+		$this->assertGreaterThanOrEqual( $before_time, $results[0]->created_at );
 	}
 }

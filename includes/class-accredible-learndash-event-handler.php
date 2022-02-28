@@ -25,20 +25,25 @@ if ( ! class_exists( 'Accredible_Learndash_Event_Handler' ) ) :
 		 */
 		public static function handle_course_completed( $data ) {
 			$api_key = get_option( Accredible_Learndash_Admin_Setting::OPTION_API_KEY );
-			if ( false === $api_key ) {
-				return;
+			if ( empty( $api_key ) ) {
+				return 0;
 			}
 
-			$course_id       = $data['course']->ID;
-			$user            = $data['user'];
-			$recipient_email = $user->email;
-			$recipient_name  = self::get_recipient_name( $user );
-
+			$course_id      = $data['course']->ID;
 			$where_sql      = "kind = 'course_completed' AND post_id = $course_id";
 			$auto_issuances = Accredible_Learndash_Model_Auto_Issuance::get_results( $where_sql );
-			foreach ( $auto_issuances as $auto_issuance ) {
-				self::create_credential( $auto_issuance, $user->id, $recipient_name, $recipient_email );
+			if ( empty( $auto_issuances ) ) {
+				return 0;
 			}
+
+			$user            = $data['user'];
+			$recipient_email = $user->user_email;
+			$recipient_name  = self::get_recipient_name( $user );
+
+			foreach ( $auto_issuances as $auto_issuance ) {
+				self::create_credential( $auto_issuance, $user->ID, $recipient_name, $recipient_email );
+			}
+			return count( $auto_issuances );
 		}
 
 		/**
@@ -85,7 +90,7 @@ if ( ! class_exists( 'Accredible_Learndash_Event_Handler' ) ) :
 				'recipient_name'       => $recipient_name,
 				'recipient_email'      => $recipient_email,
 			);
-			if ( $res['errors'] ) {
+			if ( isset( $res['errors'] ) ) {
 				$auto_issuance_log['error_message'] =
 					is_string( $res['errors'] ) ? $res['errors'] : $res['errors']['credential'][0];
 			} else {

@@ -26,10 +26,8 @@ if ( ! class_exists( 'Accredible_Learndash_Custom_Unit_Test_Case' ) ) :
 		 * Add custom logic to tearDown.
 		 */
 		public function tearDown(): void { // phpcs:disable PHPCompatibility.FunctionDeclarations.NewReturnTypeDeclarations.voidFound
-			// XXX Stop transforming all `DROP TABLE` to `DROP TEMPORARY TABLE`.
-			remove_filter( 'query', array( $this, '_drop_temporary_tables' ) );
-			Accredible_Learndash_Admin_Database::drop_all();
 			parent::tearDown();
+			Accredible_Learndash_Admin_Database::drop_all();
 		}
 	}
 endif;
