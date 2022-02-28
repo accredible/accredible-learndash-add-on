@@ -46,12 +46,11 @@ class Accredible_Learndash_Event_Handler_Test extends Accredible_Learndash_Custo
 		$this->request_count = 0;
 		$this->post_data     = array(
 			'credential' => array(
-				'group_id'          => '9549',
-				'recipient'         => array(
+				'group_id'  => '9549',
+				'recipient' => array(
 					'name'  => 'Tom Test',
 					'email' => 'tom@example.com',
 				),
-				'custom_attributes' => null,
 			),
 		);
 		$this->response_body = file_get_contents( ACCREDILBE_LEARNDASH_API_FIXTURES_PATH . '/credentials/create_success.json' );
@@ -267,12 +266,11 @@ class Accredible_Learndash_Event_Handler_Test extends Accredible_Learndash_Custo
 		$this->request_count = 0;
 		$this->post_data     = array(
 			'credential' => array(
-				'group_id'          => '9549',
-				'recipient'         => array(
+				'group_id'  => '9549',
+				'recipient' => array(
 					'name'  => 'Tom Test',
 					'email' => 'tom@example.com',
 				),
-				'custom_attributes' => null,
 			),
 		);
 		$this->response_body = file_get_contents( ACCREDILBE_LEARNDASH_API_FIXTURES_PATH . '/credentials/create_success.json' );
@@ -337,12 +335,11 @@ class Accredible_Learndash_Event_Handler_Test extends Accredible_Learndash_Custo
 		$this->request_count = 0;
 		$this->post_data     = array(
 			'credential' => array(
-				'group_id'          => '9549',
-				'recipient'         => array(
+				'group_id'  => '9549',
+				'recipient' => array(
 					'name'  => 'Tom Test',
 					'email' => 'tom@example.com',
 				),
-				'custom_attributes' => null,
 			),
 		);
 		add_filter(
@@ -406,12 +403,11 @@ class Accredible_Learndash_Event_Handler_Test extends Accredible_Learndash_Custo
 		$this->request_count = 0;
 		$this->post_data     = array(
 			'credential' => array(
-				'group_id'          => '9549',
-				'recipient'         => array(
+				'group_id'  => '9549',
+				'recipient' => array(
 					'name'  => 'Tom Test',
 					'email' => 'tom@example.com',
 				),
-				'custom_attributes' => null,
 			),
 		);
 		add_filter(

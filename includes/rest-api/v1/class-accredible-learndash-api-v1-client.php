@@ -41,14 +41,16 @@ if ( ! class_exists( 'Accredible_Learndash_Api_V1_Client' ) ) :
 		public function create_credential( $group_id, $recipient_name, $recipient_email, $custom_attributes = null ) {
 			$body = array(
 				'credential' => array(
-					'group_id'          => $group_id,
-					'recipient'         => array(
+					'group_id'  => $group_id,
+					'recipient' => array(
 						'name'  => $recipient_name,
 						'email' => strtolower( $recipient_email ),
 					),
-					'custom_attributes' => $custom_attributes,
 				),
 			);
+			if ( $custom_attributes ) {
+				$body['credential']['custom_attributes'] = $custom_attributes;
+			}
 			return $this->request->post( '/credentials', $body );
 		}
 	}
