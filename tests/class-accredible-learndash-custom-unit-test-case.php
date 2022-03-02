@@ -20,6 +20,9 @@ if ( ! class_exists( 'Accredible_Learndash_Custom_Unit_Test_Case' ) ) :
 			// XXX Stop transforming all `CREATE TABLE` to `CREATE TEMPORARY TABLE`.
 			remove_filter( 'query', array( $this, '_create_temporary_tables' ) );
 			Accredible_Learndash_Admin_Database::setup();
+
+			// Unset the development environment variable.
+			putenv( 'ACCREDIBLE_LEARNDASH_API_ENDPOINT' );
 		}
 
 		/**

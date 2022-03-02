@@ -8,11 +8,12 @@
 defined( 'ABSPATH' ) || die;
 
 require_once ACCREDILBE_LEARNDASH_PLUGIN_PATH . '/includes/rest-api/v1/class-accredible-learndash-api-v1-client.php';
+require_once ACCREDILBE_LEARNDASH_PLUGIN_PATH . '/tests/class-accredible-learndash-custom-unit-test-case.php';
 
 /**
  * Unit tests for Accredible_Learndash_Api_V1_Client
  */
-class Accredible_Learndash_Api_V1_Client_Test extends WP_UnitTestCase {
+class Accredible_Learndash_Api_V1_Client_Test extends Accredible_Learndash_Custom_Unit_Test_Case {
 	/**
 	 * Test if it comes with expected attributes for the US client.
 	 */
@@ -46,6 +47,23 @@ class Accredible_Learndash_Api_V1_Client_Test extends WP_UnitTestCase {
 	}
 
 	/**
+	 * Test if it comes with expected attributes for the local client.
+	 */
+	public function test_construct_as_local() {
+		$api_key = 'someapikey';
+		update_option( 'accredible_learndash_api_key', $api_key );
+		update_option( 'accredible_learndash_server_region', 'us' );
+		putenv( 'ACCREDIBLE_LEARNDASH_API_ENDPOINT=http://localhost:3000/v1' );
+
+		$client = new Accredible_Learndash_Api_V1_Client();
+		$this->assertEquals( 'http://localhost:3000/v1', $client->request->base_url );
+		$this->assertEquals(
+			'Token ' . $api_key,
+			$client->request->headers['Authorization']
+		);
+	}
+
+	/**
 	 * Test if it makes a POST request and return parsed body.
 	 */
 	public function test_create_credential() {
@@ -56,7 +74,7 @@ class Accredible_Learndash_Api_V1_Client_Test extends WP_UnitTestCase {
 					'name'  => 'Tom Test',
 					'email' => 'tom@example.com',
 				),
-				'meta_data' => array(
+				'meta_data'         => array(
 					'learndash_post_id' => 123,
 				),
 				'custom_attributes' => array(
@@ -101,7 +119,7 @@ class Accredible_Learndash_Api_V1_Client_Test extends WP_UnitTestCase {
 					'name'  => 'Tom Test',
 					'email' => 'tom@example.com',
 				),
-				'meta_data' => array(
+				'meta_data'         => array(
 					'learndash_post_id' => 123,
 				),
 				'custom_attributes' => array(
@@ -145,7 +163,7 @@ class Accredible_Learndash_Api_V1_Client_Test extends WP_UnitTestCase {
 					'name'  => 'Tom Test',
 					'email' => 'tom@example.com',
 				),
-				'meta_data' => array(
+				'meta_data'         => array(
 					'learndash_post_id' => 123,
 				),
 				'custom_attributes' => array(

@@ -276,7 +276,7 @@ class Accredible_Learndash_Event_Handler_Test extends Accredible_Learndash_Custo
 				),
 				'meta_data' => array(
 					'learndash_post_id' => $course->ID,
-				)
+				),
 			),
 		);
 		$this->response_body = file_get_contents( ACCREDILBE_LEARNDASH_API_FIXTURES_PATH . '/credentials/create_success.json' );
@@ -348,7 +348,7 @@ class Accredible_Learndash_Event_Handler_Test extends Accredible_Learndash_Custo
 				),
 				'meta_data' => array(
 					'learndash_post_id' => $course->ID,
-				)
+				),
 			),
 		);
 		add_filter(
@@ -419,7 +419,7 @@ class Accredible_Learndash_Event_Handler_Test extends Accredible_Learndash_Custo
 				),
 				'meta_data' => array(
 					'learndash_post_id' => $course->ID,
-				)
+				),
 			),
 		);
 		add_filter(

@@ -6,7 +6,8 @@
 
 ### Development setup
 
-⚠ Be careful to **UNINSTALL** the plugin in this docker environment since **WordPress completely removes your local plugin directory** on uninstallation including `.git` so you will lose all your work in the directory. (In contrast, activation and deactivation of the plugin do not trigger any dangerous operations.)
+- ⚠ Be careful to **UNINSTALL** the plugin in this docker environment since **WordPress completely removes your local plugin directory** on uninstallation including `.git` so you will lose all your work in the directory. (In contrast, activation and deactivation of the plugin do not trigger any dangerous operations.)
+- If you want to use the Accredible API in development, you can specify the endpoint as the environment variable `ACCREDIBLE_LEARNDASH_API_ENDPOINT` in `docker-compose.yml` or somewhere else so that the plugin will use it for API calls.
 
 #### Prerequisites
 

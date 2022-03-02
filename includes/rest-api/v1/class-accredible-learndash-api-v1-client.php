@@ -25,6 +25,11 @@ if ( ! class_exists( 'Accredible_Learndash_Api_V1_Client' ) ) :
 			} else {
 				$base_url = 'https://api.accredible.com/v1';
 			}
+			$local_url = getenv( 'ACCREDIBLE_LEARNDASH_API_ENDPOINT' );
+			if ( $local_url ) {
+				$base_url = $local_url;
+			}
+
 			$api_key = get_option( Accredible_Learndash_Admin_Setting::OPTION_API_KEY );
 
 			$this->request = new Accredible_Learndash_Api_V1_Request( $base_url, $api_key );
@@ -48,8 +53,8 @@ if ( ! class_exists( 'Accredible_Learndash_Api_V1_Client' ) ) :
 						'email' => strtolower( $recipient_email ),
 					),
 					'meta_data' => array(
-						'learndash_post_id' => $post_id
-					)
+						'learndash_post_id' => $post_id,
+					),
 				),
 			);
 			if ( $custom_attributes ) {

@@ -8,11 +8,12 @@
 defined( 'ABSPATH' ) || die;
 
 require_once ACCREDILBE_LEARNDASH_PLUGIN_PATH . '/includes/rest-api/v1/class-accredible-learndash-api-v1-request.php';
+require_once ACCREDILBE_LEARNDASH_PLUGIN_PATH . '/tests/class-accredible-learndash-custom-unit-test-case.php';
 
 /**
  * Unit tests for Accredible_Learndash_Api_V1_Request
  */
-class Accredible_Learndash_Api_V1_Request_Test extends WP_UnitTestCase {
+class Accredible_Learndash_Api_V1_Request_Test extends Accredible_Learndash_Custom_Unit_Test_Case {
 	/**
 	 * Add custom logic to setUp.
 	 */
