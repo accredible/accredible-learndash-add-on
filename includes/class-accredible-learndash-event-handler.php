@@ -41,7 +41,7 @@ if ( ! class_exists( 'Accredible_Learndash_Event_Handler' ) ) :
 			$recipient_name  = self::get_recipient_name( $user );
 
 			foreach ( $auto_issuances as $auto_issuance ) {
-				self::create_credential( $auto_issuance, $user->ID, $recipient_name, $recipient_email );
+				self::create_credential( $auto_issuance, $user->ID, $recipient_name, $recipient_email, $course_id );
 			}
 			return count( $auto_issuances );
 		}
@@ -72,13 +72,15 @@ if ( ! class_exists( 'Accredible_Learndash_Event_Handler' ) ) :
 		 * @param int    $user_id User ID.
 		 * @param string $recipient_name Recipient's name.
 		 * @param string $recipient_email Recipient's email.
+		 * @param string $post_id LearnDash post ID.
 		 */
-		private static function create_credential( $auto_issuance, $user_id, $recipient_name, $recipient_email ) {
+		private static function create_credential( $auto_issuance, $user_id, $recipient_name, $recipient_email, $post_id ) {
 			$client = new Accredible_Learndash_Api_V1_Client();
 			$res    = $client->create_credential(
 				$auto_issuance->accredible_group_id,
 				$recipient_name,
-				$recipient_email
+				$recipient_email,
+				$post_id
 			);
 
 			// Create an AutoIssuanceLog.

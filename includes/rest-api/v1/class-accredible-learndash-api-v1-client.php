@@ -16,7 +16,7 @@ if ( ! class_exists( 'Accredible_Learndash_Api_V1_Client' ) ) :
 	 */
 	class Accredible_Learndash_Api_V1_Client {
 		/**
-		 * Accredible_Learndash_Api_V1 constructor
+		 * Accredible_Learndash_Api_V1_Client constructor
 		 */
 		public function __construct() {
 			$server_region = get_option( Accredible_Learndash_Admin_Setting::OPTION_SERVER_REGION );
@@ -31,14 +31,15 @@ if ( ! class_exists( 'Accredible_Learndash_Api_V1_Client' ) ) :
 		}
 
 		/**
-		 * Accredible_Learndash_Api_V1 constructor
+		 * Issue a credential.
 		 *
 		 * @param int    $group_id Accredible Group ID.
 		 * @param string $recipient_name Recipient name.
 		 * @param string $recipient_email Recipient email.
+		 * @param string $post_id LearnDash post ID.
 		 * @param array  $custom_attributes Custom attributes.
 		 */
-		public function create_credential( $group_id, $recipient_name, $recipient_email, $custom_attributes = null ) {
+		public function create_credential( $group_id, $recipient_name, $recipient_email, $post_id, $custom_attributes = null ) {
 			$body = array(
 				'credential' => array(
 					'group_id'  => $group_id,
@@ -46,6 +47,9 @@ if ( ! class_exists( 'Accredible_Learndash_Api_V1_Client' ) ) :
 						'name'  => $recipient_name,
 						'email' => strtolower( $recipient_email ),
 					),
+					'meta_data' => array(
+						'learndash_post_id' => $post_id
+					)
 				),
 			);
 			if ( $custom_attributes ) {

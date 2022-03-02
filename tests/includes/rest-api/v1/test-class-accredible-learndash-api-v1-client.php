@@ -56,6 +56,9 @@ class Accredible_Learndash_Api_V1_Client_Test extends WP_UnitTestCase {
 					'name'  => 'Tom Test',
 					'email' => 'tom@example.com',
 				),
+				'meta_data' => array(
+					'learndash_post_id' => 123,
+				),
 				'custom_attributes' => array(
 					'grade' => '100',
 				),
@@ -83,7 +86,7 @@ class Accredible_Learndash_Api_V1_Client_Test extends WP_UnitTestCase {
 		);
 
 		$client = new Accredible_Learndash_Api_V1_Client();
-		$res    = $client->create_credential( 9549, 'Tom Test', 'TOM@example.com', array( 'grade' => '100' ) );
+		$res    = $client->create_credential( 9549, 'Tom Test', 'TOM@example.com', 123, array( 'grade' => '100' ) );
 		$this->assertEquals( json_decode( $this->response_body, true ), $res );
 	}
 
@@ -97,6 +100,9 @@ class Accredible_Learndash_Api_V1_Client_Test extends WP_UnitTestCase {
 				'recipient'         => array(
 					'name'  => 'Tom Test',
 					'email' => 'tom@example.com',
+				),
+				'meta_data' => array(
+					'learndash_post_id' => 123,
 				),
 				'custom_attributes' => array(
 					'grade' => '100',
@@ -124,7 +130,7 @@ class Accredible_Learndash_Api_V1_Client_Test extends WP_UnitTestCase {
 		);
 
 		$client = new Accredible_Learndash_Api_V1_Client();
-		$res    = $client->create_credential( 9549, 'Tom Test', 'TOM@example.com', array( 'grade' => '100' ) );
+		$res    = $client->create_credential( 9549, 'Tom Test', 'TOM@example.com', 123, array( 'grade' => '100' ) );
 		$this->assertEquals( array( 'errors' => '401: HTTP Token: Access denied.' ), $res );
 	}
 
@@ -138,6 +144,9 @@ class Accredible_Learndash_Api_V1_Client_Test extends WP_UnitTestCase {
 				'recipient'         => array(
 					'name'  => 'Tom Test',
 					'email' => 'tom@example.com',
+				),
+				'meta_data' => array(
+					'learndash_post_id' => 123,
 				),
 				'custom_attributes' => array(
 					'grade' => '100',
@@ -165,7 +174,7 @@ class Accredible_Learndash_Api_V1_Client_Test extends WP_UnitTestCase {
 		);
 
 		$client = new Accredible_Learndash_Api_V1_Client();
-		$res    = $client->create_credential( 9549, 'Tom Test', 'TOM@example.com', array( 'grade' => '100' ) );
+		$res    = $client->create_credential( 9549, 'Tom Test', 'TOM@example.com', 123, array( 'grade' => '100' ) );
 		$this->assertEquals( array( 'errors' => 'Invalid group' ), $res );
 	}
 }

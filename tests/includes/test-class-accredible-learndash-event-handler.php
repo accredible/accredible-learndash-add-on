@@ -51,6 +51,9 @@ class Accredible_Learndash_Event_Handler_Test extends Accredible_Learndash_Custo
 					'name'  => 'Tom Test',
 					'email' => 'tom@example.com',
 				),
+				'meta_data' => array(
+					'learndash_post_id' => $course->ID,
+				),
 			),
 		);
 		$this->response_body = file_get_contents( ACCREDILBE_LEARNDASH_API_FIXTURES_PATH . '/credentials/create_success.json' );
@@ -271,6 +274,9 @@ class Accredible_Learndash_Event_Handler_Test extends Accredible_Learndash_Custo
 					'name'  => 'Tom Test',
 					'email' => 'tom@example.com',
 				),
+				'meta_data' => array(
+					'learndash_post_id' => $course->ID,
+				)
 			),
 		);
 		$this->response_body = file_get_contents( ACCREDILBE_LEARNDASH_API_FIXTURES_PATH . '/credentials/create_success.json' );
@@ -296,7 +302,7 @@ class Accredible_Learndash_Event_Handler_Test extends Accredible_Learndash_Custo
 		$recipient_email = 'tom@example.com';
 
 		$private_method = self::getMethod( 'create_credential' );
-		$private_method->invokeArgs( null, array( $auto_issuance, $user_id, $recipient_name, $recipient_email ) );
+		$private_method->invokeArgs( null, array( $auto_issuance, $user_id, $recipient_name, $recipient_email, $course->ID ) );
 
 		$this->assertEquals( 1, $this->request_count );
 		$auto_issuance_log = Accredible_Learndash_Model_Auto_Issuance_Log::get_results( "accredible_learndash_auto_issuance_id = $auto_issuance->id" )[0];
@@ -340,6 +346,9 @@ class Accredible_Learndash_Event_Handler_Test extends Accredible_Learndash_Custo
 					'name'  => 'Tom Test',
 					'email' => 'tom@example.com',
 				),
+				'meta_data' => array(
+					'learndash_post_id' => $course->ID,
+				)
 			),
 		);
 		add_filter(
@@ -364,7 +373,7 @@ class Accredible_Learndash_Event_Handler_Test extends Accredible_Learndash_Custo
 		$recipient_email = 'tom@example.com';
 
 		$private_method = self::getMethod( 'create_credential' );
-		$private_method->invokeArgs( null, array( $auto_issuance, $user_id, $recipient_name, $recipient_email ) );
+		$private_method->invokeArgs( null, array( $auto_issuance, $user_id, $recipient_name, $recipient_email, $course->ID ) );
 
 		$this->assertEquals( 1, $this->request_count );
 		$auto_issuance_log = Accredible_Learndash_Model_Auto_Issuance_Log::get_results( "accredible_learndash_auto_issuance_id = $auto_issuance->id" )[0];
@@ -408,6 +417,9 @@ class Accredible_Learndash_Event_Handler_Test extends Accredible_Learndash_Custo
 					'name'  => 'Tom Test',
 					'email' => 'tom@example.com',
 				),
+				'meta_data' => array(
+					'learndash_post_id' => $course->ID,
+				)
 			),
 		);
 		add_filter(
@@ -432,7 +444,7 @@ class Accredible_Learndash_Event_Handler_Test extends Accredible_Learndash_Custo
 		$recipient_email = 'tom@example.com';
 
 		$private_method = self::getMethod( 'create_credential' );
-		$private_method->invokeArgs( null, array( $auto_issuance, $user_id, $recipient_name, $recipient_email ) );
+		$private_method->invokeArgs( null, array( $auto_issuance, $user_id, $recipient_name, $recipient_email, $course->ID ) );
 
 		$this->assertEquals( 1, $this->request_count );
 		$auto_issuance_log = Accredible_Learndash_Model_Auto_Issuance_Log::get_results( "accredible_learndash_auto_issuance_id = $auto_issuance->id" )[0];
