@@ -92,7 +92,22 @@ label,
     color: var(--color-white);
     background-color: var(--color-primary-100);
     border-color: var(--color-primary-100);
-} 
+}
+
+.wp-core-ui .button.accredible-primary:hover { 
+    background-color: var(--color-primary-80);
+    border-color: var(--color-primary-80);
+}
+
+.wp-core-ui .button.accredible-primary:focus { 
+    background-color: var(--color-primary-120);
+    border-color: var(--color-primary-120);
+}
+
+.wp-core-ui .button.accredible-primary:disabled { 
+    background-color: var(--color-primary-20);
+    border-color: var(--color-primary-20);
+}
 
 /* DIRECTION */
 
