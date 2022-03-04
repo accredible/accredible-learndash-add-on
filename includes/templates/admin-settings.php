@@ -30,7 +30,7 @@ require_once plugin_dir_path( __DIR__ ) . '/class-accredible-learndash-admin-set
 
 
 		<div class="accredible-form-field">
-			<div class="label">Server Region</div>
+			<label>Server Region</label>
 			<div class="accredible-radio-group">
 				<div class="radio-group-item">
 					<input
@@ -45,7 +45,7 @@ require_once plugin_dir_path( __DIR__ ) . '/class-accredible-learndash-admin-set
 							);
 							?>
 							/>
-					<label for='<?php echo esc_html( Accredible_Learndash_Admin_Setting::SERVER_REGION_US ); ?>'>US</label>
+					<label class="radio-label" for='<?php echo esc_html( Accredible_Learndash_Admin_Setting::SERVER_REGION_US ); ?>'>US</label>
 				</div>
 				<div class="radio-group-item">
 					<input
@@ -60,11 +60,11 @@ require_once plugin_dir_path( __DIR__ ) . '/class-accredible-learndash-admin-set
 							);
 							?>
 							/>
-					<label for='<?php echo esc_html( Accredible_Learndash_Admin_Setting::SERVER_REGION_EU ); ?>'>EU</label>
+					<label class="radio-label" for='<?php echo esc_html( Accredible_Learndash_Admin_Setting::SERVER_REGION_EU ); ?>'>EU</label>
 				</div>
 			</div>
 		</div>
 
-		<?php submit_button( 'Save', 'primary', 'submit', false ); ?>
+		<?php submit_button( 'Save', 'accredible-primary', 'submit', false ); ?>
 	</form>
 </div>
