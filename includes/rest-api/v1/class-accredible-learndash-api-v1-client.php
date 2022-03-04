@@ -36,6 +36,13 @@ if ( ! class_exists( 'Accredible_Learndash_Api_V1_Client' ) ) :
 		}
 
 		/**
+		 * Search the organization with the provided API Key.
+		 */
+		public function organization_search() {
+			return $this->request->get( '/issuer/details' );
+		}
+
+		/**
 		 * Issue a credential.
 		 *
 		 * @param int    $group_id Accredible Group ID.

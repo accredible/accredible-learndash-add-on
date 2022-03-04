@@ -1,0 +1,11 @@
+{
+  "issuer": {
+    "id": 124,
+    "name": "Organization Example",
+    "emil": "test@example.com",
+    "certificate_left": 1200,
+    "language": "en",
+    "url": "https://www.accredible.com",
+    "whitelisted_domain": null
+  }
+}
