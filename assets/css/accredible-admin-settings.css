@@ -5,17 +5,15 @@ body {
     background: white;
 }
 
-label, .label {
-    color: var(--color-natural-100);
-}
-
-.accredible-wrapper {
-    padding-right: 20px;
-}
-
 .accredible-header-tile {
     margin-bottom: 20px;
     border-bottom: 1px solid #EFF0F2;
+}
+
+/* FORM */
+
+label, .label {
+    color: var(--color-natural-100);
 }
 
 .accredible-form-field {
@@ -62,10 +60,24 @@ label, .label {
     align-items: center;
 }
 
-.accredible-radio-group .radio-group-item {
+.accredible-radio-group input[type="radio"] {
+    margin-top: 2px;
+}
+
+/* DIRECTION */
+
+body[dir="rtl"] .accredible-wrapper {
+    padding-right: 20px;
+}
+
+body[dir="ltr"] .accredible-wrapper {
+    padding-left: 20px;
+}
+
+body[dir="rtl"] .accredible-radio-group .radio-group-item {
     margin-right: 10px;
 }
 
-.accredible-radio-group input[type="radio"] {
-    margin-top: 2px;
+body[dir="ltr"] .accredible-radio-group .radio-group-item {
+    margin-left: 10px;
 }
