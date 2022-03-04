@@ -10,6 +10,12 @@ body {
     border-bottom: 1px solid var(--color-natural-10);
 }
 
+.accredible-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
 /* FORM ELEMENTS */
 
 label,
@@ -109,6 +115,62 @@ label,
     border-color: var(--color-primary-20);
 }
 
+/* STATUS TILE */
+
+.accredible-content .status-tile {
+    border: 1px solid var(--color-natural-20);
+    border-radius: 10px;
+    min-width: 350px;
+    height: 300px;
+}
+
+.accredible-content .status-tile .logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 120px;
+    border-bottom: 1px solid var(--color-natural-10);
+}
+
+.accredible-content .status-tile .status {
+    display: flex;
+    align-items: center;
+    height: 60px;
+    padding: 0 var(--spacing-3x);
+    border-bottom: 1px solid var(--color-natural-10);
+}
+
+.accredible-content .status-tile .status img {
+    height: 20px;
+    width: 20px;
+}
+
+.accredible-content .status-tile .help-links {
+    height: 90px;
+    padding: var(--spacing-3x);
+    border-bottom: 1px solid var(--color-natural-20);
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+    background-color: var(--color-secondary-5);
+}
+
+.accredible-content .status-tile .help-links .link-title {
+    font-size: var(--font-size-xl);
+    color: var(--color-natural-180);
+    padding-bottom: var(--spacing-2x);
+}
+
+.accredible-content .status-tile .help-links ul {
+    margin: 0;
+    padding: 0 var(--spacing-4x);
+    list-style-image: url('../images/arrow-right.svg');
+}
+
+.accredible-content .status-tile .help-links a {
+    color: var(--color-primary-100);
+    text-decoration: none;
+}
+
 /* DIRECTION */
 
 .accredible-wrapper {
@@ -124,5 +186,13 @@ body[dir="ltr"] .accredible-wrapper {
 }
 
 body[dir="ltr"] .accredible-radio-group .radio-group-item {
+    margin-left: var(--spacing-2x);
+}
+
+.accredible-content .status-tile .status img {
+    margin-right: var(--spacing-2x);
+}
+
+body[dir="ltr"] .accredible-content .status-tile .status img {
     margin-left: var(--spacing-2x);
 }
