@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,900');
+@import url("https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,900");
 
 body {
     font: 400 16px/24px Source Sans Pro;
@@ -6,23 +6,24 @@ body {
 }
 
 .accredible-header-tile {
-    margin-bottom: 20px;
-    border-bottom: 1px solid #EFF0F2;
+    margin-bottom: var(--spacing-4x);
+    border-bottom: 1px solid var(--color-natural-10);
 }
 
-/* FORM */
+/* FORM ELEMENTS */
 
-label, .label {
+label,
+.label {
     color: var(--color-natural-100);
 }
 
 .accredible-form-field {
-    margin-bottom: 20px;
+    margin-bottom: var(--spacing-4x);
 }
 
 .accredible-form-field > label {
     display: block;
-    padding-bottom: 10px;
+    padding-bottom: var(--spacing-2x);
 }
 
 .accredible-form-field input[type="text"] {
@@ -37,7 +38,7 @@ label, .label {
 }
 
 .accredible-form-field input[type="text"]:hover {
-    border-color: var(--color-secondary-80);
+  border-color: var(--color-secondary-80);
 }
 
 .accredible-form-field input[type="text"]:focus {
@@ -55,29 +56,58 @@ label, .label {
     display: flex;
 }
 
-.radio-group-item {
+.accredible-radio-group .radio-group-item {
     display: flex;
     align-items: center;
 }
 
+.accredible-radio-group .radio-label {
+    color: var(--color-natural-180);
+}
+
 .accredible-radio-group input[type="radio"] {
     margin-top: 2px;
+    width: 20px;
+    min-width: 20px;
+    height: 20px;
+    border: 1px solid var(--color-natural-40);
+    box-shadow: none;
 }
+
+.accredible-radio-group input[type="radio"]:checked::before {
+    content: "";
+    border-radius: 50%;
+    width: 10px;
+    height: 10px;
+    margin: 4px;
+    background-color: var(--color-secondary-100);
+    line-height: 16px;
+}
+
+/* BUTTONS */
+
+.wp-core-ui .button.accredible-primary {
+    height: 40px;
+    font-size: var(--font-size-l);
+    color: var(--color-white);
+    background-color: var(--color-primary-100);
+    border-color: var(--color-primary-100);
+} 
 
 /* DIRECTION */
 
-body[dir="rtl"] .accredible-wrapper {
-    padding-right: 20px;
+.accredible-wrapper {
+    padding-right: var(--spacing-4x);
 }
 
 body[dir="ltr"] .accredible-wrapper {
-    padding-left: 20px;
+    padding-left: var(--spacing-4x);
 }
 
-body[dir="rtl"] .accredible-radio-group .radio-group-item {
-    margin-right: 10px;
+.accredible-radio-group .radio-group-item {
+    margin-right: var(--spacing-2x);
 }
 
 body[dir="ltr"] .accredible-radio-group .radio-group-item {
-    margin-left: 10px;
+    margin-left: var(--spacing-2x);
 }
