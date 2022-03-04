@@ -40,3 +40,7 @@ require "{$_tests_dir}/includes/bootstrap.php";
 if ( ! defined( 'WP_TESTS_PHPUNIT_POLYFILLS_PATH' ) ) {
 	define( 'WP_TESTS_PHPUNIT_POLYFILLS_PATH', dirname( __FILE__ ) . '/../vendor/yoast/phpunit-polyfills/' );
 }
+
+if ( ! defined( 'ACCREDILBE_LEARNDASH_API_FIXTURES_PATH' ) ) {
+	define( 'ACCREDILBE_LEARNDASH_API_FIXTURES_PATH', ACCREDILBE_LEARNDASH_PLUGIN_PATH . 'tests/fixtures/rest-api/v1' );
+}
