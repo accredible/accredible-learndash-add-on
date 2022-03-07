@@ -51,7 +51,6 @@ if ( ! class_exists( 'Accredible_Learndash_Admin' ) ) :
 		private function set_admin_hooks() {
 			$this->add_settings();
 			$this->add_menus();
-			$this->add_styles();
 		}
 
 		/**
@@ -66,25 +65,6 @@ if ( ! class_exists( 'Accredible_Learndash_Admin' ) ) :
 		 */
 		private function add_menus() {
 			add_action( 'admin_menu', array( 'Accredible_Learndash_Admin_Menu', 'add' ) );
-		}
-
-		/**
-		 * Add plugin styles to WP admin.
-		 */
-		private function add_styles() {
-			wp_enqueue_style(
-				'accredible-admin-theme',
-				ACCREDIBLE_LEARNDASH_PLUGIN_URL . 'assets/css/accredible-admin-theme.css',
-				array(),
-				ACCREDIBLE_LEARNDASH_SCRIPT_VERSION_TOKEN
-			);
-
-			wp_enqueue_style(
-				'accredible-admin-settings',
-				ACCREDIBLE_LEARNDASH_PLUGIN_URL . 'assets/css/accredible-admin-settings.css',
-				array(),
-				ACCREDIBLE_LEARNDASH_SCRIPT_VERSION_TOKEN
-			);
 		}
 	}
 endif;

@@ -42,5 +42,10 @@ if ( is_admin() ) {
 	Accredible_Learndash_Admin::init();
 }
 
+/**
+ * Load scripts & styles
+ */
+require_once plugin_dir_path( __FILE__ ) . '/includes/accredible-learndash-scripts.php';
+
 require_once plugin_dir_path( __FILE__ ) . '/includes/class-accredible-learndash.php';
 add_action( 'plugins_loaded', array( 'Accredible_Learndash', 'init' ), 11 );
