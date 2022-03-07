@@ -10,14 +10,14 @@
  */
 function accredible_learndash_load_resources() {
 	wp_enqueue_style(
-		'accredible-admin-theme',
+		'accredible-learndash-admin-theme',
 		ACCREDIBLE_LEARNDASH_PLUGIN_URL . 'assets/css/accredible-admin-theme.css',
 		array(),
 		ACCREDIBLE_LEARNDASH_SCRIPT_VERSION_TOKEN
 	);
 
 	wp_enqueue_style(
-		'accredible-admin-settings',
+		'accredible-learndash-admin-settings',
 		ACCREDIBLE_LEARNDASH_PLUGIN_URL . 'assets/css/accredible-admin-settings.css',
 		array(),
 		ACCREDIBLE_LEARNDASH_SCRIPT_VERSION_TOKEN
