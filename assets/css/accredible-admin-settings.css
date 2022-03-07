@@ -9,6 +9,9 @@ body.accredible-learndash-admin {
 }
 
 .accredible-header-tile {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
     margin-bottom: var(--accredible-spacing-4x);
     border-bottom: 1px solid var(--accredible-color-natural-10);
 }
