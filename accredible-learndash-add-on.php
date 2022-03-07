@@ -19,11 +19,11 @@ defined( 'ABSPATH' ) || die;
 define( 'ACCREDIBLE_LEARNDASH_VERSION', '1.0.0' );
 define( 'ACCREDILBE_LEARNDASH_PLUGIN_BASENAME', plugin_basename( __FILE__ ) );
 define( 'ACCREDILBE_LEARNDASH_PLUGIN_PATH', plugin_dir_path( __FILE__ ) );
-define( 'ACCREDIBLE_SCRIPT_VERSION_TOKEN', ACCREDIBLE_LEARNDASH_VERSION . '-' . time() );
+define( 'ACCREDIBLE_LEARNDASH_SCRIPT_VERSION_TOKEN', ACCREDIBLE_LEARNDASH_VERSION . '-' . time() );
 
-if ( ! defined( 'ACCREDIBLE_PLUGIN_URL' ) ) {
-	$accredible_plugin_url = trailingslashit( WP_PLUGIN_URL . '/' . basename( dirname( __FILE__ ) ) );
-	$accredible_plugin_url = str_replace( array( 'https://', 'http://' ), array( '//', '//' ), $accredible_plugin_url );
+if ( ! defined( 'ACCREDIBLE_LEARNDASH_PLUGIN_URL' ) ) {
+	$accredible_learndash_plugin_url = trailingslashit( WP_PLUGIN_URL . '/' . basename( dirname( __FILE__ ) ) );
+	$accredible_learndash_plugin_url = str_replace( array( 'https://', 'http://' ), array( '//', '//' ), $accredible_learndash_plugin_url );
 
 	/**
 	 * Define Accredible - Set the plugin relative URL.
@@ -35,7 +35,7 @@ if ( ! defined( 'ACCREDIBLE_PLUGIN_URL' ) ) {
 	 *
 	 * @var string URL to plugin install directory.
 	 */
-	define( 'ACCREDIBLE_PLUGIN_URL', $accredible_plugin_url );
+	define( 'ACCREDIBLE_LEARNDASH_PLUGIN_URL', $accredible_learndash_plugin_url );
 }
 
 if ( is_admin() ) {

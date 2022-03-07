@@ -67,7 +67,7 @@ if ( ! class_exists( 'Accredible_Learndash_Admin' ) ) :
 		private function add_menus() {
 			add_action( 'admin_menu', array( 'Accredible_Learndash_Admin_Menu', 'add' ) );
 		}
-		
+
 		/**
 		 * Add plugin styles to WP admin.
 		 */
@@ -78,7 +78,7 @@ if ( ! class_exists( 'Accredible_Learndash_Admin' ) ) :
 				array(),
 				ACCREDIBLE_SCRIPT_VERSION_TOKEN
 			);
-			
+
 			wp_enqueue_style(
 				'accredible-admin-settings',
 				ACCREDIBLE_PLUGIN_URL . 'assets/css/accredible-admin-settings.css',

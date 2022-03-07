@@ -86,8 +86,8 @@ require_once plugin_dir_path( __DIR__ ) . '/class-accredible-learndash-admin-set
 			<div class="help-links">
 				<div class="link-title"><?php esc_html_e( 'Need Help?' ); ?></div>
 				<ul>
-					<li><a href="<?php echo esc_url('https://help.accredible.com/integrate-with-accredible') ?>" target="_blank"><?php esc_html_e( 'Check our Help Center' ); ?></a></li>
-					<li><a href="<?php echo esc_url('https://help.accredible.com/kb-tickets/new') ?>" target="_blank"><?php esc_html_e( 'Customer Support' ); ?></a></li>
+					<li><a href="<?php echo esc_url( 'https://help.accredible.com/integrate-with-accredible' ); ?>" target="_blank"><?php esc_html_e( 'Check our Help Center' ); ?></a></li>
+					<li><a href="<?php echo esc_url( 'https://help.accredible.com/kb-tickets/new' ); ?>" target="_blank"><?php esc_html_e( 'Customer Support' ); ?></a></li>
 				</ul>
 			</div>
 		</div>

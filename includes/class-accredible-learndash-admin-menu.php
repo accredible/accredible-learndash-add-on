@@ -17,7 +17,7 @@ if ( ! class_exists( 'Accredible_Learndash_Admin_Menu' ) ) :
 		 */
 		public static function add() {
 			$menu_position = 3;
-			
+
 			add_menu_page(
 				'Accredible LearnDash Add-on',
 				'Accredible LearnDash Add-on',
