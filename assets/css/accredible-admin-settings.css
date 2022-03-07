@@ -1,13 +1,13 @@
 @import url("https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,900");
 
-body {
+body.accredible-learndash-admin {
     font: 400 16px/24px Source Sans Pro;
     background: white;
 }
 
 .accredible-header-tile {
-    margin-bottom: var(--spacing-4x);
-    border-bottom: 1px solid var(--color-natural-10);
+    margin-bottom: var(--accredible-spacing-4x);
+    border-bottom: 1px solid var(--accredible-color-natural-10);
 }
 
 .accredible-content {
@@ -18,44 +18,44 @@ body {
 
 /* FORM ELEMENTS */
 
-label,
-.label {
-    color: var(--color-natural-100);
+body.accredible-learndash-admin label,
+body.accredible-learndash-admin .label {
+    color: var(--accredible-color-natural-100);
 }
 
 .accredible-form-field {
-    margin-bottom: var(--spacing-4x);
+    margin-bottom: var(--accredible-spacing-4x);
 }
 
 .accredible-form-field > label {
     display: block;
-    padding-bottom: var(--spacing-2x);
+    padding-bottom: var(--accredible-spacing-2x);
 }
 
 .accredible-form-field input[type="text"] {
     display: flex;
     align-items: center;
     flex: 1;
-    padding: 0 var(--spacing-2x);
-    border: 1px solid var(--color-natural-40);
+    padding: 0 var(--accredible-spacing-2x);
+    border: 1px solid var(--accredible-color-natural-40);
     border-radius: 4px;
     width: 500px;
     height: 40px;
 }
 
 .accredible-form-field input[type="text"]:hover {
-  border-color: var(--color-secondary-80);
+  border-color: var(--accredible-color-secondary-80);
 }
 
 .accredible-form-field input[type="text"]:focus {
-    border-color: var(--color-secondary-120);
+    border-color: var(--accredible-color-secondary-120);
     outline: none;
     box-shadow: none;
 }
 
 .accredible-form-field input[type="text"][readonly] {
-    color: var(--color-natural-60);
-    border-color: var(--color-natural-20);
+    color: var(--accredible-color-natural-60);
+    border-color: var(--accredible-color-natural-20);
 }
 
 .accredible-radio-group {
@@ -68,7 +68,7 @@ label,
 }
 
 .accredible-radio-group .radio-label {
-    color: var(--color-natural-180);
+    color: var(--accredible-color-natural-180);
 }
 
 .accredible-radio-group input[type="radio"] {
@@ -76,7 +76,7 @@ label,
     width: 20px;
     min-width: 20px;
     height: 20px;
-    border: 1px solid var(--color-natural-40);
+    border: 1px solid var(--accredible-color-natural-40);
     box-shadow: none;
 }
 
@@ -86,7 +86,7 @@ label,
     width: 10px;
     height: 10px;
     margin: 4px;
-    background-color: var(--color-secondary-100);
+    background-color: var(--accredible-color-secondary-100);
     line-height: 16px;
 }
 
@@ -94,31 +94,31 @@ label,
 
 .wp-core-ui .button.accredible-primary {
     height: 40px;
-    font-size: var(--font-size-l);
-    color: var(--color-white);
-    background-color: var(--color-primary-100);
-    border-color: var(--color-primary-100);
+    font-size: var(--accredible-font-size-l);
+    color: var(--accredible-color-white);
+    background-color: var(--accredible-color-primary-100);
+    border-color: var(--accredible-color-primary-100);
 }
 
 .wp-core-ui .button.accredible-primary:hover { 
-    background-color: var(--color-primary-80);
-    border-color: var(--color-primary-80);
+    background-color: var(--accredible-color-primary-80);
+    border-color: var(--accredible-color-primary-80);
 }
 
 .wp-core-ui .button.accredible-primary:focus { 
-    background-color: var(--color-primary-120);
-    border-color: var(--color-primary-120);
+    background-color: var(--accredible-color-primary-120);
+    border-color: var(--accredible-color-primary-120);
 }
 
 .wp-core-ui .button.accredible-primary:disabled { 
-    background-color: var(--color-primary-20);
-    border-color: var(--color-primary-20);
+    background-color: var(--accredible-color-primary-20);
+    border-color: var(--accredible-color-primary-20);
 }
 
 /* STATUS TILE */
 
 .accredible-content .status-tile {
-    border: 1px solid var(--color-natural-20);
+    border: 1px solid var(--accredible-color-natural-20);
     border-radius: 10px;
     min-width: 350px;
     height: 300px;
@@ -129,15 +129,15 @@ label,
     align-items: center;
     justify-content: center;
     height: 120px;
-    border-bottom: 1px solid var(--color-natural-10);
+    border-bottom: 1px solid var(--accredible-color-natural-10);
 }
 
 .accredible-content .status-tile .status {
     display: flex;
     align-items: center;
     height: 60px;
-    padding: 0 var(--spacing-3x);
-    border-bottom: 1px solid var(--color-natural-10);
+    padding: 0 var(--accredible-spacing-3x);
+    border-bottom: 1px solid var(--accredible-color-natural-10);
 }
 
 .accredible-content .status-tile .status img {
@@ -147,27 +147,27 @@ label,
 
 .accredible-content .status-tile .help-links {
     height: 90px;
-    padding: var(--spacing-3x);
-    border-bottom: 1px solid var(--color-natural-20);
+    padding: var(--accredible-spacing-3x);
+    border-bottom: 1px solid var(--accredible-color-natural-20);
     border-bottom-left-radius: 10px;
     border-bottom-right-radius: 10px;
-    background-color: var(--color-secondary-5);
+    background-color: var(--accredible-color-secondary-5);
 }
 
 .accredible-content .status-tile .help-links .link-title {
-    font-size: var(--font-size-xl);
-    color: var(--color-natural-180);
-    padding-bottom: var(--spacing-2x);
+    font-size: var(--accredible-font-size-xl);
+    color: var(--accredible-color-natural-180);
+    padding-bottom: var(--accredible-spacing-2x);
 }
 
 .accredible-content .status-tile .help-links ul {
     margin: 0;
-    padding: 0 var(--spacing-4x);
+    padding: 0 var(--accredible-spacing-4x);
     list-style-image: url('../images/arrow-right.svg');
 }
 
 .accredible-content .status-tile .help-links a {
-    color: var(--color-primary-100);
+    color: var(--accredible-color-primary-100);
     text-decoration: none;
 }
 
@@ -175,27 +175,27 @@ label,
 
 .accredible-wrapper,
 body[dir="rtl"] .accredible-wrapper {
-    padding-right: var(--spacing-4x);
+    padding-right: var(--accredible-spacing-4x);
 }
 
 body[dir="ltr"] .accredible-wrapper {
-    padding-left: var(--spacing-4x);
+    padding-left: var(--accredible-spacing-4x);
 }
 
 .accredible-radio-group .radio-group-item,
 body[dir="rtl"] .accredible-radio-group .radio-group-item {
-    margin-right: var(--spacing-2x);
+    margin-right: var(--accredible-spacing-2x);
 }
 
 body[dir="ltr"] .accredible-radio-group .radio-group-item {
-    margin-left: var(--spacing-2x);
+    margin-left: var(--accredible-spacing-2x);
 }
 
 .accredible-content .status-tile .status img, 
 body[dir="rtl"] .accredible-content .status-tile .status img {
-    margin-right: var(--spacing-2x);
+    margin-right: var(--accredible-spacing-2x);
 }
 
 body[dir="ltr"] .accredible-content .status-tile .status img {
-    margin-left: var(--spacing-2x);
+    margin-left: var(--accredible-spacing-2x);
 }
