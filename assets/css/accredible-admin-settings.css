@@ -173,7 +173,8 @@ label,
 
 /* DIRECTION */
 
-.accredible-wrapper {
+.accredible-wrapper,
+body[dir="rtl"] .accredible-wrapper {
     padding-right: var(--spacing-4x);
 }
 
@@ -181,7 +182,8 @@ body[dir="ltr"] .accredible-wrapper {
     padding-left: var(--spacing-4x);
 }
 
-.accredible-radio-group .radio-group-item {
+.accredible-radio-group .radio-group-item,
+body[dir="rtl"] .accredible-radio-group .radio-group-item {
     margin-right: var(--spacing-2x);
 }
 
@@ -189,7 +191,8 @@ body[dir="ltr"] .accredible-radio-group .radio-group-item {
     margin-left: var(--spacing-2x);
 }
 
-.accredible-content .status-tile .status img {
+.accredible-content .status-tile .status img, 
+body[dir="rtl"] .accredible-content .status-tile .status img {
     margin-right: var(--spacing-2x);
 }
 
