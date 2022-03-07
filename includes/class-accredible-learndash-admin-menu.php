@@ -16,7 +16,7 @@ if ( ! class_exists( 'Accredible_Learndash_Admin_Menu' ) ) :
 		 * Add plugin pages to wp menu
 		 */
 		public static function add() {
-			$menu_position = 3;
+			$menu_position = 3; // Show our plugin just below LearnDash.
 
 			add_menu_page(
 				'Accredible LearnDash Add-on',
