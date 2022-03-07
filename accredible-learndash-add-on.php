@@ -30,7 +30,6 @@ if ( ! defined( 'ACCREDIBLE_LEARNDASH_PLUGIN_URL' ) ) {
 	 *
 	 * Will be set based on the WordPress define `WP_PLUGIN_URL`.
 	 *
-	 * @since 2.1.4
 	 * @uses WP_PLUGIN_URL
 	 *
 	 * @var string URL to plugin install directory.
