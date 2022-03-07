@@ -71,15 +71,15 @@ require_once plugin_dir_path( __DIR__ ) . '/class-accredible-learndash-admin-set
 
 		<div class="status-tile">
 			<div class="logo">
-				<img src="<?php echo esc_url( ACCREDIBLE_PLUGIN_URL . 'assets/images/learndash_logo.png' ); ?>" alt="LearnDash logo">
+				<img src="<?php echo esc_url( ACCREDIBLE_LEARNDASH_PLUGIN_URL . 'assets/images/learndash_logo.png' ); ?>" alt="LearnDash logo">
 			</div>
 			<div class="status">
 			<!-- TODO: Replace with value to check if setting exists -->
 			<?php if ( true ) { ?>
-				<img src="<?php echo esc_url( ACCREDIBLE_PLUGIN_URL . 'assets/images/check.png' ); ?>">
+				<img src="<?php echo esc_url( ACCREDIBLE_LEARNDASH_PLUGIN_URL . 'assets/images/check.png' ); ?>">
 				<span><?php esc_html_e( 'Integration is up and running' ); ?></span>
 			<?php } else { ?>
-				<img src="<?php echo esc_url( ACCREDIBLE_PLUGIN_URL . 'assets/images/error.png' ); ?>">
+				<img src="<?php echo esc_url( ACCREDIBLE_LEARNDASH_PLUGIN_URL . 'assets/images/error.png' ); ?>">
 				<span><?php esc_html_e( 'Integration is not working' ); ?></span>
 			<?php } ?>
 			</div>

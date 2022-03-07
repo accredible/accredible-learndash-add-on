@@ -74,16 +74,16 @@ if ( ! class_exists( 'Accredible_Learndash_Admin' ) ) :
 		private function add_styles() {
 			wp_enqueue_style(
 				'accredible-admin-theme',
-				ACCREDIBLE_PLUGIN_URL . 'assets/css/accredible-admin-theme.css',
+				ACCREDIBLE_LEARNDASH_PLUGIN_URL . 'assets/css/accredible-admin-theme.css',
 				array(),
-				ACCREDIBLE_SCRIPT_VERSION_TOKEN
+				ACCREDIBLE_LEARNDASH_SCRIPT_VERSION_TOKEN
 			);
 
 			wp_enqueue_style(
 				'accredible-admin-settings',
-				ACCREDIBLE_PLUGIN_URL . 'assets/css/accredible-admin-settings.css',
+				ACCREDIBLE_LEARNDASH_PLUGIN_URL . 'assets/css/accredible-admin-settings.css',
 				array(),
-				ACCREDIBLE_SCRIPT_VERSION_TOKEN
+				ACCREDIBLE_LEARNDASH_SCRIPT_VERSION_TOKEN
 			);
 		}
 	}
