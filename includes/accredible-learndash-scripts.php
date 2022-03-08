@@ -33,8 +33,8 @@ add_action( 'admin_enqueue_scripts', 'accredible_learndash_load_resources', appl
  * @return string Admin body CSS classes.
  */
 function accredible_learndash_admin_body_class( $class = '' ) {
-    // phpcs:ignore WordPress.Security.NonceVerification.Recommended
-	if ( ( isset( $_GET['page'] ) && ! empty( $_GET['page'] ) ) && stripos( sanitize_text_field( wp_unslash( $_GET['page'] ) ), 'accredible_learndash' ) !== false ) {
+	// phpcs:ignore WordPress.Security.NonceVerification.Recommended
+	if ( is_admin() && isset( $_GET['page'] ) && stripos( sanitize_text_field( wp_unslash( $_GET['page'] ) ), 'accredible_learndash' ) !== false ) {
 		$class .= ' accredible-learndash-admin ';
 	}
 
