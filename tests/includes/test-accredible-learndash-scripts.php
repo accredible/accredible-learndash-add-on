@@ -8,7 +8,6 @@
 defined( 'ABSPATH' ) || die;
 
 require_once ACCREDILBE_LEARNDASH_PLUGIN_PATH . '/includes/accredible-learndash-scripts.php';
-require_once ACCREDILBE_LEARNDASH_PLUGIN_PATH . '/includes/class-accredible-learndash.php';
 
 /**
  * Unit tests for Accredible_Learndash_Scripts
