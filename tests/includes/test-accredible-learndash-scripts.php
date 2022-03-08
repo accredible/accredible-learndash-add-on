@@ -40,7 +40,7 @@ class Accredible_Learndash_Scripts_Test extends WP_UnitTestCase {
 		wp_set_current_user( $admin_user );
 
 		// Navigate to plugin page.
-		parent::go_to( admin_url( 'admin.php?page=accredible_learndash' ) );
+		$this->go_to( admin_url( 'admin.php?page=accredible_learndash' ) );
 		set_current_screen( 'toplevel_page_accredible_learndash' );
 
 		$classes = accredible_learndash_admin_body_class();
