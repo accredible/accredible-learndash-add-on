@@ -12,6 +12,8 @@ if ( ! class_exists( 'Accredible_Learndash_Model' ) ) :
 	 * Accredible LearnDash Add-on model class
 	 */
 	abstract class Accredible_Learndash_Model {
+		const DEFAULT_PAGE_SIZE = 50;
+
 		/**
 		 * Return a list of DB records.
 		 *
@@ -47,8 +49,7 @@ if ( ! class_exists( 'Accredible_Learndash_Model' ) ) :
 				$sql .= " WHERE $where_sql";
 			}
 			// XXX `$where_sql` is a raw SQL so `$wpdb->prepare` cannot be used.
-			$wpdb->get_results( $sql ); // phpcs:disable WordPress.DB.PreparedSQL.NotPrepared
-			return $wpdb->num_rows;
+			return $wpdb->get_var( $sql ); // phpcs:disable WordPress.DB.PreparedSQL.NotPrepared
 		}
 
 		/**
@@ -58,14 +59,18 @@ if ( ! class_exists( 'Accredible_Learndash_Model' ) ) :
 		 * @param int    $page_size Page size.
 		 * @param string $where_sql SQL where clause.
 		 */
-		public static function get_paginated_results( $page_num, $page_size = 50, $where_sql = '' ) {
+		public static function get_paginated_results( $page_num, $page_size, $where_sql = '' ) {
 			$current_page = empty( $page_num ) ? 1 : $page_num;
 			$offset       = $page_size * ( $current_page - 1 );
-			$results      = static::get_results( $where_sql, $page_size, $offset );
-			$total_count  = static::get_total_count( $where_sql );
-			$total_pages  = $total_count % $page_size;
-			$next_page    = $current_page < $total_pages ? $current_page + 1 : null;
-			$prev_page    = $current_page > 1 ? $current_page - 1 : null;
+			if ( empty( $page_size ) ) {
+				$page_size = static::DEFAULT_PAGE_SIZE;
+			}
+
+			$results     = static::get_results( $where_sql, $page_size, $offset );
+			$total_count = static::get_total_count( $where_sql );
+			$total_pages = ceil( $total_count / $page_size );
+			$next_page   = $current_page < $total_pages ? $current_page + 1 : null;
+			$prev_page   = $current_page > 1 ? $current_page - 1 : null;
 
 			return array(
 				'results'      => $results,
