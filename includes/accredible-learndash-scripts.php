@@ -23,21 +23,21 @@ function accredible_learndash_load_resources() {
 		ACCREDIBLE_LEARNDASH_SCRIPT_VERSION_TOKEN
 	);
 }
-add_action( 'admin_enqueue_scripts', 'accredible_learndash_load_resources', apply_filters( 'accredible_learndash_load_resources_priority', '10' ) );
+add_action( 'admin_enqueue_scripts', 'accredible_learndash_load_resources' );
 
 /**
  * Admin body class Filter.
  *
- * @param string $class Optional. The admin body CSS classes. Default empty.
+ * @param string $classes Optional. The admin body CSS classes. Default empty.
  *
  * @return string Admin body CSS classes.
  */
-function accredible_learndash_admin_body_class( $class = '' ) {
+function accredible_learndash_admin_body_class( $classes = '' ) {
 	// phpcs:ignore WordPress.Security.NonceVerification.Recommended
 	if ( is_admin() && isset( $_GET['page'] ) && stripos( sanitize_text_field( wp_unslash( $_GET['page'] ) ), 'accredible_learndash' ) !== false ) {
-		$class .= ' accredible-learndash-admin ';
+		$classes .= ' accredible-learndash-admin ';
 	}
 
-	return $class;
+	return $classes;
 }
 add_filter( 'admin_body_class', 'accredible_learndash_admin_body_class' );
