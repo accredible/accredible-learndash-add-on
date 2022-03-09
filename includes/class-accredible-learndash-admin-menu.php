@@ -21,7 +21,7 @@ if ( ! class_exists( 'Accredible_Learndash_Admin_Menu' ) ) :
 				'Accredible LearnDash Add-on',
 				'administrator',
 				'accredible_learndash',
-				array( 'Accredible_Learndash_Admin_Menu', 'admin_settings_page' ),
+				array( 'Accredible_Learndash_Admin_Menu', 'admin_auto_issuances_index_page' ),
 				'dashicons-awards'
 			);
 
@@ -33,6 +33,13 @@ if ( ! class_exists( 'Accredible_Learndash_Admin_Menu' ) ) :
 				'accredible_learndash_settings',
 				array( 'Accredible_Learndash_Admin_Menu', 'admin_settings_page' )
 			);
+		}
+
+		/**
+		 * Render admin auto issuances index page
+		 */
+		public static function admin_auto_issuances_index_page() {
+			include plugin_dir_path( __FILE__ ) . '/templates/admin-auto-issuances-index.php';
 		}
 
 		/**
