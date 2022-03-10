@@ -10,6 +10,7 @@ defined( 'ABSPATH' ) || die;
 require_once plugin_dir_path( __FILE__ ) . '/class-accredible-learndash-admin-database.php';
 require_once plugin_dir_path( __FILE__ ) . '/class-accredible-learndash-admin-menu.php';
 require_once plugin_dir_path( __FILE__ ) . '/class-accredible-learndash-admin-setting.php';
+require_once plugin_dir_path( __FILE__ ) . '/class-accredible-learndash-admin-scripts.php';
 
 if ( ! class_exists( 'Accredible_Learndash_Admin' ) ) :
 	/**
@@ -51,6 +52,8 @@ if ( ! class_exists( 'Accredible_Learndash_Admin' ) ) :
 		private function set_admin_hooks() {
 			$this->add_settings();
 			$this->add_menus();
+			$this->add_scripts();
+			$this->add_style_classes();
 		}
 
 		/**
@@ -65,6 +68,20 @@ if ( ! class_exists( 'Accredible_Learndash_Admin' ) ) :
 		 */
 		private function add_menus() {
 			add_action( 'admin_menu', array( 'Accredible_Learndash_Admin_Menu', 'add' ) );
+		}
+
+		/**
+		 * Add scripts to WP admin.
+		 */
+		private function add_scripts() {
+			add_action( 'admin_enqueue_scripts', array( 'Accredible_Learndash_Admin_Scripts', 'load_resources' ) );
+		}
+
+		/**
+		 * Add style classes to WP admin.
+		 */
+		private function add_style_classes() {
+			add_filter( 'admin_body_class', array( 'Accredible_Learndash_Admin_Scripts', 'add_admin_body_class' ) );
 		}
 	}
 endif;
