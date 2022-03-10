@@ -60,11 +60,11 @@ if ( ! class_exists( 'Accredible_Learndash_Model' ) ) :
 		 * @param string $where_sql SQL where clause.
 		 */
 		public static function get_paginated_results( $page_num, $page_size, $where_sql = '' ) {
-			$current_page = empty( $page_num ) ? 1 : $page_num;
-			$offset       = $page_size * ( $current_page - 1 );
 			if ( empty( $page_size ) ) {
 				$page_size = static::DEFAULT_PAGE_SIZE;
 			}
+			$current_page = empty( $page_num ) ? 1 : $page_num;
+			$offset       = $page_size * ( $current_page - 1 );
 
 			$results     = static::get_results( $where_sql, $page_size, $offset );
 			$total_count = static::get_total_count( $where_sql );
