@@ -34,7 +34,14 @@ require_once plugin_dir_path( __DIR__ ) . '/class-accredible-learndash-admin-iss
 					<td>Course 100 Series</td>
 					<td>Course Completion</td>
 					<td>
-						<span>17 Feb 2022</span> <span class="accredible-cell-time">13:09 PM</span>
+						<?php
+							$date = date_create('2022-02-17 13:09:00');
+							echo sprintf(
+								'<span> %1s </span> <span class="accredible-cell-time"> %2s </span>',
+								date_format($date, 'd M Y'),
+								date_format($date, 'G:i A')
+							);
+						?>
 					</td>
 					<td></td>
 				</tr>
