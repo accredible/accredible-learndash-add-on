@@ -29,53 +29,7 @@ require_once plugin_dir_path( __DIR__ ) . '/class-accredible-learndash-admin-iss
 				</tr>
 			</thead>
 			<tbody>
-				<tr class="accredible-row">
-					<td>1</td>
-					<td>Course 110</td>
-					<td>Course 100 Series</td>
-					<td>Course Completion</td>
-					<td>
-						<?php
-						$accredible_learndash_date = date_create( '2022-02-17 13:09:00' );
-						echo sprintf(
-							'<span> %1s </span> <span class="accredible-cell-time"> %2s </span>',
-							esc_html( date_format( $accredible_learndash_, 'd M Y' ) ),
-							esc_html( date_format( $accredible_learndash_, 'G:i A' ) )
-						);
-						?>
-					</td>
-					<td></td>
-				</tr>
-				<tr class="accredible-row">
-					<td>2</td>
-					<td>Course 105</td>
-					<td>Course 100 Series</td>
-					<td>Course Completion</td>
-					<td>
-						<span>10 Jan 2022</span> <span class="accredible-cell-time">11:45 AM</span>
-					</td>
-					<td></td>
-				</tr>
-				<tr class="accredible-row">
-					<td>3</td>
-					<td>Course 104</td>
-					<td>Course 100 Series</td>
-					<td>Course Completion</td>
-					<td>
-						<span>08 Jan 2022</span> <span class="accredible-cell-time">10:07 AM</span>
-					</td>
-					<td></td>
-				</tr>
-				<tr class="accredible-row">
-					<td>4</td>
-					<td>Course 213</td>
-					<td>Course 200 Series</td>
-					<td>Course Completion</td>
-					<td>
-						<span>01 Dec 2021</span> <span class="accredible-cell-time">09:31 AM</span>
-					</td>
-					<td></td>
-				</tr>
+				<?php echo Accredible_Learndash_Admin_Issuance_List::$table_rows; ?>
 			</tbody>
 		</table>
 	</div>
