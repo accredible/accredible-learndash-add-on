@@ -4,6 +4,7 @@
  *
  * @package Accredible_Learndash_Add_On
  */
+
 defined( 'ABSPATH' ) || die;
 
 require_once plugin_dir_path( __DIR__ ) . '/class-accredible-learndash-admin-issuance-list.php';
@@ -35,12 +36,12 @@ require_once plugin_dir_path( __DIR__ ) . '/class-accredible-learndash-admin-iss
 					<td>Course Completion</td>
 					<td>
 						<?php
-							$date = date_create('2022-02-17 13:09:00');
-							echo sprintf(
-								'<span> %1s </span> <span class="accredible-cell-time"> %2s </span>',
-								date_format($date, 'd M Y'),
-								date_format($date, 'G:i A')
-							);
+						$accredible_learndash_date = date_create( '2022-02-17 13:09:00' );
+						echo sprintf(
+							'<span> %1s </span> <span class="accredible-cell-time"> %2s </span>',
+							esc_html( date_format( $accredible_learndash_, 'd M Y' ) ),
+							esc_html( date_format( $accredible_learndash_, 'G:i A' ) )
+						);
 						?>
 					</td>
 					<td></td>
