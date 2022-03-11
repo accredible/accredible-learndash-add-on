@@ -29,7 +29,7 @@ $accredible_learndash_table_helper = new Accredible_Learndash_Admin_Table_Helper
 	$accredible_learndash_row_actions
 );
 
-$accredible_learndash_issuances = Accredible_Learndash_Admin_Issuance_List::$issuances; // To be eplaced with value from DB.
+$accredible_learndash_issuances = Accredible_Learndash_Admin_Issuance_List::$issuances; // TODO - To be eplaced with value from DB.
 ?>
 
 <div class="accredible-wrapper">
