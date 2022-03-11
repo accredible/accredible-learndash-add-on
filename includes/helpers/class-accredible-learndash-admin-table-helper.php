@@ -13,7 +13,7 @@ if ( ! class_exists( 'Accredible_Learndash_Admin_Table_Helper' ) ) :
 	 */
 	class Accredible_Learndash_Admin_Table_Helper {
 		const ISSUANCE_POST_ID      = 'post_id';
-		const ISSUANCE_GROUP_NAME   = 'accredible_group_id';
+		const ISSUANCE_GROUP_ID     = 'accredible_group_id';
 		const ISSUANCE_KIND         = 'kind';
 		const ISSUANCE_DATE_CREATED = 'created_at';
 
@@ -78,9 +78,13 @@ if ( ! class_exists( 'Accredible_Learndash_Admin_Table_Helper' ) ) :
 			$table_cells = '';
 			foreach ( $issuance as $key => $value ) {
 				switch ( $key ) {
-					case self::ISSUANCE_POST_ID:
+                    case self::ISSUANCE_POST_ID:
 						$course_name = get_the_title( $value );
 						$value       = ! empty( $course_name ) ? $course_name : self::eval_error( 'Not found' );
+						break;
+					case self::ISSUANCE_GROUP_ID:
+						$group_name  = apply_filters( 'accredible-learndash-get-group', $value ); // TODO - create and register this filter. 
+						$value       = ! empty( $group_name ) ? $group_name : $value; // TODO - Update to show error.
 						break;
 					case self::ISSUANCE_KIND:
 						$value = self::eval_kind( $value );
