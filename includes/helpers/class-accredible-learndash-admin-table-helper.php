@@ -45,7 +45,7 @@ if ( ! class_exists( 'Accredible_Learndash_Admin_Table_Helper' ) ) :
 		 *
 		 * @param int   $current_page Current page.
 		 * @param int   $page_size Page size (optional).
-		 * @param array $row_actions Row actions (optional).
+		 * @param array $row_actions Row actions (optional). Defined as array( 'action' => 'edit', 'label' => 'Edit' ).
 		 */
 		public function __construct( $current_page, $page_size = self::DEFAULT_PAGE_SIZE, $row_actions = array() ) {
 			self::$current_page = $current_page;
@@ -193,14 +193,16 @@ if ( ! class_exists( 'Accredible_Learndash_Admin_Table_Helper' ) ) :
 			$actions = '';
 			if ( ! empty( self::$row_actions ) ) {
 				foreach ( self::$row_actions as $value ) {
-					$actions .= sprintf(
-						'<a href="%s" class="button accredible-button-outline-natural accredible-button-small">' . $value['label'] . '</a>',
-						wp_nonce_url(
-							admin_url( 'admin.php?page=accredible_learndash_admin_action&action=' . $value['action'] . '&page_num=' . self::$current_page . '&id=' . $id ),
-							$value['action'] . $id,
-							'_mynonce'
-						)
-					);
+					if ( ( ! empty( $value['label'] ) ) && ( ! empty( $value['action'] ) ) ) {
+						$actions .= sprintf(
+							'<a href="%s" class="button accredible-button-outline-natural accredible-button-small">' . $value['label'] . '</a>',
+							wp_nonce_url(
+								admin_url( 'admin.php?page=accredible_learndash_admin_action&action=' . $value['action'] . '&page_num=' . self::$current_page . '&id=' . $id ),
+								$value['action'] . $id,
+								'_mynonce'
+							)
+						);
+					}
 				}
 			}
 			return $actions;
