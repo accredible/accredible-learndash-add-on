@@ -98,27 +98,62 @@ body.accredible-learndash-admin .label {
 
 /* BUTTONS */
 
-.wp-core-ui .button.accredible-primary {
+.wp-core-ui .button.accredible-button-large {
     height: 40px;
     font-size: var(--accredible-font-size-l);
+}
+
+.wp-core-ui .button.accredible-button-small {
+    height: 32px;
+    font-size: var(--accredible-font-size-normal);
+    line-height: 30px;
+}
+
+.wp-core-ui .button.accredible-button-primary {
     color: var(--accredible-color-white);
     background-color: var(--accredible-color-primary-100);
     border-color: var(--accredible-color-primary-100);
 }
 
-.wp-core-ui .button.accredible-primary:hover { 
+.wp-core-ui .button.accredible-button-primary:hover { 
     background-color: var(--accredible-color-primary-80);
     border-color: var(--accredible-color-primary-80);
 }
 
-.wp-core-ui .button.accredible-primary:focus { 
+.wp-core-ui .button.accredible-button-primary:focus { 
     background-color: var(--accredible-color-primary-120);
     border-color: var(--accredible-color-primary-120);
 }
 
-.wp-core-ui .button.accredible-primary:disabled { 
+.wp-core-ui .button.accredible-button-primary:disabled { 
     background-color: var(--accredible-color-primary-20);
     border-color: var(--accredible-color-primary-20);
+}
+
+.wp-core-ui .button.accredible-button-outline-natural {
+    color: var(--accredible-color-natural-100);
+    background-color: var(--accredible-color-white);
+    border: 1px solid var(--accredible-color-natural-20);
+}
+
+.wp-core-ui .button.accredible-button-outline-natural:hover {
+    color: var(--accredible-color-natural-100);
+    border-color: var(--accredible-color-natural-100);
+}
+
+.wp-core-ui .button.accredible-button-outline-natural:focus {
+    outline: none;
+}
+
+.wp-core-ui .button.accredible-button-outline-natural:active {
+    color: var(--accredible-color-natural-100);
+    background-color: var(--accredible-color-natural-10);
+    border-color: var(--accredible-color-natural-100);
+}
+
+.wp-core-ui .button.accredible-button-outline-natural:disabled {
+    color: var(--accredible-color-natural-40);
+    border-color: var(--accredible-color-natural-10);
 }
 
 /* STATUS TILE */
@@ -207,6 +242,17 @@ table.accredible-table {
 .accredible-cell-time {
     font-weight: var(--accredible-font-weight-light);
     color: var(--accredible-color-natural-100);
+}
+
+.accredible-cell-actions {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: inherit;
+}
+
+.wp-core-ui .accredible-cell-actions .button {
+    margin: 0 var(--accredible-spacing-base);
 }
 
 .accredible-table.has-hover .accredible-row:hover {

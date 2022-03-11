@@ -17,9 +17,6 @@ if ( ! class_exists( 'Accredible_Learndash_Admin_Table_Helper' ) ) :
 		const ISSUANCE_KIND         = 'kind';
 		const ISSUANCE_DATE_CREATED = 'created_at';
 
-		const TABLE_INDEX   = 'index';
-		const TABLE_ACTIONS = 'actions';
-
 		const DEFAULT_PAGE_SIZE = 50;
 
 		/**
@@ -37,14 +34,23 @@ if ( ! class_exists( 'Accredible_Learndash_Admin_Table_Helper' ) ) :
 		private static $page_size;
 
 		/**
+		 * Row actions.
+		 *
+		 * @var array $row_actions.
+		 */
+		private static $row_actions;
+
+		/**
 		 * Public constructor for class.
 		 *
-		 * @param int $current_page Current page.
-		 * @param int $page_size Page size (optional).
+		 * @param int   $current_page Current page.
+		 * @param int   $page_size Page size (optional).
+		 * @param array $row_actions Row actions (optional).
 		 */
-		public function __construct( $current_page, $page_size = self::DEFAULT_PAGE_SIZE ) {
+		public function __construct( $current_page, $page_size = self::DEFAULT_PAGE_SIZE, $row_actions = array() ) {
 			self::$current_page = $current_page;
 			self::$page_size    = $page_size;
+			self::$row_actions  = $row_actions;
 		}
 
 		/**
@@ -60,6 +66,7 @@ if ( ! class_exists( 'Accredible_Learndash_Admin_Table_Helper' ) ) :
 				$row_cells .= '<tr class="accredible-row">';
 				$row_cells .= self::table_cell( self::eval_row_num( $index + 1 ) );
 				$row_cells .= self::get_table_cells( $issuance );
+				$row_cells .= self::table_cell( self::eval_actions( $issuance['post_id'] ), 'accredible-cell-actions' );
 				$row_cells .= '</tr>';
 			}
 
@@ -78,13 +85,13 @@ if ( ! class_exists( 'Accredible_Learndash_Admin_Table_Helper' ) ) :
 			$table_cells = '';
 			foreach ( $issuance as $key => $value ) {
 				switch ( $key ) {
-                    case self::ISSUANCE_POST_ID:
+					case self::ISSUANCE_POST_ID:
 						$course_name = get_the_title( $value );
 						$value       = ! empty( $course_name ) ? $course_name : self::eval_error( 'Not found' );
 						break;
 					case self::ISSUANCE_GROUP_ID:
-						$group_name  = apply_filters( 'accredible-learndash-get-group', $value ); // TODO - create and register this filter. 
-						$value       = ! empty( $group_name ) ? $group_name : $value; // TODO - Update to show error.
+						$group_name = apply_filters( 'accredible_learndash_get_group', $value ); // TODO - create and register this filter.
+						$value      = ! empty( $group_name ) ? $group_name : $value; // TODO - Update to show error.
 						break;
 					case self::ISSUANCE_KIND:
 						$value = self::eval_kind( $value );
@@ -105,12 +112,14 @@ if ( ! class_exists( 'Accredible_Learndash_Admin_Table_Helper' ) ) :
 		/**
 		 * Build a table cell tag .
 		 *
-		 * @param mixed $cell_value value in cell.
+		 * @param mixed  $cell_value value in cell.
+		 * @param string $classes style classes applied to <td> tag.
 		 *
 		 * @return string
 		 */
-		private static function table_cell( $cell_value ) {
-			return '<td>' . $cell_value . '</td>';
+		private static function table_cell( $cell_value, $classes = '' ) {
+			$start_cell_tag = empty( $classes ) ? '<td>' : '<td class="' . $classes . '">';
+			return $start_cell_tag . $cell_value . '</td>';
 		}
 
 		/**
@@ -171,6 +180,30 @@ if ( ! class_exists( 'Accredible_Learndash_Admin_Table_Helper' ) ) :
 		 */
 		private static function eval_row_num( $index ) {
 			return ( self::$current_page - 1 ) * self::$page_size + $index;
+		}
+
+		/**
+		 * Returns row actions.
+		 *
+		 * @param int $id id.
+		 *
+		 * @return string
+		 */
+		private static function eval_actions( $id ) {
+			$actions = '';
+			if ( ! empty( self::$row_actions ) ) {
+				foreach ( self::$row_actions as $value ) {
+					$actions .= sprintf(
+						'<a href="%s" class="button accredible-button-outline-natural accredible-button-small">' . $value['label'] . '</a>',
+						wp_nonce_url(
+							admin_url( 'admin.php?page=accredible_learndash_admin_action&action=' . $value['action'] . '&page_num=' . self::$current_page . '&id=' . $id ),
+							$value['action'] . $id,
+							'_mynonce'
+						)
+					);
+				}
+			}
+			return $actions;
 		}
 	}
 endif;
