@@ -226,7 +226,7 @@ class Accredible_Learndash_Api_V1_Client_Test extends Accredible_Learndash_Custo
 	}
 
 	/**
-	 * Test if it makes a POST request and return parsed body.
+	 * Test if it makes a GET request and return parsed body.
 	 */
 	public function test_organization_search_when_unauthorized() {
 		update_option( 'accredible_learndash_api_key', 'someapikey' );
