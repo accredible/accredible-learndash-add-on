@@ -9,7 +9,7 @@ defined( 'ABSPATH' ) || die;
 
 require_once plugin_dir_path( __DIR__ ) . '/models/class-accredible-learndash-model-auto-issuance.php';
 
-$accredible_learndash_page_name = isset( $_GET['page'] ) ? esc_attr( wp_unslash( $_GET['page'] ) ) : null; // phpcs:disable WordPress.Security.ValidatedSanitizedInput.InputNotSanitized, WordPress.Security.NonceVerification.Recommended
+$accredible_learndash_page_name = 'accredible_learndash';
 $accredible_learndash_page_num  = isset( $_GET['page_num'] ) ? esc_attr( wp_unslash( $_GET['page_num'] ) ) : null; // phpcs:disable WordPress.Security.ValidatedSanitizedInput.InputNotSanitized, WordPress.Security.NonceVerification.Recommended
 $accredible_learndash_page      = Accredible_Learndash_Model_Auto_Issuance::get_paginated_results( $accredible_learndash_page_num, 1 );
 
@@ -37,3 +37,18 @@ $accredible_learndash_page      = Accredible_Learndash_Model_Auto_Issuance::get_
 	<?php endforeach; ?>
 </ul>
 
+<p>
+	<a href="
+	<?php
+	echo esc_html(
+		wp_nonce_url(
+			admin_url( 'admin.php?page=accredible_learndash_admin_action&action=delete_auto_issuance&page_num=' . $accredible_learndash_page['current_page'] . '&id=1' ),
+			'delete-auto-issuance-1',
+			'_mynonce'
+		)
+	);
+	?>
+	">
+		DELETE
+	</a>
+</p>
