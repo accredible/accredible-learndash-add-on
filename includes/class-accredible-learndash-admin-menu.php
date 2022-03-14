@@ -30,6 +30,15 @@ if ( ! class_exists( 'Accredible_Learndash_Admin_Menu' ) ) :
 
 			add_submenu_page(
 				'accredible_learndash',
+				'Issuance List',
+				'Issuance List',
+				'administrator',
+				'accredible_learndash_issuance_list',
+				array( 'Accredible_Learndash_Admin_Menu', 'admin_issuance_list_page' )
+			);
+
+			add_submenu_page(
+				'accredible_learndash',
 				'Settings',
 				'Settings',
 				'administrator',
@@ -43,6 +52,13 @@ if ( ! class_exists( 'Accredible_Learndash_Admin_Menu' ) ) :
 		 */
 		public static function admin_settings_page() {
 			include plugin_dir_path( __FILE__ ) . '/templates/admin-settings.php';
+		}
+
+		/**
+		 * Render admin issuance list page
+		 */
+		public static function admin_issuance_list_page() {
+			include plugin_dir_path( __FILE__ ) . '/templates/admin-issuance-list.php';
 		}
 	}
 endif;
