@@ -131,7 +131,7 @@ if ( ! class_exists( 'Accredible_Learndash_Admin_Table_Helper' ) ) :
 		 */
 		private static function eval_kind( $kind ) {
 			switch ( $kind ) {
-				case 'course_completion':
+				case 'course_completed':
 					$kind = 'Course Completed';
 					break;
 				default:
