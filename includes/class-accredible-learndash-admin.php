@@ -91,14 +91,14 @@ if ( ! class_exists( 'Accredible_Learndash_Admin' ) ) :
 		 * Register courses filter.
 		 */
 		private function fetch_courses() {
-			add_filter( 'accredible_learndash_get_courses', array( 'Accredible_Learndash_Admin_Auto_Issuance', 'get_courses' ) );
+			add_filter( 'accredible_learndash_get_course_options', array( 'Accredible_Learndash_Admin_Auto_Issuance', 'get_course_options' ) );
 		}
 
 		/**
 		 * Register groups filter.
 		 */
 		private function fetch_groups() {
-			add_filter( 'accredible_learndash_get_groups', array( 'Accredible_Learndash_Admin_Auto_Issuance', 'get_groups' ) );
+			add_filter( 'accredible_learndash_get_group_options', array( 'Accredible_Learndash_Admin_Auto_Issuance', 'get_group_options' ) );
 		}
 	}
 endif;

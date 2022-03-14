@@ -19,7 +19,7 @@ if ( ! class_exists( 'Accredible_Learndash_Admin_Auto_Issuance' ) ) :
 		 *
 		 * @return array
 		 */
-		public static function get_courses( $post_type ) {
+		public static function get_course_options( $post_type ) {
 			$args    = array(
 				'post_type' => empty( $post_type ) ? 'sfwd-courses' : $post_type,
 			);
@@ -44,7 +44,7 @@ if ( ! class_exists( 'Accredible_Learndash_Admin_Auto_Issuance' ) ) :
 		 *
 		 * @return array
 		 */
-		public static function get_groups( $args ) {
+		public static function get_group_options( $args ) {
 			$groups     = array();
 			$api_client = new Accredible_Learndash_Api_V1_Client();
 			$response   = $api_client->get_groups();
