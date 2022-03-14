@@ -36,5 +36,25 @@ if ( ! class_exists( 'Accredible_Learndash_Admin_Auto_Issuance' ) ) :
 
 			return $courses;
 		}
+
+		/**
+		 * Get groups filter.
+		 *
+		 * @param array $args filter arguement.
+		 *
+		 * @return array
+		 */
+		public static function get_groups( $args ) {
+			$groups  = array();
+			$results = array(); // TODO - replace with call to API to fetch groups.
+
+			if ( ! empty( $results ) ) {
+				foreach ( $results as $value ) {
+					$groups[ $value->id ] = $value->name;
+				}
+			}
+
+			return $groups;
+		}
 	}
 endif;

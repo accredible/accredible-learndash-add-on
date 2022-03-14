@@ -55,7 +55,8 @@ if ( ! class_exists( 'Accredible_Learndash_Admin' ) ) :
 			$this->add_menus();
 			$this->add_scripts();
 			$this->add_style_classes();
-			$this->add_courses();
+			$this->fetch_courses();
+			$this->fetch_groups();
 		}
 
 		/**
@@ -89,8 +90,15 @@ if ( ! class_exists( 'Accredible_Learndash_Admin' ) ) :
 		/**
 		 * Register courses filter.
 		 */
-		private function add_courses() {
+		private function fetch_courses() {
 			add_filter( 'accredible_learndash_get_courses', array( 'Accredible_Learndash_Admin_Auto_Issuance', 'get_courses' ) );
+		}
+
+		/**
+		 * Register groups filter.
+		 */
+		private function fetch_groups() {
+			add_filter( 'accredible_learndash_get_groups', array( 'Accredible_Learndash_Admin_Auto_Issuance', 'get_groups' ) );
 		}
 	}
 endif;
