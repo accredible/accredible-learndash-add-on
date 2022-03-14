@@ -9,8 +9,16 @@ defined( 'ABSPATH' ) || die;
 
 require_once plugin_dir_path( __DIR__ ) . '/class-accredible-learndash-admin-setting.php';
 
-// phpcs:disable WordPress.WhiteSpace
-// TODO: NTGR-508, 512 & 513 to finalize the settings page.
+if ( empty( get_option( Accredible_Learndash_Admin_Setting::OPTION_API_KEY ) ) ) {
+	$accredible_learndash_issuer = null;
+} else {
+	$accredible_learndash_client   = new Accredible_Learndash_Api_V1_Client();
+	$accredible_learndash_response = $accredible_learndash_client->organization_search();
+
+	if ( ! isset( $accredible_learndash_response['errors'] ) ) {
+		$accredible_learndash_issuer = $accredible_learndash_response['issuer'];
+	}
+}
 ?>
 
 <div class="accredible-wrapper">
@@ -74,8 +82,7 @@ require_once plugin_dir_path( __DIR__ ) . '/class-accredible-learndash-admin-set
 				<img src="<?php echo esc_url( ACCREDIBLE_LEARNDASH_PLUGIN_URL . 'assets/images/learndash_logo.png' ); ?>" alt="LearnDash logo">
 			</div>
 			<div class="status">
-			<!-- TODO: Replace with value to check if setting exists -->
-			<?php if ( true ) { ?>
+			<?php if ( ! empty( $accredible_learndash_issuer ) && ! is_null( $accredible_learndash_issuer ) ) { ?>
 				<img src="<?php echo esc_url( ACCREDIBLE_LEARNDASH_PLUGIN_URL . 'assets/images/check.png' ); ?>">
 				<span><?php esc_html_e( 'Integration is up and running' ); ?></span>
 			<?php } else { ?>
