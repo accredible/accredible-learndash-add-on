@@ -10,6 +10,7 @@ defined( 'ABSPATH' ) || die;
 require_once plugin_dir_path( __FILE__ ) . '/class-accredible-learndash-admin-database.php';
 require_once plugin_dir_path( __FILE__ ) . '/class-accredible-learndash-admin-menu.php';
 require_once plugin_dir_path( __FILE__ ) . '/class-accredible-learndash-admin-setting.php';
+require_once plugin_dir_path( __FILE__ ) . '/class-accredible-learndash-admin-auto-issuance.php';
 require_once plugin_dir_path( __FILE__ ) . '/class-accredible-learndash-admin-scripts.php';
 
 if ( ! class_exists( 'Accredible_Learndash_Admin' ) ) :
@@ -54,6 +55,7 @@ if ( ! class_exists( 'Accredible_Learndash_Admin' ) ) :
 			$this->add_menus();
 			$this->add_scripts();
 			$this->add_style_classes();
+			$this->add_courses();
 		}
 
 		/**
@@ -82,6 +84,13 @@ if ( ! class_exists( 'Accredible_Learndash_Admin' ) ) :
 		 */
 		private function add_style_classes() {
 			add_filter( 'admin_body_class', array( 'Accredible_Learndash_Admin_Scripts', 'add_admin_body_class' ) );
+		}
+
+		/**
+		 * Register courses filter.
+		 */
+		private function add_courses() {
+			add_filter( 'accredible_learndash_get_courses', array( 'Accredible_Learndash_Admin_Auto_Issuance', 'get_courses' ) );
 		}
 	}
 endif;
