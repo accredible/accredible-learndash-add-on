@@ -16,6 +16,23 @@ body.accredible-learndash-admin {
     border-bottom: 1px solid var(--accredible-color-natural-10);
 }
 
+.accredible-header-tile h1 {
+    font-size: var(--accredible-font-size-h);
+    font-weight: var(--accredible-font-weight-semibold);
+}
+
+.accredible-flex-center {
+    display: flex;
+    align-items: center;
+}
+
+.accredible-image-icon,
+.accredible-image-icon img {
+    width: 24px;
+    height: 24px;
+    margin-right: var(--accredible-spacing-2x);
+}
+
 .accredible-content {
     display: flex;
     justify-content: space-between;
@@ -38,7 +55,8 @@ body.accredible-learndash-admin .label {
     padding-bottom: var(--accredible-spacing-2x);
 }
 
-.accredible-form-field input[type="text"] {
+.accredible-form-field input[type="text"],
+.accredible-form-field select {
     display: flex;
     align-items: center;
     flex: 1;
@@ -47,14 +65,22 @@ body.accredible-learndash-admin .label {
     border-radius: 4px;
     width: 500px;
     height: 40px;
+    color: var(--accredible-color-natural-160);
 }
 
-.accredible-form-field input[type="text"]:hover {
-  border-color: var(--accredible-color-secondary-80);
+.accredible-form-field input[type="text"]:hover,
+.wp-core-ui .accredible-form-field select:not(:disabled):hover {
+    border-color: var(--accredible-color-secondary-80);
 }
 
-.accredible-form-field input[type="text"]:focus {
+.wp-core-ui .accredible-form-field select:hover {
+    color: var(--accredible-color-natural-160);
+}
+
+.accredible-form-field input[type="text"]:focus,
+.wp-core-ui .accredible-form-field select:focus {
     border-color: var(--accredible-color-secondary-120);
+    color: var(--accredible-color-natural-160);
     outline: none;
     box-shadow: none;
 }

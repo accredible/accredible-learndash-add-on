@@ -16,7 +16,14 @@ $accredible_learndash_groups      = apply_filters( 'accredible_learndash_get_gro
 
 <div class="accredible-wrapper">
 	<div class="accredible-header-tile">
-		<h1 class="title"><?php esc_html_e( 'Configure Auto Issuance' ); ?></h1>
+		<div class="accredible-flex-center">
+			<a	href="admin.php?page=accredible_learndash_issuance_list"
+				class="accredible-flex-center accredible-image-icon">
+				<img src="<?php echo esc_url( ACCREDIBLE_LEARNDASH_PLUGIN_URL . 'assets/images/chevron-left.png' ); ?>">
+			</a>
+
+			<h1 class="title"><?php esc_html_e( 'Configure Auto Issuance' ); ?></h1>
+		</div>
 
 		<a	href="admin.php?page=accredible_learndash_issuance_list" 
 			class="button accredible-button-outline-natural accredible-button-large"><?php esc_html_e( 'Cancel' ); ?></a>
@@ -27,7 +34,7 @@ $accredible_learndash_groups      = apply_filters( 'accredible_learndash_get_gro
 			method="post">
 				<div class="accredible-form-field">
 					<label for="accredible_learndash_course"><?php esc_html_e( 'Select a course' ); ?></label>
-					
+
 					<select id="accredible_learndash_course" name="accredible_learndash_course">
 						<?php foreach ( $accredible_learndash_courses as $accredible_learndash_key => $accredible_learndash_value ) : ?>
 							<option value="<?php echo esc_attr( $accredible_learndash_key ); ?>">
@@ -40,7 +47,7 @@ $accredible_learndash_groups      = apply_filters( 'accredible_learndash_get_gro
 				<div class="accredible-form-field">
 					<label for="accredible_learndash_group"><?php esc_html_e( 'Select the credential group' ); ?></label>
 
-					<select id="accredible_learndash_group" name="accredible_learndash_group">
+					<select id="accredible_learndash_group" name="accredible_learndash_group" <?php disabled( empty( $accredible_learndash_groups ) ); ?>>
 						<?php foreach ( $accredible_learndash_groups as $accredible_learndash_key => $accredible_learndash_value ) : ?>
 							<option value="<?php echo esc_attr( $accredible_learndash_key ); ?>">
 								<?php echo esc_html( $accredible_learndash_value ); ?>
