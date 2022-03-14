@@ -66,7 +66,7 @@ require_once plugin_dir_path( __DIR__ ) . '/class-accredible-learndash-admin-set
 				</div>
 			</div>
 
-			<?php submit_button( 'Save', 'accredible-primary', 'submit', false ); ?>
+			<?php submit_button( 'Save', 'accredible-button-primary accredible-button-large', 'submit', false ); ?>
 		</form>
 
 		<div class="status-tile">
