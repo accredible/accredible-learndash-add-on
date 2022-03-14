@@ -45,11 +45,12 @@ if ( ! class_exists( 'Accredible_Learndash_Admin_Auto_Issuance' ) ) :
 		 * @return array
 		 */
 		public static function get_groups( $args ) {
-			$groups  = array();
-			$results = array(); // TODO - replace with call to API to fetch groups.
+			$groups     = array();
+			$api_client = new Accredible_Learndash_Api_V1_Client();
+			$response   = $api_client->get_groups();
 
-			if ( ! empty( $results ) ) {
-				foreach ( $results as $value ) {
+			if ( ! isset( $response['errors'] ) ) {
+				foreach ( $response['groups'] as $value ) {
 					$groups[ $value->id ] = $value->name;
 				}
 			}
