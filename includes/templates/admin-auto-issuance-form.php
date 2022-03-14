@@ -12,7 +12,7 @@ require_once plugin_dir_path( __DIR__ ) . '/class-accredible-learndash-admin-aut
 
 <div class="accredible-wrapper">
 	<div class="accredible-header-tile">
-		<h1 class="title"><?php esc_html_e( 'Auto Issuance' ); ?></h1>
+		<h1 class="title"><?php esc_html_e( 'Configure Auto Issuance' ); ?></h1>
 	</div>
 	<div class="accredible-content"></div>
 </div>
