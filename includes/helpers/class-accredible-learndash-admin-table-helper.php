@@ -18,6 +18,7 @@ if ( ! class_exists( 'Accredible_Learndash_Admin_Table_Helper' ) ) :
 		const ISSUANCE_GROUP_ID     = 'accredible_group_id';
 		const ISSUANCE_KIND         = 'kind';
 		const ISSUANCE_DATE_CREATED = 'created_at';
+		const ISSUANCE_LOG_STATUS = 'status';
 
 		const DEFAULT_PAGE_SIZE = 50;
 
@@ -103,8 +104,14 @@ if ( ! class_exists( 'Accredible_Learndash_Admin_Table_Helper' ) ) :
 					case self::ISSUANCE_DATE_CREATED:
 						$value = self::eval_date_time( $value );
 						break;
+					case self::ISSUANCE_LOG_STATUS:
+						if ( empty($value) ) {
+							$value = 'Success';
+						} else {
+							$value = 'Error';
+						}
 					default:
-						$value = null;
+						$value = $value;
 				}
 
 				if ( null !== $value ) {
