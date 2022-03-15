@@ -7,6 +7,8 @@
 
 defined( 'ABSPATH' ) || die;
 
+require_once plugin_dir_path( __FILE__ ) . 'models/class-accredible-learndash-model-auto-issuance.php';
+
 if ( ! class_exists( 'Accredible_Learndash_Admin_Action_Handler' ) ) :
 	/**
 	 * Accredible LearnDash Add-on admin action handler class
@@ -18,9 +20,13 @@ if ( ! class_exists( 'Accredible_Learndash_Admin_Action_Handler' ) ) :
 		 * @param string $data Data for the action.
 		 */
 		public static function delete_auto_issuance( $data ) {
-			self::verify_nonce( $data['nonce'], 'delete-auto-issuance-' . $data['id'] );
-			// TODO: delete action.
-			self::redirect_to();
+			self::verify_nonce( $data['nonce'], 'delete_auto_issuance' . $data['id'] );
+			$result = Accredible_Learndash_Model_Auto_Issuance::delete( $data['id'] );
+			if ( $result === false ) {
+				wp_die( 'Failed to delete.' );
+			} else {
+				self::redirect_to();
+			}
 		}
 
 		/**
