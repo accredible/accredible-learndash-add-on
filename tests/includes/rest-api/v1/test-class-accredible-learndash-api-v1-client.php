@@ -252,4 +252,93 @@ class Accredible_Learndash_Api_V1_Client_Test extends Accredible_Learndash_Custo
 		$res    = $client->organization_search();
 		$this->assertEquals( array( 'errors' => '401: HTTP Token: Access denied.' ), $res );
 	}
+
+	/**
+	 * Test if it makes a GET request and return parsed body.
+	 */
+	public function test_get_group() {
+		$this->group_id      = 12472;
+		$this->response_body = file_get_contents( ACCREDILBE_LEARNDASH_API_FIXTURES_PATH . '/groups/get_success.json' );
+		update_option( 'accredible_learndash_api_key', 'someapikey' );
+		update_option( 'accredible_learndash_server_region', 'us' );
+
+		// Stub the HTTP request.
+		add_filter(
+			'pre_http_request',
+			function( $_preempt, $args, $url ) {
+				$this->assertEquals( 'https://api.accredible.com/v1/issuer/groups/' . $this->group_id, $url );
+				$this->assertEquals( 'GET', $args['method'] );
+
+				return array(
+					'response' => array( 'code' => 200 ),
+					'body'     => $this->response_body,
+				);
+			},
+			10,
+			3
+		);
+
+		$client = new Accredible_Learndash_Api_V1_Client();
+		$res    = $client->get_group( $this->group_id );
+		$this->assertEquals( json_decode( $this->response_body, true ), $res );
+	}
+
+	/**
+	 * Test if it makes a GET request and return parsed body.
+	 */
+	public function test_get_group_when_unauthorized() {
+		$this->group_id = 12472;
+		update_option( 'accredible_learndash_api_key', 'someapikey' );
+		update_option( 'accredible_learndash_server_region', 'us' );
+
+		// Stub the HTTP request.
+		add_filter(
+			'pre_http_request',
+			function( $_preempt, $args, $url ) {
+				$this->assertEquals( 'https://api.accredible.com/v1/issuer/groups/' . $this->group_id, $url );
+				$this->assertEquals( 'GET', $args['method'] );
+
+				return array(
+					'response' => array( 'code' => 401 ),
+					'body'     => 'HTTP Token: Access denied.',
+				);
+			},
+			10,
+			3
+		);
+
+		$client = new Accredible_Learndash_Api_V1_Client();
+		$res    = $client->get_group( $this->group_id );
+		$this->assertEquals( array( 'errors' => '401: HTTP Token: Access denied.' ), $res );
+	}
+
+	/**
+	 * Test if it makes a GET request and return parsed body.
+	 */
+	public function test_get_group_when_not_found() {
+		$this->group_id      = 99999;
+		$this->response_body = file_get_contents( ACCREDILBE_LEARNDASH_API_FIXTURES_PATH . '/groups/get_not_found.json' );
+		update_option( 'accredible_learndash_api_key', 'someapikey' );
+		update_option( 'accredible_learndash_server_region', 'us' );
+
+		// Stub the HTTP request.
+		add_filter(
+			'pre_http_request',
+			function( $_preempt, $args, $url ) {
+				$this->assertEquals( 'https://api.accredible.com/v1/issuer/groups/' . $this->group_id, $url );
+				$this->assertEquals( 'GET', $args['method'] );
+
+				return array(
+					'response' => array( 'code' => 404 ),
+					'body'     => $this->response_body,
+				);
+			},
+			10,
+			3
+		);
+
+		$client = new Accredible_Learndash_Api_V1_Client();
+		$res    = $client->get_group( $this->group_id );
+		$this->assertEquals( array( 'errors' => "Doesn't exist" ), $res );
+	}
 }

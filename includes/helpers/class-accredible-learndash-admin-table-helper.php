@@ -7,6 +7,8 @@
 
 defined( 'ABSPATH' ) || die;
 
+require_once plugin_dir_path( __DIR__ ) . '/rest-api/v1/class-accredible-learndash-api-v1-client.php';
+
 if ( ! class_exists( 'Accredible_Learndash_Admin_Table_Helper' ) ) :
 	/**
 	 * Accredible LearnDash Add-on admin table helper class
@@ -90,8 +92,10 @@ if ( ! class_exists( 'Accredible_Learndash_Admin_Table_Helper' ) ) :
 						$value       = ! empty( $course_name ) ? $course_name : self::eval_error( 'Not found' );
 						break;
 					case self::ISSUANCE_GROUP_ID:
-						$group_name = apply_filters( 'accredible_learndash_get_group', $value ); // TODO - create and register this filter.
-						$value      = ! empty( $group_name ) ? $group_name : $value; // TODO - Update to show error.
+						// later: Consider storing `group_name` in the AutoIssaunce table for the faster page load time.
+						$client   = new Accredible_Learndash_Api_V1_Client();
+						$response = $client->get_group( $value );
+						$value    = ! isset( $response['errors'] ) ? $response['group']['name'] : self::eval_error( $response['errors'] );
 						break;
 					case self::ISSUANCE_KIND:
 						$value = self::eval_kind( $value );
@@ -144,19 +148,18 @@ if ( ! class_exists( 'Accredible_Learndash_Admin_Table_Helper' ) ) :
 		/**
 		 * Evaluates date values to string.
 		 *
-		 * @param string $created_at date value.
+		 * @param int $timestamp Timestamp value.
 		 *
 		 * @return string
 		 */
-		private static function eval_date_time( $created_at ) {
+		private static function eval_date_time( $timestamp ) {
 			$date_format = 'd M Y';
 			$time_format = 'G:i A';
-			$date_time   = date_create( $created_at );
 
 			return sprintf(
 				'<span> %1s </span> <span class="accredible-cell-time"> %2s </span>',
-				date_format( $date_time, $date_format ),
-				date_format( $date_time, $time_format )
+				wp_date( $date_format, $timestamp ),
+				wp_date( $time_format, $timestamp )
 			);
 		}
 
