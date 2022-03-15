@@ -107,7 +107,7 @@ if ( ! class_exists( 'Accredible_Learndash_Admin_Table_Helper' ) ) :
 						$value = null;
 				}
 
-				if ( $value !== null ) {
+				if ( null !== $value ) {
 					$table_cells .= '<td>' . $value . '</td>';
 				}
 			}

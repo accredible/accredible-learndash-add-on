@@ -22,7 +22,7 @@ if ( ! class_exists( 'Accredible_Learndash_Admin_Action_Handler' ) ) :
 		public static function delete_auto_issuance( $data ) {
 			self::verify_nonce( $data['nonce'], 'delete_auto_issuance' . $data['id'] );
 			$result = Accredible_Learndash_Model_Auto_Issuance::delete( $data['id'] );
-			if ( $result === false ) {
+			if ( false === $result ) {
 				wp_die( 'Failed to delete.' );
 			} else {
 				self::redirect_to( $data['redirect_url'] );
