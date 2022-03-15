@@ -43,13 +43,161 @@ class Accredible_Learndash_Model_Auto_Issuance_Log_Test extends Accredible_Learn
 			'created_at'                            => time(),
 		);
 		$wpdb->insert( $wpdb->prefix . 'accredible_learndash_auto_issuance_logs', $data1 );
+		$data1_id = $wpdb->insert_id;
 		$wpdb->insert( $wpdb->prefix . 'accredible_learndash_auto_issuance_logs', $data2 );
+		$data2_id = $wpdb->insert_id;
 
 		$results = Accredible_Learndash_Model_Auto_Issuance_Log::get_results();
 		$this->assertCount( 2, $results );
 
+		// With $where_sql.
 		$results = Accredible_Learndash_Model_Auto_Issuance_Log::get_results( "user_id = 1 AND recipient_name = 'Tom Test'" );
 		$this->assertCount( 1, $results );
+
+		// With $limit.
+		$limit   = 1;
+		$results = Accredible_Learndash_Model_Auto_Issuance_Log::get_results( '', $limit );
+		$this->assertCount( 1, $results );
+		$this->assertEquals( $data1_id, $results[0]->id );
+
+		// With $limit & $offset.
+		$offset  = 1;
+		$results = Accredible_Learndash_Model_Auto_Issuance_Log::get_results( '', $limit, $offset );
+		$this->assertCount( 1, $results );
+		$this->assertEquals( $data2_id, $results[0]->id );
+	}
+
+	/**
+	 * Test if it returns the total number of found records.
+	 */
+	public function test_get_total_count() {
+		$results = Accredible_Learndash_Model_Auto_Issuance_Log::get_total_count();
+		$this->assertEquals( 0, $results );
+
+		global $wpdb;
+		$data1 = array(
+			'accredible_learndash_auto_issuance_id' => 1,
+			'user_id'                               => 1,
+			'accredible_group_id'                   => 1,
+			'accredible_group_name'                 => 'My Course 1',
+			'recipient_name'                        => 'Tom Test',
+			'recipient_email'                       => 'tom@example.com',
+			'credential_url'                        => 'https://www.credential.net/10000000',
+			'created_at'                            => time(),
+		);
+		$data2 = array(
+			'accredible_learndash_auto_issuance_id' => 2,
+			'user_id'                               => 2,
+			'accredible_group_id'                   => 2,
+			'recipient_name'                        => 'Jerry Test',
+			'recipient_email'                       => 'jerry@example.com',
+			'error_message'                         => 'The server could not respond. Your API key might be invalid.',
+			'created_at'                            => time(),
+		);
+		$wpdb->insert( $wpdb->prefix . 'accredible_learndash_auto_issuance_logs', $data1 );
+		$wpdb->insert( $wpdb->prefix . 'accredible_learndash_auto_issuance_logs', $data2 );
+
+		$results = Accredible_Learndash_Model_Auto_Issuance_Log::get_total_count();
+		$this->assertEquals( 2, $results );
+
+		$results = Accredible_Learndash_Model_Auto_Issuance_Log::get_total_count( "user_id = 1 AND recipient_name = 'Tom Test'" );
+		$this->assertEquals( 1, $results );
+	}
+
+	/**
+	 * Test if it returns paginated results.
+	 */
+	public function test_get_paginated_results() {
+		$page = Accredible_Learndash_Model_Auto_Issuance_Log::get_paginated_results( 1, null );
+		$this->assertCount( 0, $page['results'] );
+		$this->assertEquals( 1, $page['current_page'] );
+		$this->assertEquals( null, $page['next_page'] );
+		$this->assertEquals( null, $page['prev_page'] );
+		$this->assertEquals( 0, $page['total_pages'] );
+		$this->assertEquals( 0, $page['total_count'] );
+		$this->assertEquals( 50, $page['page_size'] );
+
+		global $wpdb;
+		$data1 = array(
+			'accredible_learndash_auto_issuance_id' => 1,
+			'user_id'                               => 1,
+			'accredible_group_id'                   => 1,
+			'accredible_group_name'                 => 'My Course 1',
+			'recipient_name'                        => 'Tom Test',
+			'recipient_email'                       => 'tom@example.com',
+			'credential_url'                        => 'https://www.credential.net/10000000',
+			'created_at'                            => time(),
+		);
+		$data2 = array(
+			'accredible_learndash_auto_issuance_id' => 2,
+			'user_id'                               => 2,
+			'accredible_group_id'                   => 2,
+			'recipient_name'                        => 'Jerry Test',
+			'recipient_email'                       => 'jerry@example.com',
+			'error_message'                         => 'The server could not respond. Your API key might be invalid.',
+			'created_at'                            => time(),
+		);
+		$data3 = array(
+			'accredible_learndash_auto_issuance_id' => 2,
+			'user_id'                               => 2,
+			'accredible_group_id'                   => 2,
+			'accredible_group_name'                 => 'My Course 1',
+			'recipient_name'                        => 'Jerry Test',
+			'recipient_email'                       => 'jerry@example.com',
+			'credential_url'                        => 'https://www.credential.net/10000000',
+			'created_at'                            => time(),
+		);
+		$wpdb->insert( $wpdb->prefix . 'accredible_learndash_auto_issuance_logs', $data1 );
+		$wpdb->insert( $wpdb->prefix . 'accredible_learndash_auto_issuance_logs', $data2 );
+		$wpdb->insert( $wpdb->prefix . 'accredible_learndash_auto_issuance_logs', $data3 );
+
+		$page = Accredible_Learndash_Model_Auto_Issuance_Log::get_paginated_results( 1, null );
+		$this->assertCount( 3, $page['results'] );
+		$this->assertEquals( 1, $page['current_page'] );
+		$this->assertEquals( null, $page['next_page'] );
+		$this->assertEquals( null, $page['prev_page'] );
+		$this->assertEquals( 1, $page['total_pages'] );
+		$this->assertEquals( 3, $page['total_count'] );
+		$this->assertEquals( 50, $page['page_size'] );
+
+		// With $page_size.
+		$page_size = 1;
+		$page      = Accredible_Learndash_Model_Auto_Issuance_Log::get_paginated_results( 1, $page_size );
+		$this->assertCount( 1, $page['results'] );
+		$this->assertEquals( 1, $page['current_page'] );
+		$this->assertEquals( 2, $page['next_page'] );
+		$this->assertEquals( null, $page['prev_page'] );
+		$this->assertEquals( 3, $page['total_pages'] );
+		$this->assertEquals( 3, $page['total_count'] );
+		$this->assertEquals( 1, $page['page_size'] );
+
+		$page = Accredible_Learndash_Model_Auto_Issuance_Log::get_paginated_results( 2, $page_size );
+		$this->assertCount( 1, $page['results'] );
+		$this->assertEquals( 2, $page['current_page'] );
+		$this->assertEquals( 3, $page['next_page'] );
+		$this->assertEquals( 1, $page['prev_page'] );
+		$this->assertEquals( 3, $page['total_pages'] );
+		$this->assertEquals( 3, $page['total_count'] );
+		$this->assertEquals( 1, $page['page_size'] );
+
+		$page = Accredible_Learndash_Model_Auto_Issuance_Log::get_paginated_results( 3, $page_size );
+		$this->assertCount( 1, $page['results'] );
+		$this->assertEquals( 3, $page['current_page'] );
+		$this->assertEquals( null, $page['next_page'] );
+		$this->assertEquals( 2, $page['prev_page'] );
+		$this->assertEquals( 3, $page['total_pages'] );
+		$this->assertEquals( 3, $page['total_count'] );
+		$this->assertEquals( 1, $page['page_size'] );
+
+		// With $where_sql.
+		$page = Accredible_Learndash_Model_Auto_Issuance_Log::get_paginated_results( 1, null, "user_id = 1 AND recipient_name = 'Tom Test'" );
+		$this->assertCount( 1, $page['results'] );
+		$this->assertEquals( 1, $page['current_page'] );
+		$this->assertEquals( null, $page['next_page'] );
+		$this->assertEquals( null, $page['prev_page'] );
+		$this->assertEquals( 1, $page['total_pages'] );
+		$this->assertEquals( 1, $page['total_count'] );
+		$this->assertEquals( 50, $page['page_size'] );
 	}
 
 	/**
