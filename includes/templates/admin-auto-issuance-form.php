@@ -21,7 +21,6 @@ if ( ! is_null( $accredible_learndash_issuance_id ) ) {
 	$accredible_learndash_form_action = '&action=edit_auto_issuance&id=' . $accredible_learndash_issuance_id;
 	// $accredible_learndash_issuance = Accredible_Learndash_Model_Auto_Issuance::get_results(); // TODO - get issuance by issuance id.
 }
-
 ?>
 
 <div class="accredible-wrapper">
