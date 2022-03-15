@@ -25,7 +25,7 @@ if ( ! class_exists( 'Accredible_Learndash_Admin_Action_Handler' ) ) :
 			if ( $result === false ) {
 				wp_die( 'Failed to delete.' );
 			} else {
-				self::redirect_to();
+				self::redirect_to( $data['redirect_url'] );
 			}
 		}
 
@@ -46,10 +46,7 @@ if ( ! class_exists( 'Accredible_Learndash_Admin_Action_Handler' ) ) :
 		 *
 		 * @param string $redirect_url Redirect URL.
 		 */
-		private static function redirect_to( $redirect_url = null ) {
-			if ( empty( $redirect_url ) ) {
-				$redirect_url = wp_get_referer();
-			}
+		private static function redirect_to( $redirect_url ) {
 			// You cannot use `wp_redirect` at the `admin_menu` Action Hook callback
 			// since http headers were already sent to the browser.
 			echo '<p>Processing...</p>';
