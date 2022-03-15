@@ -48,10 +48,11 @@ if ( ! class_exists( 'Accredible_Learndash_Admin_Menu' ) ) :
 				array( 'Accredible_Learndash_Admin_Menu', 'admin_settings_page' )
 			);
 
+			// Admin action without a view template.
 			add_submenu_page(
 				null,
-				'Server Auto Issuance',
-				'Server Auto Issuance',
+				'Admin Action',
+				'Admin Action',
 				'administrator',
 				'accredible_learndash_admin_action',
 				array( 'Accredible_Learndash_Admin_Menu', 'admin_action' )
