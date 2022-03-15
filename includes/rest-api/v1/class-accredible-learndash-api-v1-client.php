@@ -69,5 +69,14 @@ if ( ! class_exists( 'Accredible_Learndash_Api_V1_Client' ) ) :
 			}
 			return $this->request->post( '/credentials', $body );
 		}
+
+		/**
+		 * Fetch a group.
+		 *
+		 * @param int $group_id Accredible Group ID.
+		 */
+		public function get_group( $group_id ) {
+			return $this->request->get( '/issuer/groups/' . $group_id );
+		}
 	}
 endif;
