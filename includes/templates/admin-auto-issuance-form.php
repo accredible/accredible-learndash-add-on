@@ -10,8 +10,8 @@ defined( 'ABSPATH' ) || die;
 require_once plugin_dir_path( __DIR__ ) . '/class-accredible-learndash-admin-auto-issuance.php';
 
 $accredible_learndash_form_action = 'action=add_auto_issuance'; // TODO - or 'action=edit_auto_issuance&id=$issuance_id' if auto_issuance is available.
-$accredible_learndash_courses     = apply_filters( 'accredible_learndash_get_course_options', '' );
-$accredible_learndash_groups      = apply_filters( 'accredible_learndash_get_group_options', array() );
+$accredible_learndash_courses     = Accredible_Learndash_Admin_Auto_Issuance::get_course_options();
+$accredible_learndash_groups      = Accredible_Learndash_Admin_Auto_Issuance::get_group_options();
 ?>
 
 <div class="accredible-wrapper">
