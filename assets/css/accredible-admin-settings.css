@@ -214,6 +214,10 @@ body.accredible-learndash-admin .label {
 
 /* TABLE */
 
+.accredible-table-wrapper {
+    width: 100%;
+}
+
 table.accredible-table {
     width: 100%;
     padding: 0 var(--accredible-spacing-3x) var(--accredible-spacing-4x);
@@ -263,6 +267,39 @@ table.accredible-table {
     padding-left: calc(var(--accredible-spacing-base) + 1px);
 }
 
+/* PAGINATION */
+
+.accredible-table + .accredible-pagination-tile {
+    margin-top: var(--accredible-spacing-3x);
+}
+
+.accredible-pagination-tile {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    color: var(--accredible-color-natural-100);
+}
+
+.accredible-pagination-actions {
+    display: flex;
+    align-items: center;
+}
+
+.wp-core-ui .accredible-pagination-actions a.button {
+    display: flex;
+    align-items: center;
+    height: 30px;
+    margin-left: var(--accredible-spacing-2x);
+}
+
+.wp-core-ui .accredible-pagination-actions a.button img {
+    height: 16px;
+}
+
+.wp-core-ui .accredible-pagination-actions a.button[disabled] img {
+    opacity: 0.5;
+}
+
 /* DIRECTION */
 
 .accredible-wrapper,
@@ -290,4 +327,12 @@ body[dir="rtl"] .accredible-content .status-tile .status img {
 
 body[dir="ltr"] .accredible-content .status-tile .status img {
     margin-left: var(--accredible-spacing-2x);
+}
+
+body[dir="rtl"] .accredible-table.has-hover .accredible-row td:first-of-type {
+    padding-right: calc(var(--accredible-spacing-base) + 1px);
+}
+
+body[dir="rtl"] .wp-core-ui .accredible-pagination-actions a.button {
+    margin-right: var(--accredible-spacing-2x);
 }
