@@ -29,7 +29,7 @@ if ( ! is_null( $accredible_learndash_issuance_id ) ) {
 		<div class="accredible-flex-center">
 			<a	href="admin.php?page=accredible_learndash_issuance_list&page_num=<?php echo esc_attr( $accredible_learndash_issuance_current_page ); ?>"
 				class="accredible-flex-center accredible-image-icon"
-				aria-label="<?php echo esc_attr( 'Go to issuance list' ) ?>">
+				aria-label="<?php echo esc_attr( 'Go to issuance list' ); ?>">
 				<img src="<?php echo esc_url( ACCREDIBLE_LEARNDASH_PLUGIN_URL . 'assets/images/chevron-left.png' ); ?>">
 			</a>
 
