@@ -203,4 +203,31 @@ class Accredible_Learndash_Model_Auto_Issuance_Test extends Accredible_Learndash
 
 		$this->assertGreaterThanOrEqual( $before_time, $results[0]->created_at );
 	}
+
+	/**
+	 * Test if it deletes a record.
+	 */
+	public function test_delete() {
+		global $wpdb;
+		$data       = array(
+			'kind'                => 'course_completed',
+			'post_id'             => 1,
+			'accredible_group_id' => 1,
+			'created_at'          => time(),
+		);
+		$table_name = $wpdb->prefix . 'accredible_learndash_auto_issuances';
+		$wpdb->insert( $table_name, $data );
+		$id      = $wpdb->insert_id;
+		$results = $wpdb->get_results(
+			$wpdb->prepare( 'SELECT * FROM %1s;', $table_name )
+		);
+		$this->assertCount( 1, $results );
+
+		Accredible_Learndash_Model_Auto_Issuance::delete( $id );
+
+		$results = $wpdb->get_results(
+			$wpdb->prepare( 'SELECT * FROM %1s;', $table_name )
+		);
+		$this->assertCount( 0, $results );
+	}
 }

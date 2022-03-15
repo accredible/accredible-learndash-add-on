@@ -38,7 +38,7 @@ foreach ( $accredible_learndash_page['results'] as $accredible_learndash_issuanc
 	array_push(
 		$accredible_learndash_issuances,
 		array(
-			'id'             			=> $accredible_learndash_issuance->id,
+			'id'                  => $accredible_learndash_issuance->id,
 			'post_id'             => $accredible_learndash_issuance->post_id,
 			'accredible_group_id' => $accredible_learndash_issuance->accredible_group_id,
 			'kind'                => $accredible_learndash_issuance->kind,
