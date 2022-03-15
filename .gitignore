@@ -6,3 +6,6 @@ vendor/*
 .vscode
 .devcontainer
 !.keep
+
+# IDEs and editors
+/.idea

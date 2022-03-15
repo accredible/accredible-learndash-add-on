@@ -36,6 +36,13 @@ if ( ! class_exists( 'Accredible_Learndash_Api_V1_Client' ) ) :
 		}
 
 		/**
+		 * Search the organization with the provided API Key.
+		 */
+		public function organization_search() {
+			return $this->request->get( '/issuer/details' );
+		}
+
+		/**
 		 * Issue a credential.
 		 *
 		 * @param int    $group_id Accredible Group ID.
@@ -61,6 +68,15 @@ if ( ! class_exists( 'Accredible_Learndash_Api_V1_Client' ) ) :
 				$body['credential']['custom_attributes'] = $custom_attributes;
 			}
 			return $this->request->post( '/credentials', $body );
+		}
+
+		/**
+		 * Fetch a group.
+		 *
+		 * @param int $group_id Accredible Group ID.
+		 */
+		public function get_group( $group_id ) {
+			return $this->request->get( '/issuer/groups/' . $group_id );
 		}
 	}
 endif;

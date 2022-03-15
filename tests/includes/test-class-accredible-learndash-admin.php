@@ -22,6 +22,8 @@ class Accredible_Learndash_Admin_Test extends WP_UnitTestCase {
 		// Reset related WP filters.
 		remove_all_filters( 'admin_init' );
 		remove_all_filters( 'admin_menu' );
+		remove_all_filters( 'admin_enqueue_scripts' );
+		remove_all_filters( 'admin_body_class' );
 		remove_all_filters( $activation_hook_name );
 
 		Accredible_Learndash_Admin::init();
@@ -33,6 +35,14 @@ class Accredible_Learndash_Admin_Test extends WP_UnitTestCase {
 		$this->assertEquals(
 			10,
 			has_filter( 'admin_menu', array( 'Accredible_Learndash_Admin_Menu', 'add' ) )
+		);
+		$this->assertEquals(
+			10,
+			has_filter( 'admin_enqueue_scripts', array( 'Accredible_Learndash_Admin_Scripts', 'load_resources' ) )
+		);
+		$this->assertEquals(
+			10,
+			has_filter( 'admin_body_class', array( 'Accredible_Learndash_Admin_Scripts', 'add_admin_body_class' ) )
 		);
 		$this->assertEquals(
 			10,

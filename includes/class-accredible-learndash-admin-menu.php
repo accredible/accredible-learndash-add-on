@@ -18,13 +18,25 @@ if ( ! class_exists( 'Accredible_Learndash_Admin_Menu' ) ) :
 		 * Add plugin pages to wp menu
 		 */
 		public static function add() {
+			$menu_position = 3; // Show our plugin just below LearnDash.
+
 			add_menu_page(
 				'Accredible LearnDash Add-on',
 				'Accredible LearnDash Add-on',
 				'administrator',
 				'accredible_learndash',
-				array( 'Accredible_Learndash_Admin_Menu', 'admin_auto_issuances_index_page' ),
-				'dashicons-awards'
+				array( 'Accredible_Learndash_Admin_Menu', 'admin_settings_page' ),
+				'dashicons-awards',
+				$menu_position
+			);
+
+			add_submenu_page(
+				'accredible_learndash',
+				'Issuance List',
+				'Issuance List',
+				'administrator',
+				'accredible_learndash_issuance_list',
+				array( 'Accredible_Learndash_Admin_Menu', 'admin_issuance_list_page' )
 			);
 
 			add_submenu_page(
@@ -47,17 +59,17 @@ if ( ! class_exists( 'Accredible_Learndash_Admin_Menu' ) ) :
 		}
 
 		/**
-		 * Render admin auto issuances index page
-		 */
-		public static function admin_auto_issuances_index_page() {
-			include plugin_dir_path( __FILE__ ) . '/templates/admin-auto-issuances-index.php';
-		}
-
-		/**
 		 * Render admin settings page
 		 */
 		public static function admin_settings_page() {
 			include plugin_dir_path( __FILE__ ) . '/templates/admin-settings.php';
+		}
+
+		/**
+		 * Render admin issuance list page
+		 */
+		public static function admin_issuance_list_page() {
+			include plugin_dir_path( __FILE__ ) . '/templates/admin-issuance-list.php';
 		}
 
 		/**
