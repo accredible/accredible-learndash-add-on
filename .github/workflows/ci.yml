@@ -25,6 +25,10 @@ jobs:
           docker exec -w /var/www/html/wp-content/plugins/accredible-learndash-add-on accredible-learndash-add-on_wordpress_1 bash bin/init-wp-dev.sh
           docker exec -w /var/www/html/wp-content/plugins/accredible-learndash-add-on accredible-learndash-add-on_wordpress_1 composer install
 
+      - name: Run Linter
+        run: |
+          docker exec -w /var/www/html/wp-content/plugins/accredible-learndash-add-on accredible-learndash-add-on_wordpress_1 vendor/bin/phpcs
+
       - name: Run Unit Tests
         run: |
           docker exec -w /var/www/html/wp-content/plugins/accredible-learndash-add-on accredible-learndash-add-on_wordpress_1 vendor/bin/phpunit
