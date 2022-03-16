@@ -1,0 +1,24 @@
+name: "PHP Unit Tests"
+
+on:
+  push:
+  # workflow_dispatch:
+  # pull_request:
+
+jobs:
+  unit_tests:
+    name: "Setup"
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v2
+
+      - name: Docker Compose
+        run: docker-compose up -d
+
+      - name: Setup
+        run: |
+          docker ps
+          docker exec -it accredible-learndash-add-on_db_1 mysql -u root -p
+          grant ALL PRIVILEGES ON *.* TO 'wordpress';
