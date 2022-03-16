@@ -52,7 +52,10 @@ foreach ( $accredible_learndash_page['results'] as $accredible_learndash_issuanc
 	<div class="accredible-header-tile">
 		<h1 class="title"><?php esc_html_e( 'Issuance List' ); ?></h1>
 
-		<button class="button accredible-button-primary accredible-button-large"><?php esc_html_e( 'New Configuration' ); ?></button>
+		<a	href="admin.php?page=accredible_learndash_auto_issuance"
+			class="button accredible-button-primary accredible-button-large">
+			<?php esc_html_e( 'New Configuration' ); ?>
+		</a>
 	</div>
 	<div class="accredible-content">
 		<div class="accredible-table-wrapper">

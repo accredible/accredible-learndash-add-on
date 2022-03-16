@@ -43,6 +43,13 @@ if ( ! class_exists( 'Accredible_Learndash_Api_V1_Client' ) ) :
 		}
 
 		/**
+		 * Get groups.
+		 */
+		public function get_groups() {
+			return $this->request->get( '/issuer/groups/search' );
+		}
+
+		/**
 		 * Issue a credential.
 		 *
 		 * @param int    $group_id Accredible Group ID.

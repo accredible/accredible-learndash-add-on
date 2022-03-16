@@ -199,10 +199,21 @@ if ( ! class_exists( 'Accredible_Learndash_Admin_Table_Helper' ) ) :
 			if ( ! empty( self::$row_actions ) ) {
 				foreach ( self::$row_actions as $value ) {
 					if ( ( ! empty( $value['label'] ) ) && ( ! empty( $value['action'] ) ) ) {
+						$page = '';
+						switch ( $value['action'] ) {
+							case 'edit_auto_issuance':
+								$page = 'accredible_learndash_auto_issuance';
+								break;
+							case 'delete_auto_issuance':
+								$page = 'accredible_learndash_admin_action';
+								break;
+							default:
+								$page = 'accredible_learndash_issuance_list';
+						}
 						$actions .= sprintf(
 							'<a href="%s" class="button accredible-button-outline-natural accredible-button-small">' . $value['label'] . '</a>',
 							wp_nonce_url(
-								admin_url( 'admin.php?page=accredible_learndash_admin_action&action=' . $value['action'] . '&page_num=' . self::$current_page . '&id=' . $id ),
+								admin_url( 'admin.php?page=' . $page . '&action=' . $value['action'] . '&page_num=' . self::$current_page . '&id=' . $id ),
 								$value['action'] . $id,
 								'_mynonce'
 							)
