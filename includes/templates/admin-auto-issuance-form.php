@@ -15,13 +15,14 @@ $accredible_learndash_groups  = Accredible_Learndash_Admin_Auto_Issuance::get_gr
 $accredible_learndash_issuance_current_page = isset( $_GET['page_num'] ) ? esc_attr( wp_unslash( $_GET['page_num'] ) ) : 1; // phpcs:disable WordPress.Security.ValidatedSanitizedInput.InputNotSanitized, WordPress.Security.NonceVerification.Recommended
 $accredible_learndash_issuance_id           = isset( $_GET['id'] ) ? esc_attr( wp_unslash( $_GET['id'] ) ) : null; // phpcs:disable WordPress.Security.ValidatedSanitizedInput.InputNotSanitized, WordPress.Security.NonceVerification.Recommended
 
-$accredible_learndash_form_action = 'action=add_auto_issuance';
+$accredible_learndash_form_action = 'add_auto_issuance';
 $accredible_learndash_issuance    = array(
+	'id'                  => null,
 	'post_id'             => null,
 	'accredible_group_id' => null,
 );
 if ( ! is_null( $accredible_learndash_issuance_id ) ) {
-	$accredible_learndash_form_action = '&action=edit_auto_issuance&id=' . $accredible_learndash_issuance_id;
+	$accredible_learndash_form_action = 'edit_auto_issuance&id=' . $accredible_learndash_issuance_id;
 	// $accredible_learndash_issuance = Accredible_Learndash_Model_Auto_Issuance::get_results(); // TODO - get issuance by issuance id.
 }
 ?>
@@ -47,7 +48,9 @@ if ( ! is_null( $accredible_learndash_issuance_id ) ) {
 				<?php esc_html_e( 'Credential groups need to have been created before configuring auto issuance. If none appear, check your API key to make sure your integration is set up properly.' ); ?>
 			</div>
 
-			<form action="admin.php?page=accredible_learndash_admin_action&<?php echo esc_attr( $accredible_learndash_form_action ); ?>" method="post">
+			<form action="admin.php?page=accredible_learndash_admin_action&action=<?php echo esc_attr( $accredible_learndash_form_action ); ?>" method="post">
+				<?php wp_nonce_field( $accredible_learndash_form_action . $accredible_learndash_issuance['id'], '_mynonce' ); ?>
+
 				<div class="accredible-form-field">
 					<label for="accredible_learndash_course"><?php esc_html_e( 'Select a course' ); ?></label>
 
