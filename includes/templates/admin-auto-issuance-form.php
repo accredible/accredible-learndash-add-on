@@ -39,9 +39,12 @@ if ( ! is_null( $accredible_learndash_issuance_id ) ) {
 			class="button accredible-button-outline-natural accredible-button-large"><?php esc_html_e( 'Cancel' ); ?></a>
 	</div>
 	<div class="accredible-content">
-		<form
-			action="admin.php?page=accredible_learndash_admin_action&<?php echo esc_attr( $accredible_learndash_form_action ); ?>"
-			method="post">
+		<div class="accredible-form-wrapper">
+			<div class="accredible-info-tile">
+				<?php esc_html_e( 'Credential groups need to have been created before configuring auto issuance. If none appear, check your API key to make sure your integration is set up properly.' ); ?>
+			</div>
+
+			<form action="admin.php?page=accredible_learndash_admin_action&<?php echo esc_attr( $accredible_learndash_form_action ); ?>" method="post">
 				<div class="accredible-form-field">
 					<label for="accredible_learndash_course"><?php esc_html_e( 'Select a course' ); ?></label>
 
@@ -53,6 +56,11 @@ if ( ! is_null( $accredible_learndash_issuance_id ) ) {
 							</option>
 						<?php endforeach; ?>
 					</select>
+					<?php if ( empty( $accredible_learndash_courses ) ): ?>
+						<span class="accredible-form-field-error">
+							<?php esc_html_e( 'No courses available. Add courses in LearnDash to continue.' ); ?>
+						</span>
+					<?php endif; ?>
 				</div>
 
 				<div class="accredible-form-field">
@@ -70,5 +78,6 @@ if ( ! is_null( $accredible_learndash_issuance_id ) ) {
 
 				<?php submit_button( 'Save', 'accredible-button-primary accredible-button-large', 'submit', false ); ?>
 			</form>
+		</div>
 	</div>
 </div>

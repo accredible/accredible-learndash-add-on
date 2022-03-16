@@ -39,6 +39,30 @@ body.accredible-learndash-admin {
     align-items: flex-start;
 }
 
+.accredible-form-wrapper,
+.accredible-table-wrapper {
+    width: 100%;
+}
+
+.accredible-info-tile {
+    display: flex;
+    margin-bottom: var(--accredible-spacing-4x);
+    padding: var(--accredible-spacing-2x);
+    background: var(--accredible-color-secondary-10);
+    border-radius: 4px;
+    color: var(--accredible-color-natural-180);
+}
+
+.accredible-info-tile::before {
+    content: url('../images/info.svg');
+    display: inline-block;
+    position: relative;
+    bottom: -3px;
+    width: 20px;
+    height: 20px;
+    padding-right: var(--accredible-spacing-base);
+}
+
 /* FORM ELEMENTS */
 
 body.accredible-learndash-admin label,
@@ -120,6 +144,11 @@ body.accredible-learndash-admin .label {
     margin: 4px;
     background-color: var(--accredible-color-secondary-100);
     line-height: 16px;
+}
+
+.accredible-form-field-error {
+    color: var(--accredible-color-danger-100);
+    font-size: var(--accredible-font-size-xs);
 }
 
 /* BUTTONS */
@@ -240,10 +269,6 @@ body.accredible-learndash-admin .label {
 
 /* TABLE */
 
-.accredible-table-wrapper {
-    width: 100%;
-}
-
 table.accredible-table {
     width: 100%;
     padding: 0 var(--accredible-spacing-3x) var(--accredible-spacing-4x);
@@ -361,4 +386,8 @@ body[dir="rtl"] .accredible-table.has-hover .accredible-row td:first-of-type {
 
 body[dir="rtl"] .wp-core-ui .accredible-pagination-actions a.button {
     margin-right: var(--accredible-spacing-2x);
+}
+
+body[dir="rtl"] .accredible-info-tile::before {
+    padding-left: var(--accredible-spacing-base);
 }
