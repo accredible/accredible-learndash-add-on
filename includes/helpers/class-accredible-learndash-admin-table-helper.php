@@ -68,7 +68,7 @@ if ( ! class_exists( 'Accredible_Learndash_Admin_Table_Helper' ) ) :
 				$row_cells .= '<tr class="accredible-row">';
 				$row_cells .= self::table_cell( self::eval_row_num( $index + 1 ) );
 				$row_cells .= self::get_table_cells( $issuance );
-				$row_cells .= self::table_cell( self::eval_actions( $issuance['post_id'] ), 'accredible-cell-actions' );
+				$row_cells .= self::table_cell( self::eval_actions( $issuance['id'] ), 'accredible-cell-actions' );
 				$row_cells .= '</tr>';
 			}
 
@@ -104,10 +104,12 @@ if ( ! class_exists( 'Accredible_Learndash_Admin_Table_Helper' ) ) :
 						$value = self::eval_date_time( $value );
 						break;
 					default:
-						$value;
+						$value = null;
 				}
 
-				$table_cells .= '<td>' . $value . '</td>';
+				if ( null !== $value ) {
+					$table_cells .= '<td>' . $value . '</td>';
+				}
 			}
 
 			return $table_cells;

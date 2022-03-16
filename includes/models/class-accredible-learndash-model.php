@@ -95,6 +95,16 @@ if ( ! class_exists( 'Accredible_Learndash_Model' ) ) :
 		}
 
 		/**
+		 * Delete a record from the DB table.
+		 *
+		 * @param int $id ID.
+		 */
+		public static function delete( $id ) {
+			global $wpdb;
+			return $wpdb->delete( static::table_name(), array( 'id' => $id ), array( '%d' ) );
+		}
+
+		/**
 		 * Define the DB table name in the sub class.
 		 */
 		abstract protected static function table_name();

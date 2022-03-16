@@ -7,6 +7,8 @@
 
 defined( 'ABSPATH' ) || die;
 
+require_once plugin_dir_path( __FILE__ ) . '/class-accredible-learndash-admin-action-handler.php';
+
 if ( ! class_exists( 'Accredible_Learndash_Admin_Menu' ) ) :
 	/**
 	 * Accredible LearnDash Add-on admin menu class
@@ -45,6 +47,16 @@ if ( ! class_exists( 'Accredible_Learndash_Admin_Menu' ) ) :
 				'accredible_learndash_settings',
 				array( 'Accredible_Learndash_Admin_Menu', 'admin_settings_page' )
 			);
+
+			// Admin action without a view template.
+			add_submenu_page(
+				null,
+				'Admin Action',
+				'Admin Action',
+				'administrator',
+				'accredible_learndash_admin_action',
+				array( 'Accredible_Learndash_Admin_Menu', 'admin_action' )
+			);
 		}
 
 		/**
@@ -59,6 +71,26 @@ if ( ! class_exists( 'Accredible_Learndash_Admin_Menu' ) ) :
 		 */
 		public static function admin_issuance_list_page() {
 			include plugin_dir_path( __FILE__ ) . '/templates/admin-issuance-list.php';
+		}
+
+		/**
+		 * Render admin settings page
+		 */
+		public static function admin_action() {
+			$action        = isset( $_REQUEST['action'] ) ? esc_attr( wp_unslash( $_REQUEST['action'] ) ) : null; // phpcs:disable WordPress.Security.ValidatedSanitizedInput.InputNotSanitized, WordPress.Security.NonceVerification.Recommended
+			$class_methods = get_class_methods( 'Accredible_Learndash_Admin_Action_Handler' );
+			if ( in_array( $action, $class_methods, true ) ) {
+				// phpcs:disable WordPress.Security.ValidatedSanitizedInput.InputNotSanitized, WordPress.Security.NonceVerification.Recommended
+				$data = array(
+					'id'           => isset( $_REQUEST['id'] ) ? esc_attr( wp_unslash( $_REQUEST['id'] ) ) : null,
+					'nonce'        => isset( $_REQUEST['_mynonce'] ) ? esc_attr( wp_unslash( $_REQUEST['_mynonce'] ) ) : null,
+					'redirect_url' => isset( $_REQUEST['redirect_url'] ) ? esc_attr( wp_unslash( $_REQUEST['redirect_url'] ) ) : wp_get_referer(),
+				);
+				// phpcs:enable WordPress.Security.ValidatedSanitizedInput.InputNotSanitized, WordPress.Security.NonceVerification.Recommended
+				Accredible_Learndash_Admin_Action_Handler::$action( $data );
+			} else {
+				wp_die( 'An action type mismatch has been detected.' );
+			}
 		}
 	}
 endif;
