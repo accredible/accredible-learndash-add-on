@@ -213,7 +213,7 @@ if ( ! class_exists( 'Accredible_Learndash_Admin_Table_Helper' ) ) :
 						$actions .= sprintf(
 							'<a href="%s" class="button accredible-button-outline-natural accredible-button-small">' . $value['label'] . '</a>',
 							wp_nonce_url(
-								admin_url( 'admin.php?page=' . $page . '&action=' . $value['action'] . '&page_num=' . self::$current_page . '&id=' . $id),
+								admin_url( 'admin.php?page=' . $page . '&action=' . $value['action'] . '&page_num=' . self::$current_page . '&id=' . $id ),
 								$value['action'] . $id,
 								'_mynonce'
 							)
