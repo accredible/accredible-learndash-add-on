@@ -94,14 +94,15 @@ class Accredible_Learndash_Model_Auto_Issuance_Test extends Accredible_Learndash
 	 * Test if it returns paginated results.
 	 */
 	public function test_get_paginated_results() {
-		$page = Accredible_Learndash_Model_Auto_Issuance::get_paginated_results( 1, null );
+		$page      = Accredible_Learndash_Model_Auto_Issuance::get_paginated_results( 1, null );
+		$page_meta = $page['meta'];
 		$this->assertCount( 0, $page['results'] );
-		$this->assertEquals( 1, $page['current_page'] );
-		$this->assertEquals( null, $page['next_page'] );
-		$this->assertEquals( null, $page['prev_page'] );
-		$this->assertEquals( 0, $page['total_pages'] );
-		$this->assertEquals( 0, $page['total_count'] );
-		$this->assertEquals( 50, $page['page_size'] );
+		$this->assertEquals( 1, $page_meta['current_page'] );
+		$this->assertEquals( null, $page_meta['next_page'] );
+		$this->assertEquals( null, $page_meta['prev_page'] );
+		$this->assertEquals( 0, $page_meta['total_pages'] );
+		$this->assertEquals( 0, $page_meta['total_count'] );
+		$this->assertEquals( 50, $page_meta['page_size'] );
 
 		global $wpdb;
 		$data1 = array(
@@ -126,53 +127,58 @@ class Accredible_Learndash_Model_Auto_Issuance_Test extends Accredible_Learndash
 		$wpdb->insert( $wpdb->prefix . 'accredible_learndash_auto_issuances', $data2 );
 		$wpdb->insert( $wpdb->prefix . 'accredible_learndash_auto_issuances', $data3 );
 
-		$page = Accredible_Learndash_Model_Auto_Issuance::get_paginated_results( 1, null );
+		$page      = Accredible_Learndash_Model_Auto_Issuance::get_paginated_results( 1, null );
+		$page_meta = $page['meta'];
 		$this->assertCount( 3, $page['results'] );
-		$this->assertEquals( 1, $page['current_page'] );
-		$this->assertEquals( null, $page['next_page'] );
-		$this->assertEquals( null, $page['prev_page'] );
-		$this->assertEquals( 1, $page['total_pages'] );
-		$this->assertEquals( 3, $page['total_count'] );
-		$this->assertEquals( 50, $page['page_size'] );
+		$this->assertEquals( 1, $page_meta['current_page'] );
+		$this->assertEquals( null, $page_meta['next_page'] );
+		$this->assertEquals( null, $page_meta['prev_page'] );
+		$this->assertEquals( 1, $page_meta['total_pages'] );
+		$this->assertEquals( 3, $page_meta['total_count'] );
+		$this->assertEquals( 50, $page_meta['page_size'] );
 
 		// With $page_size.
 		$page_size = 1;
 		$page      = Accredible_Learndash_Model_Auto_Issuance::get_paginated_results( 1, $page_size );
+		$page_meta = $page['meta'];
 		$this->assertCount( 1, $page['results'] );
-		$this->assertEquals( 1, $page['current_page'] );
-		$this->assertEquals( 2, $page['next_page'] );
-		$this->assertEquals( null, $page['prev_page'] );
-		$this->assertEquals( 3, $page['total_pages'] );
-		$this->assertEquals( 3, $page['total_count'] );
-		$this->assertEquals( 1, $page['page_size'] );
+		$this->assertEquals( 1, $page_meta['current_page'] );
+		$this->assertEquals( 2, $page_meta['next_page'] );
+		$this->assertEquals( null, $page_meta['prev_page'] );
+		$this->assertEquals( 3, $page_meta['total_pages'] );
+		$this->assertEquals( 3, $page_meta['total_count'] );
+		$this->assertEquals( 1, $page_meta['page_size'] );
 
-		$page = Accredible_Learndash_Model_Auto_Issuance::get_paginated_results( 2, $page_size );
+		$page      = Accredible_Learndash_Model_Auto_Issuance::get_paginated_results( 2, $page_size );
+		$page_meta = $page['meta'];
 		$this->assertCount( 1, $page['results'] );
-		$this->assertEquals( 2, $page['current_page'] );
-		$this->assertEquals( 3, $page['next_page'] );
-		$this->assertEquals( 1, $page['prev_page'] );
-		$this->assertEquals( 3, $page['total_pages'] );
-		$this->assertEquals( 3, $page['total_count'] );
-		$this->assertEquals( 1, $page['page_size'] );
+		$this->assertEquals( 2, $page_meta['current_page'] );
+		$this->assertEquals( 3, $page_meta['next_page'] );
+		$this->assertEquals( 1, $page_meta['prev_page'] );
+		$this->assertEquals( 3, $page_meta['total_pages'] );
+		$this->assertEquals( 3, $page_meta['total_count'] );
+		$this->assertEquals( 1, $page_meta['page_size'] );
 
-		$page = Accredible_Learndash_Model_Auto_Issuance::get_paginated_results( 3, $page_size );
+		$page      = Accredible_Learndash_Model_Auto_Issuance::get_paginated_results( 3, $page_size );
+		$page_meta = $page['meta'];
 		$this->assertCount( 1, $page['results'] );
-		$this->assertEquals( 3, $page['current_page'] );
-		$this->assertEquals( null, $page['next_page'] );
-		$this->assertEquals( 2, $page['prev_page'] );
-		$this->assertEquals( 3, $page['total_pages'] );
-		$this->assertEquals( 3, $page['total_count'] );
-		$this->assertEquals( 1, $page['page_size'] );
+		$this->assertEquals( 3, $page_meta['current_page'] );
+		$this->assertEquals( null, $page_meta['next_page'] );
+		$this->assertEquals( 2, $page_meta['prev_page'] );
+		$this->assertEquals( 3, $page_meta['total_pages'] );
+		$this->assertEquals( 3, $page_meta['total_count'] );
+		$this->assertEquals( 1, $page_meta['page_size'] );
 
 		// With $where_sql.
-		$page = Accredible_Learndash_Model_Auto_Issuance::get_paginated_results( 1, null, "post_id = 1 AND kind = 'course_completed'" );
+		$page      = Accredible_Learndash_Model_Auto_Issuance::get_paginated_results( 1, null, "post_id = 1 AND kind = 'course_completed'" );
+		$page_meta = $page['meta'];
 		$this->assertCount( 1, $page['results'] );
-		$this->assertEquals( 1, $page['current_page'] );
-		$this->assertEquals( null, $page['next_page'] );
-		$this->assertEquals( null, $page['prev_page'] );
-		$this->assertEquals( 1, $page['total_pages'] );
-		$this->assertEquals( 1, $page['total_count'] );
-		$this->assertEquals( 50, $page['page_size'] );
+		$this->assertEquals( 1, $page_meta['current_page'] );
+		$this->assertEquals( null, $page_meta['next_page'] );
+		$this->assertEquals( null, $page_meta['prev_page'] );
+		$this->assertEquals( 1, $page_meta['total_pages'] );
+		$this->assertEquals( 1, $page_meta['total_count'] );
+		$this->assertEquals( 50, $page_meta['page_size'] );
 	}
 
 	/**
