@@ -73,13 +73,15 @@ if ( ! class_exists( 'Accredible_Learndash_Model' ) ) :
 			$prev_page   = $current_page > 1 ? $current_page - 1 : null;
 
 			return array(
-				'results'      => $results,
-				'current_page' => $current_page,
-				'next_page'    => $next_page,
-				'prev_page'    => $prev_page,
-				'total_pages'  => $total_pages,
-				'total_count'  => $total_count,
-				'page_size'    => $page_size,
+				'results' => $results,
+				'meta'    => array(
+					'current_page' => $current_page,
+					'next_page'    => $next_page,
+					'prev_page'    => $prev_page,
+					'total_pages'  => $total_pages,
+					'total_count'  => $total_count,
+					'page_size'    => $page_size,
+				),
 			);
 		}
 
@@ -92,6 +94,16 @@ if ( ! class_exists( 'Accredible_Learndash_Model' ) ) :
 			$data['created_at'] = time();
 			global $wpdb;
 			return $wpdb->insert( static::table_name(), $data );
+		}
+
+		/**
+		 * Delete a record from the DB table.
+		 *
+		 * @param int $id ID.
+		 */
+		public static function delete( $id ) {
+			global $wpdb;
+			return $wpdb->delete( static::table_name(), array( 'id' => $id ), array( '%d' ) );
 		}
 
 		/**

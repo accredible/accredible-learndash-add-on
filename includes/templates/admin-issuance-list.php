@@ -38,6 +38,7 @@ foreach ( $accredible_learndash_page['results'] as $accredible_learndash_issuanc
 	array_push(
 		$accredible_learndash_issuances,
 		array(
+			'id'                  => $accredible_learndash_issuance->id,
 			'post_id'             => $accredible_learndash_issuance->post_id,
 			'accredible_group_id' => $accredible_learndash_issuance->accredible_group_id,
 			'kind'                => $accredible_learndash_issuance->kind,
@@ -54,22 +55,29 @@ foreach ( $accredible_learndash_page['results'] as $accredible_learndash_issuanc
 		<button class="button accredible-button-primary accredible-button-large"><?php esc_html_e( 'New Configuration' ); ?></button>
 	</div>
 	<div class="accredible-content">
-		<table class="accredible-table">
-			<thead>
-				<tr class="accredible-header-row">
-					<th></th>
-					<th>Course Name</th>
-					<th>Accredilbe Group</th>
-					<th>Issuance Trigger</th>
-					<th>Date Created</th>
-					<th></th>
-				</tr>
-			</thead>
-			<tbody>
-				<?php
-				echo $accredible_learndash_table_helper->build_table_rows( $accredible_learndash_issuances ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-				?>
-			</tbody>
-		</table>
+		<div class="accredible-table-wrapper">
+			<table class="accredible-table">
+				<thead>
+					<tr class="accredible-header-row">
+						<th></th>
+						<th>Course Name</th>
+						<th>Accredilbe Group</th>
+						<th>Issuance Trigger</th>
+						<th>Date Created</th>
+						<th></th>
+					</tr>
+				</thead>
+				<tbody>
+					<?php
+					echo $accredible_learndash_table_helper->build_table_rows( $accredible_learndash_issuances ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+					?>
+				</tbody>
+			</table>
+			<?php
+			if ( ! empty( $accredible_learndash_page ) && ! empty( $accredible_learndash_page['meta'] ) ) :
+				Accredible_Learndash_Admin_Table_Helper::build_pagination_tile( $accredible_learndash_page['meta'], 'auto issuances' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+			endif;
+			?>
+		</div>
 	</div>
 </div>

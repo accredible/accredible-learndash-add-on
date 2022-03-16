@@ -50,7 +50,7 @@ if ( ! class_exists( 'Accredible_Learndash_Admin_Table_Helper' ) ) :
 		 * @param array $row_actions Row actions (optional). Defined as array( 'action' => 'edit', 'label' => 'Edit' ).
 		 */
 		public function __construct( $current_page, $page_size = self::DEFAULT_PAGE_SIZE, $row_actions = array() ) {
-			self::$current_page = $current_page;
+			self::$current_page = empty( $current_page ) ? 1 : $current_page;
 			self::$page_size    = $page_size;
 			self::$row_actions  = $row_actions;
 		}
@@ -68,7 +68,7 @@ if ( ! class_exists( 'Accredible_Learndash_Admin_Table_Helper' ) ) :
 				$row_cells .= '<tr class="accredible-row">';
 				$row_cells .= self::table_cell( self::eval_row_num( $index + 1 ) );
 				$row_cells .= self::get_table_cells( $issuance );
-				$row_cells .= self::table_cell( self::eval_actions( $issuance['post_id'] ), 'accredible-cell-actions' );
+				$row_cells .= self::table_cell( self::eval_actions( $issuance['id'] ), 'accredible-cell-actions' );
 				$row_cells .= '</tr>';
 			}
 
@@ -104,10 +104,12 @@ if ( ! class_exists( 'Accredible_Learndash_Admin_Table_Helper' ) ) :
 						$value = self::eval_date_time( $value );
 						break;
 					default:
-						$value;
+						$value = null;
 				}
 
-				$table_cells .= '<td>' . $value . '</td>';
+				if ( null !== $value ) {
+					$table_cells .= '<td>' . $value . '</td>';
+				}
 			}
 
 			return $table_cells;
@@ -220,6 +222,81 @@ if ( ! class_exists( 'Accredible_Learndash_Admin_Table_Helper' ) ) :
 				}
 			}
 			return $actions;
+		}
+
+		/**
+		 * Build pagination tile.
+		 *
+		 * @param mixed  $page_meta pagination meta.
+		 * @param string $page_name page name used in the tile.
+		 *
+		 * @return void
+		 */
+		public static function build_pagination_tile( $page_meta, $page_name ) {
+			$viewing_from_to = array(
+				'start' => self::eval_row_num( 1 ),
+				'end'   => intval( $page_meta['current_page'] ) === intval( $page_meta['total_pages'] ) ? $page_meta['total_count'] : $page_meta['current_page'] * $page_meta['page_size'],
+			);
+			?>
+			<div class="accredible-pagination-tile">
+				<div>
+					<?php
+					echo esc_html(
+						sprintf(
+							'Viewing %1s - %2s of %3s %4s',
+							$viewing_from_to['start'],
+							$viewing_from_to['end'],
+							$page_meta['total_count'],
+							$page_name
+						)
+					);
+					?>
+				</div>
+
+				<div class="accredible-pagination-actions">
+					<div>
+						<?php
+						echo esc_html(
+							sprintf(
+								'Page %1s of %2s',
+								$page_meta['current_page'],
+								$page_meta['total_pages']
+							)
+						);
+						?>
+					</div>
+
+					<a	<?php disabled( null, $page_meta['prev_page'] ); ?>
+						href="<?php echo esc_attr( self::get_pagination_href( $page_meta['prev_page'] ) ); ?>"
+						class="button accredible-button-outline-natural accredible-button-small"
+						aria-label="Go to next page">
+						<img src="<?php echo esc_url( ACCREDIBLE_LEARNDASH_PLUGIN_URL . 'assets/images/chevron-left.svg' ); ?>">
+					</a>
+					<a	<?php disabled( null, $page_meta['next_page'] ); ?>
+						href="<?php echo esc_attr( self::get_pagination_href( $page_meta['next_page'] ) ); ?>"
+						class="button accredible-button-outline-natural accredible-button-small" 
+						aria-label="Go to previous page">
+						<img src="<?php echo esc_url( ACCREDIBLE_LEARNDASH_PLUGIN_URL . 'assets/images/chevron-right.svg' ); ?>">
+					</a>
+				</div>
+			</div>
+			<?php
+		}
+
+		/**
+		 * Resolves href attribute for pagination.
+		 *
+		 * @param string $page_num page num used passed to href.
+		 *
+		 * @return string
+		 */
+		private static function get_pagination_href( $page_num ) {
+			$href = 'javascript:void(0);';
+			if ( ! is_null( $page_num ) ) {
+				$href = 'admin.php?page=accredible_learndash_issuance_list&page_num=' . $page_num;
+			}
+
+			return $href;
 		}
 	}
 endif;
