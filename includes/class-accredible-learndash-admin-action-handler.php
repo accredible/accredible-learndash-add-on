@@ -15,7 +15,7 @@ if ( ! class_exists( 'Accredible_Learndash_Admin_Action_Handler' ) ) :
 	 */
 	class Accredible_Learndash_Admin_Action_Handler {
 		/**
-		 * Register plugin options to WP options
+		 * Delete an auto issuance.
 		 *
 		 * @param string $data Data for the action.
 		 */
