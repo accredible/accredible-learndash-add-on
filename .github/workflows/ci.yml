@@ -20,5 +20,10 @@ jobs:
       - name: Setup
         run: |
           docker ps
-          docker exec -it accredible-learndash-add-on_db_1 mysql -u root -p
-          grant ALL PRIVILEGES ON *.* TO 'wordpress';
+          docker exec accredible-learndash-add-on_db_1 mysql -u root -p <<< grant ALL PRIVILEGES ON *.* TO 'wordpress';
+          docker exec -w /var/www/html/wp-content/plugins/accredible-learndash-add-on accredible-learndash-add-on_wordpress_1 bash bin/init-wp-dev.sh
+          docker exec -w /var/www/html/wp-content/plugins/accredible-learndash-add-on accredible-learndash-add-on_wordpress_1 composer install
+
+      - name: Run Unit Tests
+        run: |
+          docker exec -w /var/www/html/wp-content/plugins/accredible-learndash-add-on accredible-learndash-add-on_wordpress_1 vendor/bin/phpunit
