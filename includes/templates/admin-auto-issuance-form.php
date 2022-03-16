@@ -74,6 +74,11 @@ if ( ! is_null( $accredible_learndash_issuance_id ) ) {
 							</option>
 						<?php endforeach; ?>
 					</select>
+					<?php if ( empty( $accredible_learndash_groups ) ): ?>
+						<span class="accredible-form-field-error">
+							<?php esc_html_e( 'No groups available.' ); ?>
+						</span>
+					<?php endif; ?>
 				</div>
 
 				<?php submit_button( 'Save', 'accredible-button-primary accredible-button-large', 'submit', false ); ?>
