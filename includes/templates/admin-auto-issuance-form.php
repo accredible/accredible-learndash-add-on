@@ -16,7 +16,10 @@ $accredible_learndash_issuance_current_page = isset( $_GET['page_num'] ) ? esc_a
 $accredible_learndash_issuance_id           = isset( $_GET['id'] ) ? esc_attr( wp_unslash( $_GET['id'] ) ) : null; // phpcs:disable WordPress.Security.ValidatedSanitizedInput.InputNotSanitized, WordPress.Security.NonceVerification.Recommended
 
 $accredible_learndash_form_action = 'action=add_auto_issuance';
-$accredible_learndash_issuance    = array();
+$accredible_learndash_issuance    = array(
+	'post_id'             => null,
+	'accredible_group_id' => null,
+);
 if ( ! is_null( $accredible_learndash_issuance_id ) ) {
 	$accredible_learndash_form_action = '&action=edit_auto_issuance&id=' . $accredible_learndash_issuance_id;
 	// $accredible_learndash_issuance = Accredible_Learndash_Model_Auto_Issuance::get_results(); // TODO - get issuance by issuance id.
@@ -56,7 +59,7 @@ if ( ! is_null( $accredible_learndash_issuance_id ) ) {
 							</option>
 						<?php endforeach; ?>
 					</select>
-					<?php if ( empty( $accredible_learndash_courses ) ): ?>
+					<?php if ( empty( $accredible_learndash_courses ) ) : ?>
 						<span class="accredible-form-field-error">
 							<?php esc_html_e( 'No courses available. Add courses in LearnDash to continue.' ); ?>
 						</span>
@@ -74,7 +77,7 @@ if ( ! is_null( $accredible_learndash_issuance_id ) ) {
 							</option>
 						<?php endforeach; ?>
 					</select>
-					<?php if ( empty( $accredible_learndash_groups ) ): ?>
+					<?php if ( empty( $accredible_learndash_groups ) ) : ?>
 						<span class="accredible-form-field-error">
 							<?php esc_html_e( 'No groups available.' ); ?>
 						</span>
