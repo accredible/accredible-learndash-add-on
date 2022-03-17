@@ -9,26 +9,39 @@ jobs:
   unit_tests:
     name: "Setup"
     runs-on: ubuntu-latest
+    services:
+      mariadb:
+        image: mariadb:10.5
+        env:
+          MYSQL_ROOT_PASSWORD: wordpress
+          MYSQL_DATABASE: wordpress
+          MYSQL_USER: wordpress
+          MYSQL_PASSWORD: wordpress
+          MYSQL_TCP_PORT: 3303
+        ports:
+          - 3303:3306
+        options: --health-cmd="mysqladmin ping" --health-interval 10s --health-timeout 5s --health-retries 3
+
+    strategy:
+      matrix:
+        php: ['7.3', '7.4']
 
     steps:
       - name: Checkout repo
         uses: actions/checkout@v2
 
-      - name: Docker Compose
-        run: docker-compose up -d
+      - name: Setup PHP ${{ matrix.php }}
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+          ini-values: max_input_vars=5000
+          coverage: none
 
-      - name: Setup
+      - name: Initialise WP
         run: |
-          sleep 10
-          docker ps
-          docker exec accredible-learndash-add-on_db_1 mysql -u"root" -p"${{ secrets.DB_PASSWORD }}" -e "grant ALL PRIVILEGES ON *.* TO 'wordpress';"
-          docker exec -w /var/www/html/wp-content/plugins/accredible-learndash-add-on accredible-learndash-add-on_wordpress_1 bash bin/init-wp-dev.sh
-          docker exec -w /var/www/html/wp-content/plugins/accredible-learndash-add-on accredible-learndash-add-on_wordpress_1 composer install
+          bash ./bin/init-wp-dev.sh
 
-      - name: Run Linter
-        run: |
-          docker exec -w /var/www/html/wp-content/plugins/accredible-learndash-add-on accredible-learndash-add-on_wordpress_1 vendor/bin/phpcs
+      # echo ".composer/vendor/bin" >> $GITHUB_PATH
+      # bash bin/install-wp-tests.sh wordpress_test root '' localhost $WP_VERSION
+      # composer global require "phpunit/phpunit=4.8.*|5.7.*"
 
-      - name: Run Unit Tests
-        run: |
-          docker exec -w /var/www/html/wp-content/plugins/accredible-learndash-add-on accredible-learndash-add-on_wordpress_1 vendor/bin/phpunit
