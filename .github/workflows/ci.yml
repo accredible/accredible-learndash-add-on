@@ -10,8 +10,8 @@ jobs:
     name: "Setup"
     runs-on: ubuntu-latest
     services:
-      mariadb:
-        image: mariadb:10.5
+      mysql:
+        image: mysql:5.7
         env:
           MYSQL_ROOT_PASSWORD: wordpress
           MYSQL_DATABASE: wordpress
@@ -40,7 +40,7 @@ jobs:
       - name: Initialise WP
         run: |
           echo ".composer/vendor/bin" >> $GITHUB_PATH
-          bash bin/install-wp-tests.sh wordpress wordpress wordpress mariadb 5.9
+          bash bin/install-wp-tests.sh wordpress wordpress wordpress localhost 5.9
           composer global require "phpunit/phpunit=4.8.*|5.7.*"
           composer global require wp-coding-standards/wpcs
           composer global require phpcompatibility/php-compatibility
