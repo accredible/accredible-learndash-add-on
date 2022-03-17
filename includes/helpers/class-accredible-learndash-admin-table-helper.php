@@ -18,7 +18,7 @@ if ( ! class_exists( 'Accredible_Learndash_Admin_Table_Helper' ) ) :
 		const ISSUANCE_GROUP_ID     = 'accredible_group_id';
 		const ISSUANCE_KIND         = 'kind';
 		const ISSUANCE_DATE_CREATED = 'created_at';
-		const ISSUANCE_LOG_STATUS = 'status';
+		const ISSUANCE_LOG_STATUS   = 'status';
 
 		const DEFAULT_PAGE_SIZE = 50;
 

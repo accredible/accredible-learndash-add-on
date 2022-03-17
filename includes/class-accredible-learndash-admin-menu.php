@@ -41,20 +41,20 @@ if ( ! class_exists( 'Accredible_Learndash_Admin_Menu' ) ) :
 
 			add_submenu_page(
 				'accredible_learndash',
-				'Issuance Logs',
-				'Issuance Logs',
-				'administrator',
-				'accredible_learndash_issuance_log',
-				array( 'Accredible_Learndash_Admin_Menu', 'admin_issuance_logs_page' )
-			);
-
-			add_submenu_page(
-				'accredible_learndash',
 				'Configure Auto Issuance',
 				'Auto Issuance',
 				'administrator',
 				'accredible_learndash_auto_issuance',
 				array( 'Accredible_Learndash_Admin_Menu', 'auto_issuance_form_page' )
+			);
+
+			add_submenu_page(
+				'accredible_learndash',
+				'Issuance Logs',
+				'Issuance Logs',
+				'administrator',
+				'accredible_learndash_issuance_log',
+				array( 'Accredible_Learndash_Admin_Menu', 'admin_issuance_logs_page' )
 			);
 
 			add_submenu_page(
