@@ -117,7 +117,7 @@ if ( ! class_exists( 'Accredible_Learndash_Admin_Table_Helper' ) ) :
 						// later: Consider storing `group_name` in the AutoIssaunce table for the faster page load time.
 						$client   = new Accredible_Learndash_Api_V1_Client();
 						$response = $client->get_group( $value );
-						$value    = ! isset( $response['errors'] ) ? $response['group']['name'] : self::eval_error( $response['errors'] );
+						$value    = ! isset( $response['errors'] ) ? $response['group']['name'] : self::eval_error( 'Not found', $response['errors'] );
 						break;
 					case self::KIND:
 						$value = self::eval_kind( $value );
@@ -194,12 +194,25 @@ if ( ! class_exists( 'Accredible_Learndash_Admin_Table_Helper' ) ) :
 		/**
 		 * Returns cell error.
 		 *
-		 * @param string $error_message enum value.
+		 * @param string $error_message error.
+		 * @param string $tooltip_message tooltip message.
 		 *
 		 * @return string
 		 */
-		private static function eval_error( $error_message ) {
-			return '<span class="cell-value-error">' . $error_message . '</span>';
+		private static function eval_error( $error_message, $tooltip_message = '' ) {
+			$error  = '';
+			$error .= '<span class="cell-value-error">';
+			$error .= $error_message;
+			if ( ! empty( $tooltip_message ) ) {
+				$error .= sprintf(
+					'<img src="%1s" title="%2s">',
+					ACCREDIBLE_LEARNDASH_PLUGIN_URL . 'assets/images/warning.svg',
+					$tooltip_message
+				);
+			}
+			$error .= '</span>';
+
+			return $error;
 		}
 
 		/**
@@ -210,20 +223,13 @@ if ( ! class_exists( 'Accredible_Learndash_Admin_Table_Helper' ) ) :
 		 * @return string
 		 */
 		private static function eval_status( $value ) {
-			$class = 'cell-value-success';
-			$label = 'Success';
+			$status = '<span class="cell-value-success">Success</span>';
 
 			if ( ! empty( $value ) ) {
-				$class = 'cell-value-error';
-				$label = 'Error';
+				$status = self::eval_error( 'Error', $value );
 			}
 
-			return sprintf(
-				'<div class="%1s" %2s>%3s</div>',
-				$class,
-				empty( $value ) ? '' : 'title="'. $value .'"',
-				$label
-			);
+			return $status;
 		}
 
 		/**
