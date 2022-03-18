@@ -306,6 +306,21 @@ table.accredible-table {
     height: inherit;
 }
 
+.accredible-row .cell-value-success {
+    color: var(--accredible-color-success-100);
+}
+
+.accredible-row .cell-value-error {
+   display: flex;
+   align-items: center;
+}
+
+.accredible-row .cell-value-error img {
+    width: 14px;
+    height: 14px;
+    margin-left: var(--accredible-spacing-3x);
+}
+
 .wp-core-ui .accredible-cell-actions .button {
     margin: 0 var(--accredible-spacing-base);
 }
