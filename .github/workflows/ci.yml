@@ -1,6 +1,7 @@
 name: "PHP Unit Tests"
 
 on:
+  push:
   workflow_dispatch:
   pull_request:
     branches: ['develop', 'master']
@@ -42,6 +43,9 @@ jobs:
         run: |
           bash bin/install-wp-tests.sh wordpress wordpress wordpress 127.0.0.1:${{ job.services.mysql.ports[3306] }} ${{ matrix.wordpress }} true
 
-      - name: Run phpunit
+      - name: Run PHP CodeSniffer
+        run: vendor/bin/phpcs
+
+      - name: Run PHP Unit Tests
         run: vendor/bin/phpunit
 
