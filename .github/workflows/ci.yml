@@ -1,9 +1,9 @@
 name: "PHP Unit Tests"
 
 on:
-  push:
-  # workflow_dispatch:
-  # pull_request:
+  workflow_dispatch:
+  pull_request:
+    branches: ['develop', 'master']
 
 jobs:
   unit_tests:
@@ -23,20 +23,13 @@ jobs:
     strategy:
       matrix:
         php: ['7.3', '7.4']
-        wordpress: ['5.8', '5.9']
+        wordpress: ['5.9']
 
     name: WP version ${{ matrix.wordpress }} on PHP ${{ matrix.php }}
 
     steps:
       - name: Checkout repo
         uses: actions/checkout@v2
-
-      # - name: Setup PHP ${{ matrix.php }}
-      #   uses: shivammathur/setup-php@v2
-      #   with:
-      #     php-version: ${{ matrix.php }}
-      #     ini-values: max_input_vars=5000
-      #     coverage: none
 
       - name: Build Composer
         uses: php-actions/composer@v6
@@ -48,13 +41,6 @@ jobs:
           DB_PORT: ${{ job.services.mysql.ports[3306] }}
         run: |
           bash bin/install-wp-tests.sh wordpress wordpress wordpress 127.0.0.1:${{ job.services.mysql.ports[3306] }} ${{ matrix.wordpress }} true
-
-      # - name: PHPUnit tests
-      #   env:
-      #     DB_PORT: ${{ job.services.mysql.ports[3306] }}
-      #   uses: php-actions/phpunit@v3
-      #   with:
-      #     php_version: ${{ matrix.php }}
 
       - name: Run phpunit
         run: vendor/bin/phpunit
