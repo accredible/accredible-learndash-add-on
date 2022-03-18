@@ -14,11 +14,12 @@ if ( ! class_exists( 'Accredible_Learndash_Admin_Table_Helper' ) ) :
 	 * Accredible LearnDash Add-on admin table helper class
 	 */
 	class Accredible_Learndash_Admin_Table_Helper {
-		const ISSUANCE_POST_ID      = 'post_id';
-		const ISSUANCE_GROUP_ID     = 'accredible_group_id';
-		const ISSUANCE_KIND         = 'kind';
-		const ISSUANCE_DATE_CREATED = 'created_at';
-		const ISSUANCE_LOG_STATUS   = 'status';
+		const POST_ID        = 'post_id';
+		const GROUP_ID       = 'accredible_group_id';
+		const KIND           = 'kind';
+		const DATE_CREATED   = 'created_at';
+		const STATUS         = 'status';
+		const CREDENTIAL_URL = 'credential_url';
 
 		const DEFAULT_PAGE_SIZE = 50;
 
@@ -44,33 +45,47 @@ if ( ! class_exists( 'Accredible_Learndash_Admin_Table_Helper' ) ) :
 		private static $row_actions;
 
 		/**
+		 * Table columns.
+		 *
+		 * @var array $table_columns. Defined as string/mixed array - array('id', array('key'=>'error_msg', 'alias'=>'status'))
+		 */
+		private static $table_columns;
+
+		/**
 		 * Public constructor for class.
 		 *
+		 * @param array $table_columns Table columns.
 		 * @param int   $current_page Current page.
 		 * @param int   $page_size Page size (optional).
 		 * @param array $row_actions Row actions (optional). Defined as array( 'action' => 'edit', 'label' => 'Edit' ).
 		 */
-		public function __construct( $current_page, $page_size = self::DEFAULT_PAGE_SIZE, $row_actions = array() ) {
-			self::$current_page = empty( $current_page ) ? 1 : $current_page;
-			self::$page_size    = $page_size;
-			self::$row_actions  = $row_actions;
+		public function __construct( $table_columns, $current_page, $page_size = self::DEFAULT_PAGE_SIZE, $row_actions = array() ) {
+			self::$table_columns = $table_columns;
+			self::$current_page  = empty( $current_page ) ? 1 : $current_page;
+			self::$page_size     = $page_size;
+			self::$row_actions   = $row_actions;
 		}
 
 		/**
 		 * Build table rows.
 		 *
-		 * @param mixed $issuances issuances data.
+		 * @param object $table_data table data.
 		 *
 		 * @return string
 		 */
-		public function build_table_rows( $issuances ) {
+		public function build_table_rows( $table_data ) {
 			$row_cells = '';
-			foreach ( $issuances as $index => $issuance ) {
+			$index     = 0;
+			foreach ( $table_data as $row_data ) {
 				$row_cells .= '<tr class="accredible-row">';
 				$row_cells .= self::table_cell( self::eval_row_num( $index + 1 ) );
-				$row_cells .= self::get_table_cells( $issuance );
-				$row_cells .= self::table_cell( self::eval_actions( $issuance['id'] ), 'accredible-cell-actions' );
+				$row_cells .= self::get_table_cells( $row_data );
+				if ( ! empty( self::$row_actions ) && isset( $row_data->id ) ) {
+					$row_cells .= self::table_cell( self::eval_actions( $row_data->id ), 'accredible-cell-actions' );
+				}
 				$row_cells .= '</tr>';
+
+				$index ++;
 			}
 
 			return $row_cells;
@@ -78,45 +93,49 @@ if ( ! class_exists( 'Accredible_Learndash_Admin_Table_Helper' ) ) :
 
 		/**
 		 *
-		 * Returns a table cell.
+		 * Returns formatted table cells.
 		 *
-		 * @param array $issuance index used for table numbering.
+		 * @param object $row_data table row data.
 		 *
 		 * @return string
 		 */
-		private static function get_table_cells( $issuance ) {
+		private static function get_table_cells( $row_data ) {
 			$table_cells = '';
-			foreach ( $issuance as $key => $value ) {
+			foreach ( self::$table_columns as $key ) {
+				$data_key = $key;
+				if ( is_array( $key ) ) {
+					$data_key = $key['key'];
+					$key      = $key['alias'];
+				}
+				$value = $row_data->$data_key;
 				switch ( $key ) {
-					case self::ISSUANCE_POST_ID:
+					case self::POST_ID:
 						$course_name = get_the_title( $value );
 						$value       = ! empty( $course_name ) ? $course_name : self::eval_error( 'Not found' );
 						break;
-					case self::ISSUANCE_GROUP_ID:
+					case self::GROUP_ID:
 						// later: Consider storing `group_name` in the AutoIssaunce table for the faster page load time.
 						$client   = new Accredible_Learndash_Api_V1_Client();
 						$response = $client->get_group( $value );
 						$value    = ! isset( $response['errors'] ) ? $response['group']['name'] : self::eval_error( $response['errors'] );
 						break;
-					case self::ISSUANCE_KIND:
+					case self::KIND:
 						$value = self::eval_kind( $value );
 						break;
-					case self::ISSUANCE_DATE_CREATED:
+					case self::DATE_CREATED:
 						$value = self::eval_date_time( $value );
 						break;
-					case self::ISSUANCE_LOG_STATUS:
-						if ( empty($value) ) {
-							$value = 'Success';
-						} else {
-							$value = 'Error';
-						}
+					case self::STATUS:
+						$value = self::eval_status( $value );
+						break;
+					case self::CREDENTIAL_URL:
+						$value = self::eval_view_url( $value, 'View Credential' );
+						break;
 					default:
-						$value = $value;
+						$value;
 				}
 
-				if ( null !== $value ) {
-					$table_cells .= '<td>' . $value . '</td>';
-				}
+				$table_cells .= '<td>' . $value . '</td>';
 			}
 
 			return $table_cells;
@@ -184,6 +203,30 @@ if ( ! class_exists( 'Accredible_Learndash_Admin_Table_Helper' ) ) :
 		}
 
 		/**
+		 * Returns cell status.
+		 *
+		 * @param string $value enum value.
+		 *
+		 * @return string
+		 */
+		private static function eval_status( $value ) {
+			$class = 'cell-value-success';
+			$label = 'Success';
+
+			if ( ! empty( $value ) ) {
+				$class = 'cell-value-error';
+				$label = 'Error';
+			}
+
+			return sprintf(
+				'<div class="%1s" %2s>%3s</div>',
+				$class,
+				empty( $value ) ? '' : 'title="'. $value .'"',
+				$label
+			);
+		}
+
+		/**
 		 * Returns row number.
 		 *
 		 * @param int $index item index.
@@ -192,6 +235,25 @@ if ( ! class_exists( 'Accredible_Learndash_Admin_Table_Helper' ) ) :
 		 */
 		private static function eval_row_num( $index ) {
 			return ( self::$current_page - 1 ) * self::$page_size + $index;
+		}
+
+		/**
+		 * Returns a formatted view url.
+		 *
+		 * @param string $url url.
+		 * @param string $label url name.
+		 *
+		 * @return string
+		 */
+		private static function eval_view_url( $url, $label ) {
+			$href = ! is_null( $url ) ? $url : 'javascript:void(0);';
+
+			return sprintf(
+				'<a href="%1s" %2s class="button accredible-button-outline-natural accredible-button-small">%3s</a>',
+				$href,
+				is_null( $url ) ? 'disabled="disabled"' : '',
+				$label
+			);
 		}
 
 		/**
