@@ -95,7 +95,7 @@ if ( ! class_exists( 'Accredible_Learndash_Admin_Menu' ) ) :
 		 * Render admin auto issuance logs page
 		 */
 		public static function admin_issuance_logs_page() {
-			include plugin_dir_path( __FILE__ ) . '/templates/admin-auto-issuance-logs-index.php';
+			include plugin_dir_path( __FILE__ ) . '/templates/admin-auto-issuance-logs.php';
 		}
 
 		/**
