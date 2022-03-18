@@ -23,7 +23,7 @@ jobs:
     strategy:
       matrix:
         php: ['7.3', '7.4']
-        wordpress: ['5.9']
+        wordpress: ['5.8', '5.9']
 
     name: WP version ${{ matrix.wordpress }} on PHP ${{ matrix.php }}
 
