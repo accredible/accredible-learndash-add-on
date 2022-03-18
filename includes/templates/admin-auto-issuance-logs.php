@@ -12,14 +12,17 @@ require_once plugin_dir_path( __DIR__ ) . '/models/class-accredible-learndash-mo
 
 $accredible_learndash_current_page  = isset( $_GET['page_num'] ) ? esc_attr( wp_unslash( $_GET['page_num'] ) ) : 1; // phpcs:disable WordPress.Security.ValidatedSanitizedInput.InputNotSanitized, WordPress.Security.NonceVerification.Recommended
 $accredible_learndash_page_size     = 20;
-$accredible_learndash_table_columns = array( 
+$accredible_learndash_table_columns = array(
 	'accredible_learndash_auto_issuance_id',
 	'created_at',
 	'accredible_group_name',
 	'recipient_name',
 	'recipient_email',
-	array( 'key' => 'error_message', 'alias' => 'status' ),
-	'credential_url'
+	array(
+		'key'   => 'error_message',
+		'alias' => 'status',
+	),
+	'credential_url',
 );
 
 $accredible_learndash_table_helper = new Accredible_Learndash_Admin_Table_Helper(
