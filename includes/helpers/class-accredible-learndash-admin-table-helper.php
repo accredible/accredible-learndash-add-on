@@ -256,7 +256,7 @@ if ( ! class_exists( 'Accredible_Learndash_Admin_Table_Helper' ) ) :
 			$target   = '';
 			$disabled = 'disabled="disabled"';
 
-			if ( ! is_null( $url ) ) {
+			if ( ! is_null( $url ) && ! empty( $url ) ) {
 				$href     = $url;
 				$target   = 'target="_blank"';
 				$disabled = '';
