@@ -7,7 +7,6 @@ on:
 
 jobs:
   unit_tests:
-    name: "Setup"
     runs-on: ubuntu-latest
     services:
       mysql:
@@ -17,41 +16,46 @@ jobs:
           MYSQL_DATABASE: wordpress
           MYSQL_USER: wordpress
           MYSQL_PASSWORD: wordpress
-          MYSQL_TCP_PORT: 3303
         ports:
-          - 3306:3306
+          - 3306
         options: --health-cmd="mysqladmin ping" --health-interval 10s --health-timeout 5s --health-retries 3
 
     strategy:
       matrix:
         php: ['7.3', '7.4']
+        wordpress: ['5.9']
+
+    name: WP version ${{ matrix.wordpress }} on PHP ${{ matrix.php }}
 
     steps:
       - name: Checkout repo
         uses: actions/checkout@v2
 
-      - name: Setup PHP ${{ matrix.php }}
-        uses: shivammathur/setup-php@v2
+      # - name: Setup PHP ${{ matrix.php }}
+      #   uses: shivammathur/setup-php@v2
+      #   with:
+      #     php-version: ${{ matrix.php }}
+      #     ini-values: max_input_vars=5000
+      #     coverage: none
+
+      - name: Build Composer
+        uses: php-actions/composer@v6
         with:
-          php-version: ${{ matrix.php }}
-          ini-values: max_input_vars=5000
-          coverage: none
+          php_version: ${{ matrix.php }}
 
       - name: Initialise WP
         env:
           DB_PORT: ${{ job.services.mysql.ports[3306] }}
         run: |
-          sleep 10
-          echo ".composer/vendor/bin" >> $GITHUB_PATH
-          bash bin/install-wp-tests.sh wordpress wordpress wordpress 127.0.0.1:${{ job.services.mysql.ports['3306'] }} 5.7
-          composer global require "phpunit/phpunit=4.8.*|5.7.*"
-          composer global require wp-coding-standards/wpcs
-          composer global require phpcompatibility/php-compatibility
-          composer global require phpcompatibility/phpcompatibility-paragonie
-          composer global require phpcompatibility/phpcompatibility-wp
+          bash bin/install-wp-tests.sh wordpress wordpress wordpress 127.0.0.1:${{ job.services.mysql.ports[3306] }} ${{ matrix.wordpress }} true
 
-      - name: PHPUnit tests
-        env:
-          DB_PORT: ${{ job.services.mysql.ports[3306] }}
-        uses: php-actions/phpunit@v3
+      # - name: PHPUnit tests
+      #   env:
+      #     DB_PORT: ${{ job.services.mysql.ports[3306] }}
+      #   uses: php-actions/phpunit@v3
+      #   with:
+      #     php_version: ${{ matrix.php }}
+
+      - name: Run phpunit
+        run: vendor/bin/phpunit
 
