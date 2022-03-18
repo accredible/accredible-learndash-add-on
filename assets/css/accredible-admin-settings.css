@@ -306,6 +306,14 @@ table.accredible-table {
     height: inherit;
 }
 
+.accredible-row .cell-value-success {
+    color: var(--accredible-color-success-100);
+}
+
+.accredible-row .cell-value-error[title] {
+    cursor: pointer;
+}
+
 .wp-core-ui .accredible-cell-actions .button {
     margin: 0 var(--accredible-spacing-base);
 }
