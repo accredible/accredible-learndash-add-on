@@ -37,9 +37,6 @@ jobs:
           ini-values: max_input_vars=5000
           coverage: none
 
-      - name: Install dependencies
-        uses: php-actions/composer@v6
-
       - name: Initialise WP
         run: |
           sleep 10
