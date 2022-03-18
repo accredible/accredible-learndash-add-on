@@ -255,7 +255,7 @@ if ( ! class_exists( 'Accredible_Learndash_Admin_Table_Helper' ) ) :
 			$href = ! is_null( $url ) ? $url : 'javascript:void(0);';
 
 			return sprintf(
-				'<a href="%1s" %2s class="button accredible-button-outline-natural accredible-button-small">%3s</a>',
+				'<a href="%1s" %2s class="button accredible-button-outline-natural accredible-button-small" target="_blank">%3s</a>',
 				$href,
 				is_null( $url ) ? 'disabled="disabled"' : '',
 				$label
