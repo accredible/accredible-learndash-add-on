@@ -8,30 +8,29 @@
 defined( 'ABSPATH' ) || die;
 
 require_once plugin_dir_path( __DIR__ ) . '/helpers/class-accredible-learndash-admin-table-helper.php';
-require_once plugin_dir_path( __DIR__ ) . '/models/class-accredible-learndash-model-auto-issuance.php';
+require_once plugin_dir_path( __DIR__ ) . '/models/class-accredible-learndash-model-auto-issuance-log.php';
 
 $accredible_learndash_current_page  = isset( $_GET['page_num'] ) ? esc_attr( wp_unslash( $_GET['page_num'] ) ) : 1; // phpcs:disable WordPress.Security.ValidatedSanitizedInput.InputNotSanitized, WordPress.Security.NonceVerification.Recommended
 $accredible_learndash_page_size     = 20;
-$accredible_learndash_table_columns = array( 'post_id', 'accredible_group_id', 'kind', 'created_at' );
-$accredible_learndash_row_actions   = array(
+$accredible_learndash_table_columns = array(
+	'recipient_name',
+	'recipient_email',
+	'accredible_group_name',
+	'created_at',
 	array(
-		'action' => 'edit_auto_issuance',
-		'label'  => 'Edit',
+		'key'   => 'error_message',
+		'alias' => 'status',
 	),
-	array(
-		'action' => 'delete_auto_issuance',
-		'label'  => 'Delete',
-	),
+	'credential_url',
 );
 
 $accredible_learndash_table_helper = new Accredible_Learndash_Admin_Table_Helper(
 	$accredible_learndash_table_columns,
 	$accredible_learndash_current_page,
-	$accredible_learndash_page_size,
-	$accredible_learndash_row_actions
+	$accredible_learndash_page_size
 );
 
-$accredible_learndash_page = Accredible_Learndash_Model_Auto_Issuance::get_paginated_results(
+$accredible_learndash_page = Accredible_Learndash_Model_Auto_Issuance_Log::get_paginated_results(
 	$accredible_learndash_current_page,
 	$accredible_learndash_page_size
 );
@@ -39,12 +38,7 @@ $accredible_learndash_page = Accredible_Learndash_Model_Auto_Issuance::get_pagin
 
 <div class="accredible-wrapper">
 	<div class="accredible-header-tile">
-		<h1 class="title"><?php esc_html_e( 'Issuance List' ); ?></h1>
-
-		<a	href="admin.php?page=accredible_learndash_auto_issuance"
-			class="button accredible-button-primary accredible-button-large">
-			<?php esc_html_e( 'New Configuration' ); ?>
-		</a>
+		<h1 class="title"><?php esc_html_e( 'Issuance Logs' ); ?></h1>
 	</div>
 	<div class="accredible-content">
 		<div class="accredible-table-wrapper">
@@ -52,10 +46,11 @@ $accredible_learndash_page = Accredible_Learndash_Model_Auto_Issuance::get_pagin
 				<thead>
 					<tr class="accredible-header-row">
 						<th></th>
-						<th>Course Name</th>
-						<th>Accredilbe Group</th>
-						<th>Issuance Trigger</th>
-						<th>Date Created</th>
+						<th>Recipient Name</th>
+						<th>Recipient Email</th>
+						<th>Accredible Group</th>
+						<th>Date Issued</th>
+						<th>Status</th>
 						<th></th>
 					</tr>
 				</thead>

@@ -50,6 +50,15 @@ if ( ! class_exists( 'Accredible_Learndash_Admin_Menu' ) ) :
 
 			add_submenu_page(
 				'accredible_learndash',
+				'Issuance Logs',
+				'Issuance Logs',
+				'administrator',
+				'accredible_learndash_issuance_log',
+				array( 'Accredible_Learndash_Admin_Menu', 'admin_issuance_logs_page' )
+			);
+
+			add_submenu_page(
+				'accredible_learndash',
 				'Settings',
 				'Settings',
 				'administrator',
@@ -80,6 +89,13 @@ if ( ! class_exists( 'Accredible_Learndash_Admin_Menu' ) ) :
 		 */
 		public static function admin_issuance_list_page() {
 			include plugin_dir_path( __FILE__ ) . '/templates/admin-issuance-list.php';
+		}
+
+		/**
+		 * Render admin auto issuance logs page
+		 */
+		public static function admin_issuance_logs_page() {
+			include plugin_dir_path( __FILE__ ) . '/templates/admin-auto-issuance-logs.php';
 		}
 
 		/**
