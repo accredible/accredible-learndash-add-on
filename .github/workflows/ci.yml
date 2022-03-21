@@ -41,10 +41,19 @@ jobs:
         env:
           DB_PORT: ${{ job.services.mysql.ports[3306] }}
         run: |
+          git clone -b master https://github.com/WordPress/WordPress-Coding-Standards.git vendor/wp-coding-standards/wpcs
+          composer global require wp-coding-standards/wpcs
+          composer global require phpcompatibility/phpcompatibility-paragonie
+          composer global require phpcompatibility/phpcompatibility-wp
+          sudo vendor/bin/phpcs --config-set installed_paths vendor/wp-coding-standards/wpcs,vendor/phpcompatibility/php-compatibility,vendor/phpcompatibility/phpcompatibility-paragonie,vendor/phpcompatibility/phpcompatibility-wp
+          vendor/bin/phpcs -i
           bash bin/install-wp-tests.sh wordpress wordpress wordpress 127.0.0.1:${{ job.services.mysql.ports[3306] }} ${{ matrix.wordpress }} true
 
       - name: Run PHP CodeSniffer
-        run: vendor/bin/phpcs
+        run: |
+          vendor/bin/phpcs --version
+          vendor/bin/phpcs -i
+          vendor/bin/phpcs -v
 
       - name: Run PHP Unit Tests
         run: vendor/bin/phpunit
