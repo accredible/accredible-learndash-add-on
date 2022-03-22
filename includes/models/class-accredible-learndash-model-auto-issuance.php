@@ -30,7 +30,9 @@ if ( ! class_exists( 'Accredible_Learndash_Model_Auto_Issuance' ) ) :
 			$groups   = array();
 			$response = array();
 
+			// phpcs:ignore WordPress.Security.NonceVerification.Recommended
 			if ( isset( $_REQUEST['search_term'] ) && ! empty( $_REQUEST['search_term'] ) ) {
+				// phpcs:ignore WordPress.Security.NonceVerification.Recommended
 				$search_term = sanitize_text_field( wp_unslash( $_REQUEST['search_term'] ) );
 				$api_client  = new Accredible_Learndash_Api_V1_Client();
 				$response    = $api_client->get_groups( $search_term );
