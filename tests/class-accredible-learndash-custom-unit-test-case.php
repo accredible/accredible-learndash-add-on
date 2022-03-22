@@ -15,8 +15,8 @@ if ( ! class_exists( 'Accredible_Learndash_Custom_Unit_Test_Case' ) ) :
 		/**
 		 * Add custom logic to setUp.
 		 */
-		public function setUp(): void { // phpcs:disable PHPCompatibility.FunctionDeclarations.NewReturnTypeDeclarations.voidFound
-			parent::setUp();
+		public function set_up() {
+			parent::set_up();
 			// XXX Stop transforming all `CREATE TABLE` to `CREATE TEMPORARY TABLE`.
 			remove_filter( 'query', array( $this, '_create_temporary_tables' ) );
 			Accredible_Learndash_Admin_Database::setup();
@@ -28,8 +28,8 @@ if ( ! class_exists( 'Accredible_Learndash_Custom_Unit_Test_Case' ) ) :
 		/**
 		 * Add custom logic to tearDown.
 		 */
-		public function tearDown(): void { // phpcs:disable PHPCompatibility.FunctionDeclarations.NewReturnTypeDeclarations.voidFound
-			parent::tearDown();
+		public function tear_down() {
+			parent::tear_down();
 			Accredible_Learndash_Admin_Database::drop_all();
 		}
 	}
