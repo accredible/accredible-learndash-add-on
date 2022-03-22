@@ -23,9 +23,9 @@ if ( ! class_exists( 'Accredible_Learndash_Admin_Action_Handler' ) ) :
 			self::verify_nonce( $data['nonce'], 'add_auto_issuance' );
 
 			$auto_issuance = array(
-				'post_id'             => $data['post_id'],
-				'accredible_group_id' => $data['accredible_group_id'],
-				'kind'                => 'course_completed',
+				'post_id'             => $data['accredible_learndash_object']['course'],
+				'accredible_group_id' => $data['accredible_learndash_object']['group'],
+				'kind'                => $data['accredible_learndash_object']['kind'],
 			);
 
 			$result = Accredible_Learndash_Model_Auto_Issuance::insert( $auto_issuance );

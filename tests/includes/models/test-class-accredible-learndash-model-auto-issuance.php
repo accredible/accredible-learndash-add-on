@@ -265,4 +265,13 @@ class Accredible_Learndash_Model_Auto_Issuance_Test extends Accredible_Learndash
 
 		$this->assertEquals( $expected_result, $result );
 	}
+
+	/**
+	 * Test if it return empty array when no courses available.
+	 */
+	public function test_get_course_options_when_not_found() {
+		$result = Accredible_Learndash_Model_Auto_Issuance::get_course_options();
+
+		$this->assertEquals( array(), $result );
+	}
 }

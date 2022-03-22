@@ -114,11 +114,10 @@ if ( ! class_exists( 'Accredible_Learndash_Admin_Menu' ) ) :
 			if ( in_array( $action, $class_methods, true ) ) {
 				// phpcs:disable WordPress.Security.ValidatedSanitizedInput.InputNotSanitized, WordPress.Security.NonceVerification.Recommended
 				$data = array(
-					'id'                  => isset( $_REQUEST['id'] ) ? esc_attr( wp_unslash( $_REQUEST['id'] ) ) : null,
-					'nonce'               => isset( $_REQUEST['_mynonce'] ) ? esc_attr( wp_unslash( $_REQUEST['_mynonce'] ) ) : null,
-					'redirect_url'        => isset( $_REQUEST['redirect_url'] ) ? esc_attr( wp_unslash( $_REQUEST['redirect_url'] ) ) : wp_get_referer(),
-					'post_id'             => isset( $_REQUEST['accredible_learndash_course'] ) ? esc_attr( wp_unslash( $_REQUEST['accredible_learndash_course'] ) ) : null,
-					'accredible_group_id' => isset( $_REQUEST['accredible_learndash_group'] ) ? esc_attr( wp_unslash( $_REQUEST['accredible_learndash_group'] ) ) : null,
+					'id'                          => isset( $_REQUEST['id'] ) ? esc_attr( wp_unslash( $_REQUEST['id'] ) ) : null,
+					'nonce'                       => isset( $_REQUEST['_mynonce'] ) ? esc_attr( wp_unslash( $_REQUEST['_mynonce'] ) ) : null,
+					'redirect_url'                => isset( $_REQUEST['redirect_url'] ) ? esc_attr( wp_unslash( $_REQUEST['redirect_url'] ) ) : wp_get_referer(),
+					'accredible_learndash_object' => isset( $_REQUEST['accredible_learndash_object'] ) ? wp_unslash( $_REQUEST['accredible_learndash_object'] ) : array(),
 				);
 				// phpcs:enable WordPress.Security.ValidatedSanitizedInput.InputNotSanitized, WordPress.Security.NonceVerification.Recommended
 				Accredible_Learndash_Admin_Action_Handler::$action( $data );
