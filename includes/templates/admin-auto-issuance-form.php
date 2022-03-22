@@ -22,10 +22,9 @@ $accredible_learndash_issuance    = array(
 	'accredible_group_id' => null,
 );
 if ( ! is_null( $accredible_learndash_issuance_id ) ) {
-	$accredible_learndash_form_action = 'edit_auto_issuance&id=' . $accredible_learndash_issuance_id;
-	/** TODO NTGR-519: get issuance by issuance id.
-	$accredible_learndash_issuance = Accredible_Learndash_Model_Auto_Issuance::get_results();
-	*/
+	$accredible_learndash_form_action = 'edit_auto_issuance';
+
+	$accredible_learndash_issuance = Accredible_Learndash_Model_Auto_Issuance::get_results( "id = $accredible_learndash_issuance_id" )[0];
 }
 ?>
 
@@ -54,7 +53,8 @@ if ( ! is_null( $accredible_learndash_issuance_id ) ) {
 				<?php if ( 'add_auto_issuance' === $accredible_learndash_form_action ) { ?>
 					<?php wp_nonce_field( $accredible_learndash_form_action, '_mynonce' ); ?>
 				<?php } else { ?>
-					<?php wp_nonce_field( $accredible_learndash_form_action . $accredible_learndash_issuance['id'], '_mynonce' ); ?>
+					<?php wp_nonce_field( $accredible_learndash_form_action . $accredible_learndash_issuance->id, '_mynonce' ); ?>
+					<input type="hidden" name="id" value="<?php echo esc_attr( $accredible_learndash_issuance_id ); ?>">
 				<?php } ?>
 
 				<div class="accredible-form-field">
@@ -71,10 +71,10 @@ if ( ! is_null( $accredible_learndash_issuance_id ) ) {
 				<div class="accredible-form-field">
 					<label for="accredible_learndash_course"><?php esc_html_e( 'Select a course' ); ?></label>
 
-					<select id="accredible_learndash_course" name="accredible_learndash_object[course]" required>
+					<select id="accredible_learndash_course" name="accredible_learndash_object[post_id]" required>
 						<option disabled selected value></option>
 						<?php foreach ( $accredible_learndash_courses as $accredible_learndash_key => $accredible_learndash_value ) : ?>
-							<option <?php selected( $accredible_learndash_key, $accredible_learndash_issuance['post_id'] ); ?> value="<?php echo esc_attr( $accredible_learndash_key ); ?>">
+							<option <?php selected( $accredible_learndash_key, $accredible_learndash_issuance->post_id ); ?> value="<?php echo esc_attr( $accredible_learndash_key ); ?>">
 								<?php echo esc_html( $accredible_learndash_value ); ?>
 							</option>
 						<?php endforeach; ?>
@@ -89,10 +89,10 @@ if ( ! is_null( $accredible_learndash_issuance_id ) ) {
 				<div class="accredible-form-field">
 					<label for="accredible_learndash_group"><?php esc_html_e( 'Select the credential group' ); ?></label>
 
-					<select id="accredible_learndash_group" name="accredible_learndash_object[group]" required <?php disabled( empty( $accredible_learndash_groups ) ); ?>>
+					<select id="accredible_learndash_group" name="accredible_learndash_object[accredible_group_id]" required <?php disabled( empty( $accredible_learndash_groups ) ); ?>>
 						<option disabled selected value></option>	
 						<?php foreach ( $accredible_learndash_groups as $accredible_learndash_key => $accredible_learndash_value ) : ?>
-							<option <?php selected( $accredible_learndash_key, $accredible_learndash_issuance['accredible_group_id'] ); ?> value="<?php echo esc_attr( $accredible_learndash_key ); ?>">
+							<option <?php selected( $accredible_learndash_key, $accredible_learndash_issuance->accredible_group_id ); ?> value="<?php echo esc_attr( $accredible_learndash_key ); ?>">
 								<?php echo esc_html( $accredible_learndash_value ); ?>
 							</option>
 						<?php endforeach; ?>
@@ -104,6 +104,19 @@ if ( ! is_null( $accredible_learndash_issuance_id ) ) {
 					<?php endif; ?>
 				</div>
 
+<<<<<<< HEAD
+=======
+				<div class="accredible-form-field">
+					<label><?php esc_html_e( 'Issuance Trigger' ); ?></label>
+					<div class="accredible-radio-group">
+						<div class="radio-group-item">
+							<input type='radio' name='accredible_learndash_object[kind]' value='course_completed' id='issuance_trigger' checked readonly>
+							<label class="radio-label" for='issuance_trigger'>Course Completion</label>
+						</div>
+					</div>
+				</div>
+
+>>>>>>> 9bd9e9e (add method to update auto issuances)
 				<?php submit_button( 'Save', 'accredible-button-primary accredible-button-large', 'submit', false ); ?>
 			</form>
 		</div>

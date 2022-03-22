@@ -211,6 +211,38 @@ class Accredible_Learndash_Model_Auto_Issuance_Test extends Accredible_Learndash
 	}
 
 	/**
+	 * Test if it updates a record.
+	 */
+	public function test_update() {
+		global $wpdb;
+		$table_name = $wpdb->prefix . 'accredible_learndash_auto_issuances';
+
+		$initial_data = array(
+			'post_id'             => 1,
+			'accredible_group_id' => 1,
+			'kind'                => 'example_kind',
+			'created_at'          => time(),
+		);
+		$new_data     = array(
+			'post_id'             => 2,
+			'accredible_group_id' => 4,
+			'kind'                => 'course_completed',
+		);
+		$wpdb->insert( $table_name, $initial_data );
+		$record_id = $wpdb->insert_id;
+
+		Accredible_Learndash_Model_Auto_Issuance::update( $record_id, $new_data );
+
+		$result = $wpdb->get_results(
+			$wpdb->prepare( 'SELECT * FROM %1s;', $table_name )
+		)[0];
+
+		$this->assertEquals( $new_data['post_id'], $result->post_id );
+		$this->assertEquals( $new_data['accredible_group_id'], $result->accredible_group_id );
+		$this->assertEquals( $new_data['kind'], $result->kind );
+	}
+
+	/**
 	 * Test if it deletes a record.
 	 */
 	public function test_delete() {

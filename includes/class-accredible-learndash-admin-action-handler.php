@@ -22,15 +22,26 @@ if ( ! class_exists( 'Accredible_Learndash_Admin_Action_Handler' ) ) :
 		public static function add_auto_issuance( $data ) {
 			self::verify_nonce( $data['nonce'], 'add_auto_issuance' );
 
-			$auto_issuance = array(
-				'post_id'             => $data['accredible_learndash_object']['course'],
-				'accredible_group_id' => $data['accredible_learndash_object']['group'],
-				'kind'                => $data['accredible_learndash_object']['kind'],
-			);
-
-			$result = Accredible_Learndash_Model_Auto_Issuance::insert( $auto_issuance );
+			$result = Accredible_Learndash_Model_Auto_Issuance::insert( $data['accredible_learndash_object'] );
 			if ( false === $result ) {
 				wp_die( 'Failed to create.' );
+			} else {
+				$redirect_url = admin_url( 'admin.php?page=accredible_learndash_issuance_list' );
+				self::redirect_to( $redirect_url );
+			}
+		}
+
+		/**
+		 * Edit an auto issuance.
+		 *
+		 * @param string $data Data for the action.
+		 */
+		public static function edit_auto_issuance( $data ) {
+			self::verify_nonce( $data['nonce'], 'edit_auto_issuance' . $data['id'] );
+
+			$result = Accredible_Learndash_Model_Auto_Issuance::update( $data['id'], $data['accredible_learndash_object'] );
+			if ( false === $result ) {
+				wp_die( 'Failed to update.' );
 			} else {
 				$redirect_url = admin_url( 'admin.php?page=accredible_learndash_issuance_list' );
 				self::redirect_to( $redirect_url );
