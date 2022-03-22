@@ -38,4 +38,20 @@ class Accredible_Learndash_Admin_Menu_Test extends WP_UnitTestCase {
 
 		$this->assertSame( 'accredible_learndash_admin_action', $submenu[''][0][2] );
 	}
+
+	/**
+	 * Test if it adds the plugin custom links.
+	 */
+	public function test_add_action_links() {
+		$links  = array( "<a href='https://example.com'>Link 1</a>" );
+		$result = Accredible_Learndash_Admin_Menu::add_action_links( $links );
+
+		$this->assertSame(
+			array(
+				"<a href='https://example.com'>Link 1</a>",
+				'<a href="' . admin_url( 'admin.php?page=accredible_learndash_settings' ) . '">Settings</a>',
+			),
+			$result
+		);
+	}
 }
