@@ -48,6 +48,7 @@ jobs:
         uses: php-actions/composer@v6
         with:
           php_version: ${{ matrix.php }}
+          command: update
 
       - name: Initialise WP
         env:
