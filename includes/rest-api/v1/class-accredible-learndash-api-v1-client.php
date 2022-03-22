@@ -48,7 +48,7 @@ if ( ! class_exists( 'Accredible_Learndash_Api_V1_Client' ) ) :
 		 * @param int $page number of the page to request.
 		 * @param int $page_size number of items per page.
 		 */
-		public function get_groups( $page, $page_size ) {
+		public function get_groups( $page = 1, $page_size = 300 ) {
 			$body = array(
 				'page'      => $page,
 				'page_size' => $page_size,

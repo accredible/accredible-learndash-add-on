@@ -54,23 +54,13 @@ if ( ! class_exists( 'Accredible_Learndash_Model_Auto_Issuance' ) ) :
 		 * @return array
 		 */
 		public static function get_group_options() {
-			$page       = 1;
-			$page_size  = 300;
 			$groups     = array();
 			$api_client = new Accredible_Learndash_Api_V1_Client();
+			$response   = $api_client->get_groups();
 
-			$next_page = true;
-
-			while ( $next_page ) {
-				$response = $api_client->get_groups( $page, $page_size );
-				foreach ( $response['groups'] as $group ) {
-					$groups[ $group['id'] ] = $group['name'];
-				}
-
-				$page++;
-
-				if ( ! isset( $response['meta']['next_page'] ) ) {
-					$next_page = false;
+			if ( ! isset( $response['errors'] ) ) {
+				foreach ( $response['groups'] as $value ) {
+					$groups[ $value['id'] ] = $value['name'];
 				}
 			}
 
