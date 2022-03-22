@@ -89,50 +89,8 @@ if ( ! is_null( $accredible_learndash_issuance_id ) ) {
 					<?php endif; ?>
 				</div>
 
-				<div class="accredible-form-field">
-					<div class="ui-widget">
-						<input type='text' name='search' id='search'/>
-					</div>
-				</div>
-
 				<?php submit_button( 'Save', 'accredible-button-primary accredible-button-large', 'submit', false ); ?>
 			</form>
 		</div>
 	</div>
 </div>
-<script type="text/javascript">
-	var availableTags = [
-      "Angular",
-      "AppleScript",
-      "Asp",
-      "BASIC",
-      "C",
-      "C++",
-      "Clojure",
-      "COBOL",
-      "ColdFusion",
-      "Erlang",
-      "Fortran",
-      "Groovy",
-      "Haskell",
-      "Java",
-      "JavaScript",
-      "Lisp",
-      "Perl",
-      "PHP",
-      "Python",
-      "Ruby",
-      "Scala",
-      "Scheme",
-	  "TypeScript"
-    ];
-	jQuery( function(){
-		jQuery('#search').autocomplete({
-			minLength: 0,
-			source: availableTags,
-			classes: {
-				"ui-autocomplete": "accredible-autocomplete"
-			}
-		});
-	});
-</script>
