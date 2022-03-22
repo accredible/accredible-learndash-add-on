@@ -236,4 +236,33 @@ class Accredible_Learndash_Model_Auto_Issuance_Test extends Accredible_Learndash
 		);
 		$this->assertCount( 0, $results );
 	}
+
+	/**
+	 * Test if it get the course options.
+	 */
+	public function test_get_course_options() {
+		$data1 = array(
+			'post_title' => 'Test Course Title 1',
+			'post_type'  => 'sfwd-courses',
+		);
+		$data2 = array(
+			'post_title' => 'Test Course Title 2',
+			'post_type'  => 'sfwd-courses',
+		);
+		$data3 = array(
+			'post_title' => 'Default post',
+		);
+		$id1   = self::factory()->post->create( $data1 );
+		$id2   = self::factory()->post->create( $data2 );
+		self::factory()->post->create( $data3 );
+
+		$expected_result = array(
+			$id1 => $data1['post_title'],
+			$id2 => $data2['post_title'],
+		);
+
+		$result = Accredible_Learndash_Model_Auto_Issuance::get_course_options();
+
+		$this->assertEquals( $expected_result, $result );
+	}
 }

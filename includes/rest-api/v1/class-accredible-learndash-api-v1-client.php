@@ -44,9 +44,25 @@ if ( ! class_exists( 'Accredible_Learndash_Api_V1_Client' ) ) :
 
 		/**
 		 * Get groups.
+		 *
+		 * @param int $page number of the page to request.
+		 * @param int $page_size number of items per page.
 		 */
-		public function get_groups() {
-			return $this->request->get( '/issuer/groups/search' );
+		public function get_groups( $page, $page_size ) {
+			$body = array(
+				'page'      => $page,
+				'page_size' => $page_size,
+			);
+			return $this->request->post( '/issuer/groups/search', $body );
+		}
+
+		/**
+		 * Fetch a group.
+		 *
+		 * @param int $group_id Accredible Group ID.
+		 */
+		public function get_group( $group_id ) {
+			return $this->request->get( '/issuer/groups/' . $group_id );
 		}
 
 		/**
@@ -75,15 +91,6 @@ if ( ! class_exists( 'Accredible_Learndash_Api_V1_Client' ) ) :
 				$body['credential']['custom_attributes'] = $custom_attributes;
 			}
 			return $this->request->post( '/credentials', $body );
-		}
-
-		/**
-		 * Fetch a group.
-		 *
-		 * @param int $group_id Accredible Group ID.
-		 */
-		public function get_group( $group_id ) {
-			return $this->request->get( '/issuer/groups/' . $group_id );
 		}
 	}
 endif;
