@@ -10,7 +10,6 @@ defined( 'ABSPATH' ) || die;
 require_once plugin_dir_path( __DIR__ ) . '/class-accredible-learndash-admin-auto-issuance.php';
 
 $accredible_learndash_courses = Accredible_Learndash_Admin_Auto_Issuance::get_course_options();
-$accredible_learndash_groups  = Accredible_Learndash_Admin_Auto_Issuance::get_group_options();
 
 $accredible_learndash_issuance_current_page = isset( $_GET['page_num'] ) ? esc_attr( wp_unslash( $_GET['page_num'] ) ) : 1; // phpcs:disable WordPress.Security.ValidatedSanitizedInput.InputNotSanitized, WordPress.Security.NonceVerification.Recommended
 $accredible_learndash_issuance_id           = isset( $_GET['id'] ) ? esc_attr( wp_unslash( $_GET['id'] ) ) : null; // phpcs:disable WordPress.Security.ValidatedSanitizedInput.InputNotSanitized, WordPress.Security.NonceVerification.Recommended
@@ -74,19 +73,9 @@ if ( ! is_null( $accredible_learndash_issuance_id ) ) {
 				<div class="accredible-form-field">
 					<label for="accredible_learndash_group"><?php esc_html_e( 'Select the credential group' ); ?></label>
 
-					<select id="accredible_learndash_group" name="accredible_learndash_group" <?php disabled( empty( $accredible_learndash_groups ) ); ?>>
-						<option disabled selected value></option>	
-						<?php foreach ( $accredible_learndash_groups as $accredible_learndash_key => $accredible_learndash_value ) : ?>
-							<option <?php selected( $accredible_learndash_key, $accredible_learndash_issuance['accredible_group_id'] ); ?> value="<?php echo esc_attr( $accredible_learndash_key ); ?>">
-								<?php echo esc_html( $accredible_learndash_value ); ?>
-							</option>
-						<?php endforeach; ?>
-					</select>
-					<?php if ( empty( $accredible_learndash_groups ) ) : ?>
-						<span class="accredible-form-field-error">
-							<?php esc_html_e( 'No groups available.' ); ?>
-						</span>
-					<?php endif; ?>
+					<input type='text' id='accredible_learndash_group_autocomplete' required/>
+
+					<input type="hidden" id="accredible_learndash_group" name="accredible_learndash_group"/>
 				</div>
 
 				<?php submit_button( 'Save', 'accredible-button-primary accredible-button-large', 'submit', false ); ?>
