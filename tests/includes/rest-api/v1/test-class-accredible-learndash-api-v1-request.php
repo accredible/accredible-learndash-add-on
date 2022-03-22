@@ -17,8 +17,8 @@ class Accredible_Learndash_Api_V1_Request_Test extends Accredible_Learndash_Cust
 	/**
 	 * Add custom logic to setUp.
 	 */
-	public function setUp(): void { // phpcs:disable PHPCompatibility.FunctionDeclarations.NewReturnTypeDeclarations.voidFound
-		parent::setUp();
+	public function set_up() {
+		parent::set_up();
 		$this->base_url      = 'https://api.accredible.com/v1';
 		$this->api_key       = 'someapikey';
 		$this->post_data     = array(
