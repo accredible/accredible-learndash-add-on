@@ -14,7 +14,7 @@ if ( ! class_exists( 'Accredible_Learndash_Admin_Scripts' ) ) :
 	 */
 	class Accredible_Learndash_Admin_Scripts {
 		/**
-		 * Enqueues styles for front-end.
+		 * Enqueues styles and scripts for front-end.
 		 */
 		public static function load_resources() {
 			wp_enqueue_style(
@@ -30,6 +30,14 @@ if ( ! class_exists( 'Accredible_Learndash_Admin_Scripts' ) ) :
 				array(),
 				ACCREDIBLE_LEARNDASH_SCRIPT_VERSION_TOKEN
 			);
+
+			if ( ! wp_script_is( 'jquery' )  ) {
+				wp_enqueue_script( 'jquery' );
+			}
+
+			if ( ! wp_script_is( 'jquery-ui-autocomplete' ) ) {
+				wp_enqueue_script( 'jquery-ui-autocomplete' );
+			}
 		}
 
 		/**
