@@ -11,6 +11,7 @@ require_once plugin_dir_path( __FILE__ ) . '/class-accredible-learndash-admin-da
 require_once plugin_dir_path( __FILE__ ) . '/class-accredible-learndash-admin-menu.php';
 require_once plugin_dir_path( __FILE__ ) . '/class-accredible-learndash-admin-setting.php';
 require_once plugin_dir_path( __FILE__ ) . '/class-accredible-learndash-admin-scripts.php';
+require_once plugin_dir_path( __FILE__ ) . '/models/class-accredible-learndash-model-auto-issuance.php';
 
 if ( ! class_exists( 'Accredible_Learndash_Admin' ) ) :
 	/**
@@ -54,6 +55,7 @@ if ( ! class_exists( 'Accredible_Learndash_Admin' ) ) :
 			$this->add_menus();
 			$this->add_scripts();
 			$this->add_style_classes();
+			$this->add_groups_autocomplete();
 		}
 
 		/**
@@ -82,6 +84,13 @@ if ( ! class_exists( 'Accredible_Learndash_Admin' ) ) :
 		 */
 		private function add_style_classes() {
 			add_filter( 'admin_body_class', array( 'Accredible_Learndash_Admin_Scripts', 'add_admin_body_class' ) );
+		}
+		
+		/**
+		 * Add groups autcomplete action.
+		 */
+		public static function add_groups_autocomplete() {
+			add_action( 'wp_ajax_search_groups_ajax', array( 'Accredible_Learndash_Model_Auto_Issuance' , 'search_groups_ajax' ) );
 		}
 	}
 endif;
