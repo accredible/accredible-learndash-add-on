@@ -85,12 +85,12 @@ if ( ! class_exists( 'Accredible_Learndash_Admin' ) ) :
 		private function add_style_classes() {
 			add_filter( 'admin_body_class', array( 'Accredible_Learndash_Admin_Scripts', 'add_admin_body_class' ) );
 		}
-		
+
 		/**
 		 * Add groups autcomplete action.
 		 */
 		public static function add_groups_autocomplete() {
-			add_action( 'wp_ajax_search_groups_ajax', array( 'Accredible_Learndash_Model_Auto_Issuance' , 'search_groups_ajax' ) );
+			add_action( 'wp_ajax_search_groups_ajax', array( 'Accredible_Learndash_Model_Auto_Issuance', 'search_groups_ajax' ) );
 		}
 	}
 endif;

@@ -25,8 +25,6 @@ if ( ! class_exists( 'Accredible_Learndash_Model_Auto_Issuance' ) ) :
 
 		/**
 		 * Get group options. This method is only called via ajax.
-		 *
-		 * @return array
 		 */
 		public static function search_groups_ajax() {
 			$groups   = array();
@@ -42,7 +40,7 @@ if ( ! class_exists( 'Accredible_Learndash_Model_Auto_Issuance' ) ) :
 				foreach ( $response['groups'] as $value ) {
 					array_push(
 						$groups,
-						array( 
+						array(
 							'value' => $value['id'],
 							'label' => $value['name'],
 						)

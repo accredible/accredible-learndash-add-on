@@ -31,7 +31,7 @@ if ( ! class_exists( 'Accredible_Learndash_Admin_Scripts' ) ) :
 				ACCREDIBLE_LEARNDASH_SCRIPT_VERSION_TOKEN
 			);
 
-			if ( ! wp_script_is( 'jquery' )  ) {
+			if ( ! wp_script_is( 'jquery' ) ) {
 				wp_enqueue_script( 'jquery' );
 			}
 
@@ -43,7 +43,8 @@ if ( ! class_exists( 'Accredible_Learndash_Admin_Scripts' ) ) :
 				'accredible-learndash-groups-autocomplete',
 				ACCREDIBLE_LEARNDASH_PLUGIN_URL . 'assets/js/accredible-autocomplete.js',
 				array( 'jquery' ),
-				ACCREDIBLE_LEARNDASH_SCRIPT_VERSION_TOKEN
+				ACCREDIBLE_LEARNDASH_SCRIPT_VERSION_TOKEN,
+				true
 			);
 
 			wp_localize_script(
