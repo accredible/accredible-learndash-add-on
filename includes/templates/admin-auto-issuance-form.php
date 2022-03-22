@@ -57,8 +57,6 @@ if ( ! is_null( $accredible_learndash_issuance_id ) ) {
 					<?php wp_nonce_field( $accredible_learndash_form_action . $accredible_learndash_issuance['id'], '_mynonce' ); ?>
 				<?php } ?>
 
-				<input type="hidden" name="accredible_learndash_object[kind]" value="course_completed">
-
 				<div class="accredible-form-field">
 					<label for="accredible_learndash_course"><?php esc_html_e( 'Select a course' ); ?></label>
 
@@ -93,6 +91,16 @@ if ( ! is_null( $accredible_learndash_issuance_id ) ) {
 							<?php esc_html_e( 'No groups available.' ); ?>
 						</span>
 					<?php endif; ?>
+				</div>
+
+				<div class="accredible-form-field">
+					<label><?php esc_html_e( 'Issuance Trigger' ); ?></label>
+					<div class="accredible-radio-group">
+						<div class="radio-group-item">
+							<input type='radio' name='accredible_learndash_object[kind]' value='course_completed' id='issuance_trigger' checked disabled>
+							<label class="radio-label" for='issuance_trigger'>Course Completion</label>
+						</div>
+					</div>
 				</div>
 
 				<?php submit_button( 'Save', 'accredible-button-primary accredible-button-large', 'submit', false ); ?>
