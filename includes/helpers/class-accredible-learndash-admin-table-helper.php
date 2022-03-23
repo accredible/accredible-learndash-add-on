@@ -24,6 +24,13 @@ if ( ! class_exists( 'Accredible_Learndash_Admin_Table_Helper' ) ) :
 		const DEFAULT_PAGE_SIZE = 50;
 
 		/**
+		 * Caches group names for faster lookup.
+		 *
+		 * @var array $group_name_cache.
+		 */
+		private static $group_name_cache = array();
+
+		/**
 		 * Current results page.
 		 *
 		 * @var int $page.
@@ -114,10 +121,17 @@ if ( ! class_exists( 'Accredible_Learndash_Admin_Table_Helper' ) ) :
 						$value       = ! empty( $course_name ) ? $course_name : self::eval_error( 'Not found' );
 						break;
 					case self::GROUP_ID:
-						// later: Consider storing `group_name` in the AutoIssaunce table for the faster page load time.
-						$client   = new Accredible_Learndash_Api_V1_Client();
-						$response = $client->get_group( $value );
-						$value    = ! isset( $response['errors'] ) ? $response['group']['name'] : self::eval_error( 'Not found', $response['errors'] );
+						$key = $value;
+						if ( array_key_exists( $key, self::$group_name_cache ) ) {
+							$value = self::$group_name_cache[ strval( $key ) ];
+						} else {
+							// later: Consider storing `group_name` in the AutoIssaunce table for the faster page load time.
+							$client                                   = new Accredible_Learndash_Api_V1_Client();
+							$response                                 = $client->get_group( $value );
+							$value                                    = ! isset( $response['errors'] ) ? $response['group']['name'] : self::eval_error( 'Not found', $response['errors'] );
+							self::$group_name_cache[ strval( $key ) ] = $value;
+						}
+						$value;
 						break;
 					case self::KIND:
 						$value = self::eval_kind( $value );
