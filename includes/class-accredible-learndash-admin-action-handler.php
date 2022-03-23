@@ -15,6 +15,29 @@ if ( ! class_exists( 'Accredible_Learndash_Admin_Action_Handler' ) ) :
 	 */
 	class Accredible_Learndash_Admin_Action_Handler {
 		/**
+		 * Create an auto issuance.
+		 *
+		 * @param string $data Data for the action.
+		 */
+		public static function add_auto_issuance( $data ) {
+			self::verify_nonce( $data['nonce'], 'add_auto_issuance' );
+
+			$auto_issuance = array(
+				'post_id'             => $data['accredible_learndash_object']['course'],
+				'accredible_group_id' => $data['accredible_learndash_object']['group'],
+				'kind'                => $data['accredible_learndash_object']['kind'],
+			);
+
+			$result = Accredible_Learndash_Model_Auto_Issuance::insert( $auto_issuance );
+			if ( false === $result ) {
+				wp_die( 'Failed to create.' );
+			} else {
+				$redirect_url = admin_url( 'admin.php?page=accredible_learndash_issuance_list' );
+				self::redirect_to( $redirect_url );
+			}
+		}
+
+		/**
 		 * Delete an auto issuance.
 		 *
 		 * @param string $data Data for the action.

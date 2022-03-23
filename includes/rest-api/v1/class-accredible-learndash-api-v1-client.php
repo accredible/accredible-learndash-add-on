@@ -46,8 +46,6 @@ if ( ! class_exists( 'Accredible_Learndash_Api_V1_Client' ) ) :
 		 * Search groups.
 		 *
 		 * @param string $group_name group name used for search.
-		 *
-		 * @return array
 		 */
 		public function search_groups( $group_name ) {
 			$body = array(
@@ -55,6 +53,15 @@ if ( ! class_exists( 'Accredible_Learndash_Api_V1_Client' ) ) :
 				'page_size' => 10,
 			);
 			return $this->request->post( '/issuer/groups/search', $body );
+		}
+
+		/**
+		 * Fetch a group.
+		 *
+		 * @param int $group_id Accredible Group ID.
+		 */
+		public function get_group( $group_id ) {
+			return $this->request->get( '/issuer/groups/' . $group_id );
 		}
 
 		/**
@@ -83,15 +90,6 @@ if ( ! class_exists( 'Accredible_Learndash_Api_V1_Client' ) ) :
 				$body['credential']['custom_attributes'] = $custom_attributes;
 			}
 			return $this->request->post( '/credentials', $body );
-		}
-
-		/**
-		 * Fetch a group.
-		 *
-		 * @param int $group_id Accredible Group ID.
-		 */
-		public function get_group( $group_id ) {
-			return $this->request->get( '/issuer/groups/' . $group_id );
 		}
 	}
 endif;
