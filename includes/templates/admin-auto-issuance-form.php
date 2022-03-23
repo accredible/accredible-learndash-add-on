@@ -37,7 +37,7 @@ if ( ! is_null( $accredible_learndash_issuance_id ) ) {
 	// Fetch saved group by id to fill autocomplete.
 	if ( ! is_null( $accredible_learndash_issuance ) && ! empty( $accredible_learndash_issuance->accredible_group_id ) ) {
 		$accredible_learndash_client    = new Accredible_Learndash_Api_V1_Client();
-		$accredible_learndash_group_res = $accredible_learndash_client->get_group( 323330 );
+		$accredible_learndash_group_res = $accredible_learndash_client->get_group( $accredible_learndash_issuance->accredible_group_id );
 		if ( ! isset( $accredible_learndash_group_res['errors'] ) ) {
 			$accredible_learndash_group = array(
 				'id'   => $accredible_learndash_group_res['group']['id'],
