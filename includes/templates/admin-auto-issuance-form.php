@@ -30,7 +30,7 @@ if ( ! is_null( $accredible_learndash_issuance_id ) ) {
 
 	if ( ! ( isset( $accredible_learndash_issuance_nonce ) && wp_verify_nonce( $accredible_learndash_issuance_nonce, $accredible_learndash_form_action . $accredible_learndash_issuance_id ) ) ) {
 		wp_die( 'Invalid nonce.' );
-	};
+	}
 
 	$accredible_learndash_issuance = Accredible_Learndash_Model_Auto_Issuance::get_results( "id = $accredible_learndash_issuance_id" )[0];
 
@@ -45,6 +45,7 @@ if ( ! is_null( $accredible_learndash_issuance_id ) ) {
 			);
 		}
 	}
+}
 ?>
 
 <div class="accredible-wrapper">
