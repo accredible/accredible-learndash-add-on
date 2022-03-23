@@ -240,6 +240,42 @@ class Accredible_Learndash_Model_Auto_Issuance_Log_Test extends Accredible_Learn
 	}
 
 	/**
+	 * Test if it updates a record.
+	 */
+	public function test_update() {
+		global $wpdb;
+		$table_name = $wpdb->prefix . 'accredible_learndash_auto_issuance_logs';
+
+		$initial_data = array(
+			'accredible_learndash_auto_issuance_id' => 1,
+			'user_id'                               => 1,
+			'accredible_group_id'                   => 1,
+			'accredible_group_name'                 => 'My Course 1',
+			'recipient_name'                        => 'Tom Test',
+			'recipient_email'                       => 'tom@example.com',
+			'credential_url'                        => 'https://www.credential.net/10000000',
+			'created_at'                            => time(),
+		);
+		$new_data     = array(
+			'accredible_learndash_auto_issuance_id' => 2,
+			'recipient_name'                        => 'Jerry Test',
+			'recipient_email'                       => 'jerry@example.com',
+		);
+		$wpdb->insert( $table_name, $initial_data );
+		$record_id = $wpdb->insert_id;
+
+		Accredible_Learndash_Model_Auto_Issuance_Log::update( $record_id, $new_data );
+
+		$result = $wpdb->get_row(
+			$wpdb->prepare( 'SELECT * FROM %1s WHERE id = %d;', $table_name, $record_id )
+		);
+
+		$this->assertEquals( $new_data['accredible_learndash_auto_issuance_id'], $result->accredible_learndash_auto_issuance_id );
+		$this->assertEquals( $new_data['recipient_name'], $result->recipient_name );
+		$this->assertEquals( $new_data['recipient_email'], $result->recipient_email );
+	}
+
+	/**
 	 * Test if it deletes a record.
 	 */
 	public function test_delete() {
