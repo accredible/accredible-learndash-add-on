@@ -39,21 +39,24 @@ if ( ! class_exists( 'Accredible_Learndash_Admin_Scripts' ) ) :
 				wp_enqueue_script( 'jquery-ui-autocomplete' );
 			}
 
-			wp_enqueue_script(
-				'accredible-learndash-groups-autocomplete',
-				ACCREDIBLE_LEARNDASH_PLUGIN_URL . 'assets/js/accredible-autocomplete.js',
-				array( 'jquery' ),
-				ACCREDIBLE_LEARNDASH_SCRIPT_VERSION_TOKEN,
-				true
-			);
+			// phpcs:ignore WordPress.Security.NonceVerification.Recommended
+			if ( isset( $_GET['page'] ) && 'accredible_learndash_auto_issuance' === $_GET['page'] ) {
+				wp_enqueue_script(
+					'accredible-learndash-groups-autocomplete',
+					ACCREDIBLE_LEARNDASH_PLUGIN_URL . 'assets/js/accredible-autocomplete.js',
+					array( 'jquery' ),
+					ACCREDIBLE_LEARNDASH_SCRIPT_VERSION_TOKEN,
+					true
+				);
 
-			wp_localize_script(
-				'accredible-learndash-groups-autocomplete',
-				'ajaxdata',
-				array(
-					'ajaxurl' => admin_url( 'admin-ajax.php' ),
-				)
-			);
+				wp_localize_script(
+					'accredible-learndash-groups-autocomplete',
+					'ajaxdata',
+					array(
+						'ajaxurl' => admin_url( 'admin-ajax.php' ),
+					)
+				);
+			}
 		}
 
 		/**
