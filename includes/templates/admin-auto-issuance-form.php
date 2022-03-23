@@ -15,7 +15,6 @@ $accredible_learndash_groups  = Accredible_Learndash_Model_Auto_Issuance::get_gr
 $accredible_learndash_issuance_current_page = isset( $_GET['page_num'] ) ? esc_attr( wp_unslash( $_GET['page_num'] ) ) : 1; // phpcs:disable WordPress.Security.ValidatedSanitizedInput.InputNotSanitized, WordPress.Security.NonceVerification.Recommended
 $accredible_learndash_issuance_id           = isset( $_GET['id'] ) ? esc_attr( wp_unslash( $_GET['id'] ) ) : null; // phpcs:disable WordPress.Security.ValidatedSanitizedInput.InputNotSanitized, WordPress.Security.NonceVerification.Recommended
 
-
 $accredible_learndash_form_action = 'add_auto_issuance';
 $accredible_learndash_issuance    = array(
 	'id'                  => null,
