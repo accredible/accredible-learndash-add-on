@@ -43,13 +43,13 @@ if ( ! class_exists( 'Accredible_Learndash_Api_V1_Client' ) ) :
 		}
 
 		/**
-		 * Get groups.
+		 * Search groups.
 		 *
 		 * @param string $group_name group name used for search.
 		 *
 		 * @return array
 		 */
-		public function get_groups( $group_name ) {
+		public function search_groups( $group_name ) {
 			$body = array(
 				'name'      => $group_name,
 				'page_size' => 10,

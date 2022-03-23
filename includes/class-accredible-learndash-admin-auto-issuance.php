@@ -45,7 +45,7 @@ if ( ! class_exists( 'Accredible_Learndash_Admin_Auto_Issuance' ) ) :
 		public static function get_group_options() {
 			$groups     = array();
 			$api_client = new Accredible_Learndash_Api_V1_Client();
-			$response   = $api_client->get_groups( '' );
+			$response   = $api_client->search_groups( '' );
 
 			if ( ! isset( $response['errors'] ) ) {
 				foreach ( $response['groups'] as $value ) {
