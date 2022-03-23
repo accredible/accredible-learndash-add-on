@@ -346,10 +346,10 @@ class Accredible_Learndash_Api_V1_Client_Test extends Accredible_Learndash_Custo
 	 * Test if it makes a POST request and return parsed body.
 	 */
 	public function test_search_groups() {
-		$this->response_body = file_get_contents( ACCREDILBE_LEARNDASH_API_FIXTURES_PATH . '/groups/search_success.json' );
+		$this->response_body = file_get_contents( ACCREDILBE_LEARNDASH_API_FIXTURES_PATH . '/groups/search_groups_success.json' );
 		$this->post_data     = array(
 			'name'      => 'test',
-            'page_size' => 10,
+			'page_size' => 10,
 		);
 
 		update_option( 'accredible_learndash_api_key', 'someapikey' );
