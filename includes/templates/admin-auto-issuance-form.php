@@ -7,10 +7,10 @@
 
 defined( 'ABSPATH' ) || die;
 
-require_once plugin_dir_path( __DIR__ ) . '/class-accredible-learndash-admin-auto-issuance.php';
+require_once plugin_dir_path( __DIR__ ) . '/models/class-accredible-learndash-model-auto-issuance.php';
 
-$accredible_learndash_courses = Accredible_Learndash_Admin_Auto_Issuance::get_course_options();
-$accredible_learndash_groups  = Accredible_Learndash_Admin_Auto_Issuance::get_group_options();
+$accredible_learndash_courses = Accredible_Learndash_Model_Auto_Issuance::get_course_options();
+$accredible_learndash_groups  = Accredible_Learndash_Model_Auto_Issuance::get_group_options();
 
 $accredible_learndash_issuance_current_page = isset( $_GET['page_num'] ) ? esc_attr( wp_unslash( $_GET['page_num'] ) ) : 1; // phpcs:disable WordPress.Security.ValidatedSanitizedInput.InputNotSanitized, WordPress.Security.NonceVerification.Recommended
 $accredible_learndash_issuance_id           = isset( $_GET['id'] ) ? esc_attr( wp_unslash( $_GET['id'] ) ) : null; // phpcs:disable WordPress.Security.ValidatedSanitizedInput.InputNotSanitized, WordPress.Security.NonceVerification.Recommended
@@ -51,12 +51,27 @@ if ( ! is_null( $accredible_learndash_issuance_id ) ) {
 			</div>
 
 			<form action="admin.php?page=accredible_learndash_admin_action&action=<?php echo esc_attr( $accredible_learndash_form_action ); ?>" method="post">
-				<?php wp_nonce_field( $accredible_learndash_form_action . $accredible_learndash_issuance['id'], '_mynonce' ); ?>
+				<?php if ( 'add_auto_issuance' === $accredible_learndash_form_action ) { ?>
+					<?php wp_nonce_field( $accredible_learndash_form_action, '_mynonce' ); ?>
+				<?php } else { ?>
+					<?php wp_nonce_field( $accredible_learndash_form_action . $accredible_learndash_issuance['id'], '_mynonce' ); ?>
+				<?php } ?>
+
+				<div class="accredible-form-field">
+					<label><?php esc_html_e( 'Issuance Trigger' ); ?></label>
+
+					<div class="accredible-radio-group">
+						<div class="radio-group-item">
+							<input type='radio' name='accredible_learndash_object[kind]' value='course_completed' id='issuance_trigger' checked readonly>
+							<label class="radio-label" for='issuance_trigger'>Course Completion</label>
+						</div>
+					</div>
+				</div>
 
 				<div class="accredible-form-field">
 					<label for="accredible_learndash_course"><?php esc_html_e( 'Select a course' ); ?></label>
 
-					<select id="accredible_learndash_course" name="accredible_learndash_course">
+					<select id="accredible_learndash_course" name="accredible_learndash_object[course]" required>
 						<option disabled selected value></option>
 						<?php foreach ( $accredible_learndash_courses as $accredible_learndash_key => $accredible_learndash_value ) : ?>
 							<option <?php selected( $accredible_learndash_key, $accredible_learndash_issuance['post_id'] ); ?> value="<?php echo esc_attr( $accredible_learndash_key ); ?>">
@@ -74,7 +89,7 @@ if ( ! is_null( $accredible_learndash_issuance_id ) ) {
 				<div class="accredible-form-field">
 					<label for="accredible_learndash_group"><?php esc_html_e( 'Select the credential group' ); ?></label>
 
-					<select id="accredible_learndash_group" name="accredible_learndash_group" <?php disabled( empty( $accredible_learndash_groups ) ); ?>>
+					<select id="accredible_learndash_group" name="accredible_learndash_object[group]" required <?php disabled( empty( $accredible_learndash_groups ) ); ?>>
 						<option disabled selected value></option>	
 						<?php foreach ( $accredible_learndash_groups as $accredible_learndash_key => $accredible_learndash_value ) : ?>
 							<option <?php selected( $accredible_learndash_key, $accredible_learndash_issuance['accredible_group_id'] ); ?> value="<?php echo esc_attr( $accredible_learndash_key ); ?>">
