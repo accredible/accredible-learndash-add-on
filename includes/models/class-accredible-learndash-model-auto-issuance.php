@@ -26,7 +26,7 @@ if ( ! class_exists( 'Accredible_Learndash_Model_Auto_Issuance' ) ) :
 		/**
 		 * Get group options. This method is only called via ajax.
 		 */
-		public static function search_groups_ajax() {
+		public static function ajax_search_groups() {
 			$groups   = array();
 			$response = array();
 

@@ -6,7 +6,7 @@ jQuery( function(){
             minLength: 3,
             source: function(request, response){
                 var post_data = {
-                    'action': 'search_groups_ajax',
+                    'action': 'accredible_learndash_ajax_search_groups',
                     'search_term': request.term
                 };
                 jQuery.post(ajaxdata.ajaxurl, post_data, function (res) {

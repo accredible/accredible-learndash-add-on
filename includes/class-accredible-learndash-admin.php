@@ -90,7 +90,7 @@ if ( ! class_exists( 'Accredible_Learndash_Admin' ) ) :
 		 * Add groups autcomplete action.
 		 */
 		public static function add_groups_autocomplete() {
-			add_action( 'wp_ajax_search_groups_ajax', array( 'Accredible_Learndash_Model_Auto_Issuance', 'search_groups_ajax' ) );
+			add_action( 'wp_ajax_accredible_learndash_ajax_search_groups', array( 'Accredible_Learndash_Model_Auto_Issuance', 'ajax_search_groups' ) );
 		}
 	}
 endif;
