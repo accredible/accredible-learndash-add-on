@@ -15,13 +15,14 @@ if ( ! class_exists( 'Accredible_Learndash_Admin_Form_Helper' ) ) :
 		/**
 		 * Returns value attribute if value is present.
 		 *
-		 * @param array $value value to pass to attribute.
+		 * @param array $obj contains value.
+		 * @param array $key key to get value.
 		 */
-		public static function value_attr( $value ) {
-			if ( isset( $value ) ) {
+		public static function value_attr( $obj, $key ) {
+			if ( ! empty( $obj ) && isset( $obj[ $key ] ) ) {
 				echo sprintf(
 					'value="%s"',
-					esc_attr( $value )
+					esc_attr( $obj[ $key ] )
 				);
 			}
 		}

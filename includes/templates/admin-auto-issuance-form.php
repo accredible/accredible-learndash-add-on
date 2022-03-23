@@ -15,7 +15,7 @@ $accredible_learndash_courses = Accredible_Learndash_Admin_Auto_Issuance::get_co
 $accredible_learndash_issuance_current_page = isset( $_GET['page_num'] ) ? esc_attr( wp_unslash( $_GET['page_num'] ) ) : 1; // phpcs:disable WordPress.Security.ValidatedSanitizedInput.InputNotSanitized, WordPress.Security.NonceVerification.Recommended
 $accredible_learndash_issuance_id           = isset( $_GET['id'] ) ? esc_attr( wp_unslash( $_GET['id'] ) ) : null; // phpcs:disable WordPress.Security.ValidatedSanitizedInput.InputNotSanitized, WordPress.Security.NonceVerification.Recommended
 
-$accredible_learndash_group       = null;
+$accredible_learndash_group       = array();
 $accredible_learndash_form_action = 'add_auto_issuance';
 $accredible_learndash_issuance    = array(
 	'id'                  => null,
@@ -92,14 +92,14 @@ if ( ! is_null( $accredible_learndash_issuance_id ) ) {
 					<input
 						type='text'
 						id='accredible_learndash_group_autocomplete' 
-						<?php Accredible_Learndash_Admin_Form_Helper::value_attr( $accredible_learndash_group['name'] ); ?> 
+						<?php Accredible_Learndash_Admin_Form_Helper::value_attr( $accredible_learndash_group, 'name' ); ?> 
 						required/>
 
 					<input 
 						type="hidden"
 						id="accredible_learndash_group"
 						name="accredible_learndash_group"
-						<?php Accredible_Learndash_Admin_Form_Helper::value_attr( $accredible_learndash_group['id'] ); ?>
+						<?php Accredible_Learndash_Admin_Form_Helper::value_attr( $accredible_learndash_group, 'id' ); ?>
 						readonly/>
 				</div>
 
