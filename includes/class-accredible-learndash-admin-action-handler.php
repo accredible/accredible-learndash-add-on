@@ -40,7 +40,15 @@ if ( ! class_exists( 'Accredible_Learndash_Admin_Action_Handler' ) ) :
 		public static function edit_auto_issuance( $data ) {
 			self::verify_nonce( $data['nonce'], 'edit_auto_issuance' . $data['id'] );
 
-			$result = Accredible_Learndash_Model_Auto_Issuance::update( $data['id'], self::auto_issuance_params( $data['accredible_learndash_object'] ) );
+			$auto_issuance_params = self::auto_issuance_params( $data['accredible_learndash_object'] );
+
+			foreach ( $auto_issuance_params as $key => $value ) {
+				if ( is_null( $auto_issuance_params[ $key ] ) || empty( $auto_issuance_params[ $key ] ) ) {
+					wp_die( 'Failed to update.' );
+				}
+			}
+
+			$result = Accredible_Learndash_Model_Auto_Issuance::update( $data['id'], $auto_issuance_params );
 			if ( false === $result ) {
 				wp_die( 'Failed to update.' );
 			} else {
@@ -70,11 +78,14 @@ if ( ! class_exists( 'Accredible_Learndash_Admin_Action_Handler' ) ) :
 		 * @param array $data Data to add/modify an auto issuance.
 		 */
 		private static function auto_issuance_params( $data ) {
-			$auto_issuance_params = array(
-				'kind'                => isset( $data['kind'] ) ? esc_attr( wp_unslash( $data['kind'] ) ) : null,
-				'post_id'             => isset( $data['post_id'] ) ? esc_attr( wp_unslash( $data['post_id'] ) ) : null,
-				'accredible_group_id' => isset( $data['accredible_group_id'] ) ? esc_attr( wp_unslash( $data['accredible_group_id'] ) ) : null,
-			);
+			$permitted_params     = array( 'kind', 'post_id', 'accredible_group_id' );
+			$auto_issuance_params = array();
+
+			foreach ( $permitted_params as $param ) {
+				if ( array_key_exists( $param, $data ) ) {
+					$auto_issuance_params[ $param ] = $data[ $param ];
+				}
+			}
 
 			return $auto_issuance_params;
 		}

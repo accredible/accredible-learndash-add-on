@@ -69,7 +69,7 @@ class Accredible_Learndash_Admin_Action_Handler_Test extends Accredible_Learndas
 		$this->assertCount( 0, $results );
 
 		$new_data = array(
-			'post_id'             => 2,
+			'post_id'             => 1,
 			'accredible_group_id' => 4,
 			'kind'                => null,
 		);
@@ -80,11 +80,25 @@ class Accredible_Learndash_Admin_Action_Handler_Test extends Accredible_Learndas
 		$nonce        = wp_create_nonce( 'add_auto_issuance' );
 		$redirect_url = admin_url( 'admin.php?page=accredible_learndash_issuance_list' );
 
+		try {
+			Accredible_Learndash_Admin_Action_Handler::add_auto_issuance(
+				array(
+					'nonce'                       => $nonce,
+					'redirect_url'                => admin_url( 'post-new.php' ),
+					'accredible_learndash_object' => $new_data,
+				)
+			);
+			$caught_exception = null;
+		} catch ( WPDieException $error ) {
+			$caught_exception = $error->getMessage();
+		}
+
 		$results = $wpdb->get_results(
 			$wpdb->prepare( 'SELECT * FROM %1s;', $table_name )
 		);
 
 		$this->assertCount( 0, $results );
+		$this->assertEquals( 'Failed to create.', $caught_exception );
 	}
 
 	/**
@@ -154,7 +168,8 @@ class Accredible_Learndash_Admin_Action_Handler_Test extends Accredible_Learndas
 		$new_data = array(
 			'id'                  => $id,
 			'post_id'             => 2,
-			'accredible_group_id' => '',
+			'accredible_group_id' => null,
+			'kind'                => null,
 		);
 
 		// Login as an admin.
@@ -163,10 +178,25 @@ class Accredible_Learndash_Admin_Action_Handler_Test extends Accredible_Learndas
 		$nonce        = wp_create_nonce( "edit_auto_issuance$id" );
 		$redirect_url = admin_url( 'admin.php?page=accredible_learndash_issuance_list' );
 
+		try {
+			Accredible_Learndash_Admin_Action_Handler::edit_auto_issuance(
+				array(
+					'id'                          => $id,
+					'nonce'                       => $nonce,
+					'redirect_url'                => admin_url( 'post-new.php' ),
+					'accredible_learndash_object' => $new_data,
+				)
+			);
+			$caught_exception = null;
+		} catch ( WPDieException $error ) {
+			$caught_exception = $error->getMessage();
+		}
+
 		$result = $wpdb->get_row(
 			$wpdb->prepare( 'SELECT * FROM %1s WHERE id = %d;', $table_name, $id )
 		);
 
+		$this->assertEquals( 'Failed to update.', $caught_exception );
 		$this->assertEquals( 1, $result->post_id );
 		$this->assertEquals( 1, $result->accredible_group_id );
 	}
