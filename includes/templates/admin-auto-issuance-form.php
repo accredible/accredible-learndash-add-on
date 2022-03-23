@@ -58,6 +58,17 @@ if ( ! is_null( $accredible_learndash_issuance_id ) ) {
 				<?php } ?>
 
 				<div class="accredible-form-field">
+					<label><?php esc_html_e( 'Issuance Trigger' ); ?></label>
+
+					<div class="accredible-radio-group">
+						<div class="radio-group-item">
+							<input type='radio' name='accredible_learndash_object[kind]' value='course_completed' id='issuance_trigger' checked readonly>
+							<label class="radio-label" for='issuance_trigger'>Course Completion</label>
+						</div>
+					</div>
+				</div>
+
+				<div class="accredible-form-field">
 					<label for="accredible_learndash_course"><?php esc_html_e( 'Select a course' ); ?></label>
 
 					<select id="accredible_learndash_course" name="accredible_learndash_object[course]" required>
@@ -91,16 +102,6 @@ if ( ! is_null( $accredible_learndash_issuance_id ) ) {
 							<?php esc_html_e( 'No groups available.' ); ?>
 						</span>
 					<?php endif; ?>
-				</div>
-
-				<div class="accredible-form-field">
-					<label><?php esc_html_e( 'Issuance Trigger' ); ?></label>
-					<div class="accredible-radio-group">
-						<div class="radio-group-item">
-							<input type='radio' name='accredible_learndash_object[kind]' value='course_completed' id='issuance_trigger' checked disabled>
-							<label class="radio-label" for='issuance_trigger'>Course Completion</label>
-						</div>
-					</div>
 				</div>
 
 				<?php submit_button( 'Save', 'accredible-button-primary accredible-button-large', 'submit', false ); ?>
