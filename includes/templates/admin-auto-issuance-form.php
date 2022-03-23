@@ -128,7 +128,6 @@ if ( ! is_null( $accredible_learndash_issuance_id ) ) {
 <script type="text/javascript">
 	jQuery( function(){
 		jQuery('#issuance-form').on('submit', function() {
-			console.log('submitted');
 			var group_id = jQuery('#accredible_learndash_group').val();
 			if ( ! group_id ) {
 				jQuery('#accredible-form-field-group-error-msg').removeClass('accredible-form-field-hidden'); // show error
