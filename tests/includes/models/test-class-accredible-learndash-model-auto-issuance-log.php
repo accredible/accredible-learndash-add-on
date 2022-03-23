@@ -266,9 +266,9 @@ class Accredible_Learndash_Model_Auto_Issuance_Log_Test extends Accredible_Learn
 
 		Accredible_Learndash_Model_Auto_Issuance_Log::update( $record_id, $new_data );
 
-		$result = $wpdb->get_results(
-			$wpdb->prepare( 'SELECT * FROM %1s;', $table_name )
-		)[0];
+		$result = $wpdb->get_row(
+			$wpdb->prepare( 'SELECT * FROM %1s WHERE id = %d;', $table_name, $record_id )
+		);
 
 		$this->assertEquals( $new_data['accredible_learndash_auto_issuance_id'], $result->accredible_learndash_auto_issuance_id );
 		$this->assertEquals( $new_data['recipient_name'], $result->recipient_name );

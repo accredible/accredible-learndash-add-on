@@ -233,9 +233,9 @@ class Accredible_Learndash_Model_Auto_Issuance_Test extends Accredible_Learndash
 
 		Accredible_Learndash_Model_Auto_Issuance::update( $record_id, $new_data );
 
-		$result = $wpdb->get_results(
-			$wpdb->prepare( 'SELECT * FROM %1s;', $table_name )
-		)[0];
+		$result = $wpdb->get_row(
+			$wpdb->prepare( 'SELECT * FROM %1s WHERE id = %d;', $table_name, $record_id )
+		);
 
 		$this->assertEquals( $new_data['post_id'], $result->post_id );
 		$this->assertEquals( $new_data['accredible_group_id'], $result->accredible_group_id );

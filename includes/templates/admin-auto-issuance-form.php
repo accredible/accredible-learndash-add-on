@@ -57,6 +57,8 @@ if ( ! is_null( $accredible_learndash_issuance_id ) ) {
 					<input type="hidden" name="id" value="<?php echo esc_attr( $accredible_learndash_issuance_id ); ?>">
 				<?php } ?>
 
+				<input type="hidden" name="page_num" value="<?php echo esc_attr( $accredible_learndash_issuance_current_page ); ?>">
+
 				<div class="accredible-form-field">
 					<label><?php esc_html_e( 'Issuance Trigger' ); ?></label>
 
@@ -104,19 +106,6 @@ if ( ! is_null( $accredible_learndash_issuance_id ) ) {
 					<?php endif; ?>
 				</div>
 
-<<<<<<< HEAD
-=======
-				<div class="accredible-form-field">
-					<label><?php esc_html_e( 'Issuance Trigger' ); ?></label>
-					<div class="accredible-radio-group">
-						<div class="radio-group-item">
-							<input type='radio' name='accredible_learndash_object[kind]' value='course_completed' id='issuance_trigger' checked readonly>
-							<label class="radio-label" for='issuance_trigger'>Course Completion</label>
-						</div>
-					</div>
-				</div>
-
->>>>>>> 9bd9e9e (add method to update auto issuances)
 				<?php submit_button( 'Save', 'accredible-button-primary accredible-button-large', 'submit', false ); ?>
 			</form>
 		</div>
