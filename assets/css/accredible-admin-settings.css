@@ -152,6 +152,10 @@ body.accredible-learndash-admin .label {
     font-size: var(--accredible-font-size-xs);
 }
 
+.accredible-form-field-hidden {
+    display: none;
+}
+
 /* AUTOCOMPLETE */
 
 .ui-autocomplete.accredible-autocomplete {

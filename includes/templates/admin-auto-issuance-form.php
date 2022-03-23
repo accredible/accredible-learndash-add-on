@@ -63,7 +63,7 @@ if ( ! is_null( $accredible_learndash_issuance_id ) ) {
 				<?php esc_html_e( 'Credential groups need to have been created before configuring auto issuance. If none appear, check your API key to make sure your integration is set up properly.' ); ?>
 			</div>
 
-			<form action="admin.php?page=accredible_learndash_admin_action&action=<?php echo esc_attr( $accredible_learndash_form_action ); ?>" method="post">
+			<form id="issuance-form" action="admin.php?page=accredible_learndash_admin_action&action=<?php echo esc_attr( $accredible_learndash_form_action ); ?>" method="post">
 				<?php if ( 'add_auto_issuance' === $accredible_learndash_form_action ) { ?>
 					<?php wp_nonce_field( $accredible_learndash_form_action, '_mynonce' ); ?>
 				<?php } else { ?>
@@ -108,6 +108,10 @@ if ( ! is_null( $accredible_learndash_issuance_id ) ) {
 						<?php Accredible_Learndash_Admin_Form_Helper::value_attr( $accredible_learndash_group, 'name' ); ?>
 						required/>
 
+					<span id="accredible-form-field-group-error-msg" class="accredible-form-field-error accredible-form-field-hidden">
+						<?php esc_html_e( 'A valid credential group is required.' ); ?>
+					</span>
+
 					<input
 						type="hidden"
 						id="accredible_learndash_group"
@@ -121,3 +125,16 @@ if ( ! is_null( $accredible_learndash_issuance_id ) ) {
 		</div>
 	</div>
 </div>
+<script type="text/javascript">
+	jQuery( function(){
+		jQuery('#issuance-form').on('submit', function() {
+			console.log('submitted');
+			var group_id = jQuery('#accredible_learndash_group').val();
+			if ( ! group_id ) {
+				jQuery('#accredible-form-field-group-error-msg').removeClass('accredible-form-field-hidden'); // show error
+				return false; // prevent form submission
+			}
+			return true;
+		});
+	});
+</script>

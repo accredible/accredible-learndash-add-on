@@ -24,6 +24,7 @@ jQuery( function(){
                 if (ui.item.value !== 'no_results') {
                     group_name = ui.item.label;
                     group_id = ui.item.value;
+                    jQuery('#accredible-form-field-group-error-msg').addClass('accredible-form-field-hidden');
                 }
                 
                 jQuery("#accredible_learndash_group_autocomplete").val(group_name);
