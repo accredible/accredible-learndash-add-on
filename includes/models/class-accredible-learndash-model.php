@@ -97,6 +97,17 @@ if ( ! class_exists( 'Accredible_Learndash_Model' ) ) :
 		}
 
 		/**
+		 * Update a record from DB table.
+		 *
+		 * @param int   $id ID of model to update.
+		 * @param array $data Updating data.
+		 */
+		public static function update( $id, $data ) {
+			global $wpdb;
+			return $wpdb->update( static::table_name(), $data, array( 'id' => $id ) );
+		}
+
+		/**
 		 * Delete a record from the DB table.
 		 *
 		 * @param int $id ID.

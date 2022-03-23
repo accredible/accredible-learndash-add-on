@@ -41,7 +41,7 @@ $accredible_learndash_page = Accredible_Learndash_Model_Auto_Issuance::get_pagin
 	<div class="accredible-header-tile">
 		<h1 class="title"><?php esc_html_e( 'Issuance List' ); ?></h1>
 
-		<a	href="admin.php?page=accredible_learndash_auto_issuance"
+		<a	href="admin.php?page=accredible_learndash_auto_issuance&page_num=<?php echo esc_attr( $accredible_learndash_current_page ); ?>"
 			class="button accredible-button-primary accredible-button-large">
 			<?php esc_html_e( 'New Configuration' ); ?>
 		</a>

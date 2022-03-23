@@ -117,6 +117,7 @@ if ( ! class_exists( 'Accredible_Learndash_Admin_Menu' ) ) :
 					'id'                          => isset( $_REQUEST['id'] ) ? esc_attr( wp_unslash( $_REQUEST['id'] ) ) : null,
 					'nonce'                       => isset( $_REQUEST['_mynonce'] ) ? esc_attr( wp_unslash( $_REQUEST['_mynonce'] ) ) : null,
 					'redirect_url'                => isset( $_REQUEST['redirect_url'] ) ? esc_attr( wp_unslash( $_REQUEST['redirect_url'] ) ) : wp_get_referer(),
+					'page_num'                    => isset( $_REQUEST['page_num'] ) ? esc_attr( wp_unslash( $_REQUEST['page_num'] ) ) : null,
 					'accredible_learndash_object' => isset( $_REQUEST['accredible_learndash_object'] ) ? wp_unslash( $_REQUEST['accredible_learndash_object'] ) : array(),
 				);
 				// phpcs:enable WordPress.Security.ValidatedSanitizedInput.InputNotSanitized, WordPress.Security.NonceVerification.Recommended
