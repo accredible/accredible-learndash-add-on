@@ -35,13 +35,14 @@ class Accredible_Learndash_Admin_Action_Handler_Test extends Accredible_Learndas
 		$admin_user = self::factory()->user->create( array( 'role' => 'administrator' ) );
 		wp_set_current_user( $admin_user );
 		$nonce        = wp_create_nonce( 'add_auto_issuance' );
-		$redirect_url = admin_url( 'admin.php?page=accredible_learndash_issuance_list' );
+		$redirect_url = admin_url( 'admin.php?page=accredible_learndash_issuance_list&page_num=3' );
 
 		$this->expectOutputString( "<p>Processing...</p><script>window.location.href='$redirect_url'</script>" );
 		Accredible_Learndash_Admin_Action_Handler::add_auto_issuance(
 			array(
 				'nonce'                       => $nonce,
 				'redirect_url'                => admin_url( 'post-new.php' ),
+				'page_num'                    => 3,
 				'accredible_learndash_object' => $new_data,
 			)
 		);
@@ -128,14 +129,14 @@ class Accredible_Learndash_Admin_Action_Handler_Test extends Accredible_Learndas
 		$admin_user = self::factory()->user->create( array( 'role' => 'administrator' ) );
 		wp_set_current_user( $admin_user );
 		$nonce        = wp_create_nonce( "edit_auto_issuance$record_id" );
-		$redirect_url = admin_url( 'admin.php?page=accredible_learndash_issuance_list' );
+		$redirect_url = admin_url( 'post-new.php?id=1&page_num=2' );
 
 		$this->expectOutputString( "<p>Processing...</p><script>window.location.href='$redirect_url'</script>" );
 		Accredible_Learndash_Admin_Action_Handler::edit_auto_issuance(
 			array(
 				'id'                          => $record_id,
 				'nonce'                       => $nonce,
-				'redirect_url'                => admin_url( 'post-new.php' ),
+				'redirect_url'                => $redirect_url,
 				'accredible_learndash_object' => $new_data,
 			)
 		);
