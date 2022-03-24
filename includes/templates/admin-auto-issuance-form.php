@@ -17,7 +17,7 @@ $accredible_learndash_issuance_id           = isset( $_GET['id'] ) ? esc_attr( w
 
 $accredible_learndash_group       = array();
 $accredible_learndash_form_action = 'add_auto_issuance';
-$accredible_learndash_issuance    = array(
+$accredible_learndash_issuance    = (object) array(
 	'id'                  => null,
 	'post_id'             => null,
 	'accredible_group_id' => null,
