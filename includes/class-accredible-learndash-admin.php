@@ -98,7 +98,7 @@ if ( ! class_exists( 'Accredible_Learndash_Admin' ) ) :
 		 * Add ajax actions to WP admin.
 		 */
 		public static function add_ajax_actions() {
-			add_action( 'wp_ajax_accredible_learndash_ajax_search_groups', array( 'Accredible_Learndash_Ajax_Groups', 'ajax_search_groups' ) );
+			add_action( 'wp_ajax_accredible_learndash_ajax_search_groups', array( 'Accredible_Learndash_Ajax_Groups', 'search' ) );
 		}
 	}
 endif;

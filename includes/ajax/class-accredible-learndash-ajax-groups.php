@@ -15,7 +15,7 @@ if ( ! class_exists( 'Accredible_Learndash_Ajax_Groups' ) ) :
 		/**
 		 * Get group options. This method is only called via ajax.
 		 */
-		public static function ajax_search_groups() {
+		public static function search() {
 			$groups   = array();
 			$response = array();
 

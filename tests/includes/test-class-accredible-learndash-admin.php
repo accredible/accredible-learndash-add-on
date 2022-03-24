@@ -54,7 +54,7 @@ class Accredible_Learndash_Admin_Test extends WP_UnitTestCase {
 			10,
 			has_filter(
 				'wp_ajax_accredible_learndash_ajax_search_groups',
-				array( 'Accredible_Learndash_Ajax_Groups', 'ajax_search_groups' )
+				array( 'Accredible_Learndash_Ajax_Groups', 'search' )
 			)
 		);
 		$this->assertEquals(
