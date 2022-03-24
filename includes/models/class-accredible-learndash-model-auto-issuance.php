@@ -47,24 +47,5 @@ if ( ! class_exists( 'Accredible_Learndash_Model_Auto_Issuance' ) ) :
 
 			return $courses;
 		}
-
-		/**
-		 * Get group options.
-		 *
-		 * @return array
-		 */
-		public static function get_group_options() {
-			$groups     = array();
-			$api_client = new Accredible_Learndash_Api_V1_Client();
-			$response   = $api_client->get_groups();
-
-			if ( ! isset( $response['errors'] ) ) {
-				foreach ( $response['groups'] as $value ) {
-					$groups[ $value['id'] ] = $value['name'];
-				}
-			}
-
-			return $groups;
-		}
 	}
 endif;

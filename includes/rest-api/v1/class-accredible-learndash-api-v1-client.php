@@ -43,15 +43,14 @@ if ( ! class_exists( 'Accredible_Learndash_Api_V1_Client' ) ) :
 		}
 
 		/**
-		 * Get groups.
+		 * Search groups.
 		 *
-		 * @param int $page number of the page to request.
-		 * @param int $page_size number of items per page.
+		 * @param string $group_name group name used for search.
 		 */
-		public function get_groups( $page = 1, $page_size = 300 ) {
+		public function search_groups( $group_name ) {
 			$body = array(
-				'page'      => $page,
-				'page_size' => $page_size,
+				'name'      => $group_name,
+				'page_size' => 10,
 			);
 			return $this->request->post( '/issuer/groups/search', $body );
 		}

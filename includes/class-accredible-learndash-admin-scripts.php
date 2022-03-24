@@ -14,7 +14,7 @@ if ( ! class_exists( 'Accredible_Learndash_Admin_Scripts' ) ) :
 	 */
 	class Accredible_Learndash_Admin_Scripts {
 		/**
-		 * Enqueues styles for front-end.
+		 * Enqueues styles and scripts for front-end.
 		 */
 		public static function load_resources() {
 			wp_enqueue_style(
@@ -30,6 +30,38 @@ if ( ! class_exists( 'Accredible_Learndash_Admin_Scripts' ) ) :
 				array(),
 				ACCREDIBLE_LEARNDASH_SCRIPT_VERSION_TOKEN
 			);
+
+			if ( ! wp_script_is( 'jquery' ) ) {
+				wp_enqueue_script( 'jquery' );
+			}
+
+			if ( ! wp_script_is( 'jquery-ui-autocomplete' ) ) {
+				wp_enqueue_script( 'jquery-ui-autocomplete' );
+			}
+		}
+
+		/**
+		 * Enqueues ajax scripts for pages.
+		 */
+		public static function load_page_ajax() {
+			// phpcs:ignore WordPress.Security.NonceVerification.Recommended
+			if ( isset( $_GET['page'] ) && 'accredible_learndash_auto_issuance' === $_GET['page'] ) {
+				wp_enqueue_script(
+					'accredible-learndash-groups-autocomplete',
+					ACCREDIBLE_LEARNDASH_PLUGIN_URL . 'assets/js/accredible-autocomplete.js',
+					array( 'jquery' ),
+					ACCREDIBLE_LEARNDASH_SCRIPT_VERSION_TOKEN,
+					true
+				);
+
+				wp_localize_script(
+					'accredible-learndash-groups-autocomplete',
+					'ajaxdata',
+					array(
+						'ajaxurl' => admin_url( 'admin-ajax.php' ),
+					)
+				);
+			}
 		}
 
 		/**

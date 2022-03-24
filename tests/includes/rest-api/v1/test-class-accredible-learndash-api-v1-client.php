@@ -343,13 +343,13 @@ class Accredible_Learndash_Api_V1_Client_Test extends Accredible_Learndash_Custo
 	}
 
 	/**
-	 * Test if it makes a GET request and return parsed body.
+	 * Test if it makes a POST request and return parsed body.
 	 */
-	public function test_get_groups() {
-		$this->response_body = file_get_contents( ACCREDILBE_LEARNDASH_API_FIXTURES_PATH . '/groups/get_groups_success_page_1.json' );
+	public function test_search_groups() {
+		$this->response_body = file_get_contents( ACCREDILBE_LEARNDASH_API_FIXTURES_PATH . '/groups/search_groups_success.json' );
 		$this->post_data     = array(
-			'page'      => 1,
-			'page_size' => 300,
+			'name'      => 'test',
+			'page_size' => 10,
 		);
 
 		update_option( 'accredible_learndash_api_key', 'someapikey' );
@@ -373,17 +373,17 @@ class Accredible_Learndash_Api_V1_Client_Test extends Accredible_Learndash_Custo
 		);
 
 		$client = new Accredible_Learndash_Api_V1_Client();
-		$res    = $client->get_groups( 1, 300 );
+		$res    = $client->search_groups( 'test' );
 		$this->assertEquals( json_decode( $this->response_body, true ), $res );
 	}
 
 	/**
-	 * Test if it makes a GET request and return parsed body.
+	 * Test if it makes a POST request and return parsed body.
 	 */
-	public function test_get_groups_when_unauthorized() {
+	public function test_search_groups_when_unauthorized() {
 		$this->post_data = array(
-			'page'      => 1,
-			'page_size' => 300,
+			'name'      => 'test',
+			'page_size' => 10,
 		);
 
 		update_option( 'accredible_learndash_api_key', 'someapikey' );
@@ -407,7 +407,7 @@ class Accredible_Learndash_Api_V1_Client_Test extends Accredible_Learndash_Custo
 		);
 
 		$client = new Accredible_Learndash_Api_V1_Client();
-		$res    = $client->get_groups( 1, 300 );
+		$res    = $client->search_groups( 'test' );
 		$this->assertEquals( array( 'errors' => '401: HTTP Token: Access denied.' ), $res );
 	}
 }

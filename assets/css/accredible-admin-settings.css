@@ -87,9 +87,10 @@ body.accredible-learndash-admin .label {
     padding: 0 var(--accredible-spacing-2x);
     border: 1px solid var(--accredible-color-natural-40);
     border-radius: 4px;
-    width: 500px;
+    width: 400px;
     height: 40px;
     color: var(--accredible-color-natural-160);
+    font-size: var(--accredible-font-size-normal);
 }
 
 .accredible-form-field input[type="text"]:hover,
@@ -149,6 +150,27 @@ body.accredible-learndash-admin .label {
 .accredible-form-field-error {
     color: var(--accredible-color-danger-100);
     font-size: var(--accredible-font-size-xs);
+}
+
+.accredible-form-field-hidden {
+    display: none;
+}
+
+/* AUTOCOMPLETE */
+
+.ui-autocomplete.accredible-autocomplete {
+    font: 400 16px/20px Source Sans Pro;
+    background: var(--accredible-color-white);
+    border: 1px solid var(--accredible-color-natural-40);
+    box-sizing: border-box;
+    box-shadow: 0px 2px 4px rgb(0 0 0 / 5%);
+    border-radius: 4px;
+}
+
+.ui-autocomplete.accredible-autocomplete li {
+    padding: var(--accredible-spacing-base) var(--accredible-spacing-2x);
+    color: var(--accredible-color-natural-180);
+    margin: var(--accredible-spacing-base) 0;
 }
 
 /* BUTTONS */
