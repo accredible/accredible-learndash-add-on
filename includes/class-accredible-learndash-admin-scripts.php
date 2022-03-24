@@ -38,7 +38,12 @@ if ( ! class_exists( 'Accredible_Learndash_Admin_Scripts' ) ) :
 			if ( ! wp_script_is( 'jquery-ui-autocomplete' ) ) {
 				wp_enqueue_script( 'jquery-ui-autocomplete' );
 			}
+		}
 
+		/**
+		 * Enqueues ajax scripts for pages.
+		 */
+		public static function load_page_ajax() {
 			// phpcs:ignore WordPress.Security.NonceVerification.Recommended
 			if ( isset( $_GET['page'] ) && 'accredible_learndash_auto_issuance' === $_GET['page'] ) {
 				wp_enqueue_script(
