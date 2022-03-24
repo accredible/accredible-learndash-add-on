@@ -27,7 +27,7 @@ if ( ! class_exists( 'Accredible_Learndash_Admin_Action_Handler' ) ) :
 			if ( false === $result ) {
 				wp_die( 'Failed to create.' );
 			} else {
-				$redirect_url = admin_url( 'admin.php?page=accredible_learndash_issuance_list' );
+				$redirect_url = admin_url( 'admin.php?page=accredible_learndash_issuance_list&page_num=' . $data['page_num'] );
 				self::redirect_to( $redirect_url );
 			}
 		}
@@ -52,8 +52,7 @@ if ( ! class_exists( 'Accredible_Learndash_Admin_Action_Handler' ) ) :
 			if ( false === $result ) {
 				wp_die( 'Failed to update.' );
 			} else {
-				$redirect_url = admin_url( 'admin.php?page=accredible_learndash_issuance_list' );
-				self::redirect_to( $redirect_url );
+				self::redirect_to( $data['redirect_url'] );
 			}
 		}
 
@@ -111,7 +110,7 @@ if ( ! class_exists( 'Accredible_Learndash_Admin_Action_Handler' ) ) :
 			// You cannot use `wp_redirect` at the `admin_menu` Action Hook callback
 			// since http headers were already sent to the browser.
 			echo '<p>Processing...</p>';
-			print( "<script>window.location.href='" . esc_html( $redirect_url ) . "'</script>" );
+			print( "<script>window.location.href='" . esc_url_raw( $redirect_url ) . "'</script>" );
 		}
 	}
 endif;
