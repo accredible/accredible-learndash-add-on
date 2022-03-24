@@ -114,6 +114,7 @@ if ( ! is_null( $accredible_learndash_issuance_id ) ) {
 					<input
 						type='text'
 						id='accredible_learndash_group_autocomplete'
+						placeholder="<?php echo esc_attr( 'Type to search credential group' ); ?>"
 						<?php Accredible_Learndash_Admin_Form_Helper::value_attr( $accredible_learndash_group, 'name' ); ?>
 						required/>
 
