@@ -1,7 +1,7 @@
 === Accredible LearnDash Add-on ===
 Contributors: accredible
 Tags: accredible, learndash, certificate, certificates, digital certificates, online course, lms, learning management system, e-learning, elearning, badges, badge, open badge, mozilla open badge, blockchain, blockchain credential, credential, credentials
-Donate link: https://www.accredible.com/
+Donate link: https://accredible.com/
 Requires at least: 5.9
 Tested up to: 5.9.2
 Requires PHP: 5.6
@@ -9,63 +9,59 @@ Stable tag: 1.0.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-Certificates, open badges and blockchain credentials. Create, update and manage them on your WordPress site.
+Issue credentials, certificates, or badges for your LearnDash courses through Accredible digital credentialing.
 
 == Description ==
-The Accredible platform enables organizations to create, manage and distribute digital credentials as digital certificates, open badges and blockchain credentials.
+The “Accredible LearnDash Add-on” allows you to issue [credentials](https://www.credential.net/10000005, "credentials"), certificates, and badges to your students when they complete your course. [Accredible](http://accredible.com "Accredible") credentials are:
 
-An example digital certificate and badge can be viewed here: https://www.credential.net/10000005
+* Easy to design with our drag and drop certificate builder
+* Shareable, transferable, verifiable, and OpenBadge compliant
+* Blockchain secured
+* Easily shared on LinkedIn with just 1 click
 
-This plugin enables you to issue dynamic, digital certificates or open badges on your WordPress instance.
+Your course content is valuable, and your learners are proud to share their achievements. Make is easy for them.
 
-Benefits of digital credentials:
+**Note:** You will need an Accredible account to use this add-on. [Check out our many features](https://www.accredible.com/solutions/more-features, "More features") to see if this is right for you. You will also need the [LearnDash plugin](http://www.learndash.com "LearnDash") v3.6 or higher installed.
 
-* Every time your recipients share their credentials, your brand spreads across the web.
-* View analytics on your alumni.
-* Create a directory of your graduates.
-* Unlimited certificate and badge designs.
-* Easy sharing, exporting and printing.
-* Make sure people can\'t lie about taking your course.
+For instructions to set up this add-on, visit our [Help Center](https://help.accredible.com/, "Help Center").
 
 == Installation ==
-1. Visit https://accredible.com to obtain an API key
-2. Install the plugin
-3. Activate the plugin through the \'Plugins\' menu in WordPress
-4. Go to the plugin settings, input your API key and select the server region of your Accrdible account
 
-Manually creating certificates:
+1. Visit https://accredible.com to obtain an API key.
+2. Install, activate and configure the [LearnDash plugin](http://www.learndash.com/ "LearnDash") in WordPress.
+3. Install and activate the Accredible LearnDash Add-on plugin in WordPress.
+4. Go to the plugin settings, input your API key and select the server region of your Accredible account.
+5. Ensure if the settings page says “Integraion is up and running“.
 
-1. Go to the \'Certificates & Badges\' page in the WordPress admin menu.
-2. On the list of your users, select which students you would like to issue certificates to and then select a group.
-3. Click \'Create Credentials\'
+Auto issuance configuration:
 
-![Certificates Admin](https://s3.amazonaws.com/accredible-moodle-instructions/wordpress/certificates-admin.png)
+1. Go to the 'Auto Issuance' page in the Wordpress admin menu.
+2. Click the 'New Configuration' button.
+3. Select a trigger of credential issuance, a target resource such as a course for course completion, and an Accredible group to issue credentials to.
+4. Click the 'Save' button.
 
 == Frequently Asked Questions ==
 = How do I get an API key? =
 
 Visit https://accredible.com to obtain a free API key.
 
-= How can I show certificates or badges to my users? =
+= Which server region should I select? =
 
-You can use the widget or shortcode to display badges or certificates that belong to the current WordPress user.
+If the domain of your Accredible account is "eu.dashboard.accredible.com", you need to select "EU". Otherwise, please select "US".
 
-The shortcode is: [accredible_credential] but it accepts a number of options: [accredible_credential image=\"true\" limit=\"10\" style=\"true\"].
+= Where should I report issues or bugs? =
 
-= Can you add support for another Wordpress LMS or theme? =
-
-Sure, just post an issue and we\'ll get to work: https://github.com/accredible/accredible-certificates/issues
+You can report any issues or bugs on our project [GitHub](https://github.com/accredible/accredible-learndash-add-on/issues "GitHub") site.
 
 == Screenshots ==
 
 1. Digital Certificate
 2. Digital Open Badge
-3. Create digital certificates
-4. Responsive certificate designs
-5. Marketing click throughs and impressions
-6. Example Google certificate.
-7. Shortcode output.
-8. Widget output.
+3. Auto-issuance page
+4. Issuance logs page
+5. Responsive certificate designs
+6. Marketing click throughs and impressions
+7. Example Google certificate.
 
 == Changelog ==
 
