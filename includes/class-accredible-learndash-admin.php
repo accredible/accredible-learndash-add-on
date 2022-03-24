@@ -55,7 +55,7 @@ if ( ! class_exists( 'Accredible_Learndash_Admin' ) ) :
 			$this->add_menus();
 			$this->add_scripts();
 			$this->add_style_classes();
-			$this->add_groups_autocomplete();
+			$this->add_ajax_actions();
 		}
 
 		/**
@@ -87,9 +87,9 @@ if ( ! class_exists( 'Accredible_Learndash_Admin' ) ) :
 		}
 
 		/**
-		 * Add groups autcomplete action.
+		 * Add ajax actions to WP admin.
 		 */
-		public static function add_groups_autocomplete() {
+		public static function add_ajax_actions() {
 			add_action( 'wp_ajax_accredible_learndash_ajax_search_groups', array( 'Accredible_Learndash_Ajax_Groups', 'ajax_search_groups' ) );
 		}
 	}
