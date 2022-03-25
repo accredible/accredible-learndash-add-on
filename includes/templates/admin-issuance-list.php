@@ -53,7 +53,7 @@ $accredible_learndash_page = Accredible_Learndash_Model_Auto_Issuance::get_pagin
 					<tr class="accredible-header-row">
 						<th></th>
 						<th>Course Name</th>
-						<th>Accredilbe Group</th>
+						<th>Accredible Group</th>
 						<th>Issuance Trigger</th>
 						<th>Date Created</th>
 						<th></th>
