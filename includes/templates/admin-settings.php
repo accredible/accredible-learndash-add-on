@@ -79,7 +79,7 @@ if ( empty( get_option( Accredible_Learndash_Admin_Setting::OPTION_API_KEY ) ) )
 
 		<div class="status-tile">
 			<div class="logo">
-				<img src="<?php echo esc_url( ACCREDIBLE_LEARNDASH_PLUGIN_URL . 'assets/images/learndash_logo.png' ); ?>" alt="LearnDash logo">
+				<img src="<?php echo esc_url( ACCREDIBLE_LEARNDASH_PLUGIN_URL . 'assets/images/accredible_logo.png' ); ?>" alt="Accredible logo">
 			</div>
 			<div class="status">
 			<?php if ( ! empty( $accredible_learndash_issuer ) && ! is_null( $accredible_learndash_issuer ) ) { ?>

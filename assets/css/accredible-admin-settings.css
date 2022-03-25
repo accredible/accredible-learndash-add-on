@@ -250,6 +250,10 @@ body.accredible-learndash-admin .label {
     border-bottom: 1px solid var(--accredible-color-natural-10);
 }
 
+.accredible-content .status-tile .logo img {
+    width: 90%;
+}
+
 .accredible-content .status-tile .status {
     display: flex;
     align-items: center;
