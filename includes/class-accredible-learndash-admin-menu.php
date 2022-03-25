@@ -126,5 +126,17 @@ if ( ! class_exists( 'Accredible_Learndash_Admin_Menu' ) ) :
 				wp_die( 'An action type mismatch has been detected.' );
 			}
 		}
+
+		/**
+		 * Add plugin action links.
+		 *
+		 * @param Array $links An array of plugin links.
+		 */
+		public static function add_action_links( $links ) {
+			$mylinks = array(
+				'<a href="' . admin_url( 'admin.php?page=accredible_learndash_settings' ) . '">Settings</a>',
+			);
+			return array_merge( $links, $mylinks );
+		}
 	}
 endif;

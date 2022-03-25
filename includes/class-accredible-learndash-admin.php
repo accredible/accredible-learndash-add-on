@@ -71,6 +71,10 @@ if ( ! class_exists( 'Accredible_Learndash_Admin' ) ) :
 		 */
 		private function add_menus() {
 			add_action( 'admin_menu', array( 'Accredible_Learndash_Admin_Menu', 'add' ) );
+			add_filter(
+				'plugin_action_links_' . ACCREDILBE_LEARNDASH_PLUGIN_BASENAME,
+				array( 'Accredible_Learndash_Admin_Menu', 'add_action_links' )
+			);
 		}
 
 		/**

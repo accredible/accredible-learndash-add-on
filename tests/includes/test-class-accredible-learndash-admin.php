@@ -19,7 +19,8 @@ class Accredible_Learndash_Admin_Test extends WP_UnitTestCase {
 	 * Test if it adds admin WP hooks.
 	 */
 	public function test_init() {
-		$activation_hook_name = 'activate_' . ACCREDILBE_LEARNDASH_PLUGIN_BASENAME;
+		$activation_hook_name   = 'activate_' . ACCREDILBE_LEARNDASH_PLUGIN_BASENAME;
+		$action_links_hook_name = 'plugin_action_links_' . ACCREDILBE_LEARNDASH_PLUGIN_BASENAME;
 		// Reset related WP filters.
 		remove_all_filters( 'admin_init' );
 		remove_all_filters( 'admin_menu' );
@@ -27,6 +28,7 @@ class Accredible_Learndash_Admin_Test extends WP_UnitTestCase {
 		remove_all_filters( 'admin_body_class' );
 		remove_all_filters( 'wp_ajax_accredible_learndash_ajax_search_groups' );
 		remove_all_filters( $activation_hook_name );
+		remove_all_filters( $action_links_hook_name );
 
 		Accredible_Learndash_Admin::init();
 
@@ -69,6 +71,13 @@ class Accredible_Learndash_Admin_Test extends WP_UnitTestCase {
 			has_filter(
 				$activation_hook_name,
 				array( 'Accredible_Learndash_Admin_Database', 'setup' )
+			)
+		);
+		$this->assertEquals(
+			10,
+			has_filter(
+				$action_links_hook_name,
+				array( 'Accredible_Learndash_Admin_Menu', 'add_action_links' )
 			)
 		);
 	}

@@ -1,4 +1,52 @@
-# accredible-learndash-add-on
+![Accredible Logo](https://s3.amazonaws.com/accredible-cdn/accredible_logo_sm.png)
+
+# Accredible LearnDash Add-on
+
+## Overview
+The “Accredible LearnDash Add-on” allows you to issue [credentials](https://www.credential.net/10000005, "credentials"), certificates, and badges to your students when they complete your course. [Accredible](http://accredible.com "Accredible") credentials are:
+
+* Easy to design with our drag and drop certificate builder
+* Shareable, transferable, verifiable, and OpenBadge compliant
+* Blockchain secured
+* Easily shared on LinkedIn with just 1 click
+
+Your course content is valuable, and your learners are proud to share their achievements. Make is easy for them.
+
+**Note:** You will need an Accredible account to use this add-on. [Check out our many features](https://www.accredible.com/solutions/more-features, "More features") to see if this is right for you. You will also need the [LearnDash plugin](http://www.learndash.com "LearnDash") v3.6 or higher installed.
+
+For instructions to set up this add-on, visit our [Help Center](https://help.accredible.com/, "Help Center").
+
+## Compatability
+
+Tested on Wordpress 5.9+.
+
+## Installation
+
+1. Visit https://accredible.com to obtain an API key.
+2. Install, activate and configure the [LearnDash plugin](http://www.learndash.com/ "LearnDash") in WordPress.
+3. Install and activate the Accredible LearnDash Add-on plugin in WordPress.
+4. Go to the plugin settings, input your API key and select the server region of your Accredible account.
+5. Ensure if the settings page says “Integraion is up and running“.
+
+Auto issuance configuration:
+
+1. Go to the 'Auto Issuance' page in the Wordpress admin menu.
+2. Click the 'New Configuration' button.
+3. Select a trigger of credential issuance, a target resource such as a course for course completion, and an Accredible group to issue credentials to.
+4. Click the 'Save' button.
+
+## Frequently Asked Questions
+### How do I get an API key? 
+
+Visit https://accredible.com to obtain a free API key.
+
+### Which server region should I select?
+
+If the domain of your Accredible account is "eu.dashboard.accredible.com", you need to select "EU". Otherwise, please select "US".
+
+### Where should I report issues or bugs?
+
+You can report any issues or bugs on our project [GitHub](https://github.com/accredible/accredible-learndash-add-on/issues "GitHub") site.
 
 ---
 
