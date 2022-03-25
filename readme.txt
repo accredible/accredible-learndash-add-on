@@ -47,7 +47,7 @@ Visit https://accredible.com to obtain a free API key.
 
 = Which server region should I select? =
 
-If the domain of your Accredible account is "eu.dashboard.accredible.com", you need to select "EU". Otherwise, please select "US".
+If the domain of your Accredible account is `eu.dashboard.accredible.com`, you need to select "EU". Otherwise, please select "US".
 
 = Where should I report issues or bugs? =
 
@@ -66,4 +66,4 @@ You can report any issues or bugs on our project [GitHub](https://github.com/acc
 == Changelog ==
 
 = 1.0.0 =
-First version.
+Initial version.
