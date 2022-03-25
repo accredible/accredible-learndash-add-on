@@ -32,8 +32,8 @@ if ( ! class_exists( 'Accredible_Learndash_Admin_Menu' ) ) :
 
 			add_submenu_page(
 				'accredible_learndash',
-				'Issuance List',
-				'Issuance List',
+				'Auto Issuances',
+				'Auto Issuances',
 				'administrator',
 				'accredible_learndash_issuance_list',
 				array( 'Accredible_Learndash_Admin_Menu', 'admin_issuance_list_page' )
