@@ -15,6 +15,26 @@ if ( ! class_exists( 'Accredible_Learndash_Admin_Action_Handler' ) ) :
 	 */
 	class Accredible_Learndash_Admin_Action_Handler {
 		/**
+		 * Call the requested action.
+		 */
+		public static function call() {
+			$action        = self::sanitize_parameter( 'action' );
+			$class_methods = get_class_methods( 'Accredible_Learndash_Admin_Action_Handler' );
+			if ( in_array( $action, $class_methods, true ) ) {
+				$data = array(
+					'id'                          => self::sanitize_parameter( 'id' ),
+					'nonce'                       => self::sanitize_parameter( '_mynonce' ),
+					'page_num'                    => self::sanitize_parameter( 'page_num' ),
+					'accredible_learndash_object' => self::sanitize_object( $action ),
+					'redirect_url'                => isset( $_REQUEST['redirect_url'] ) ? esc_url_raw( wp_unslash( $_REQUEST['redirect_url'] ) ) : wp_get_referer(), // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+				);
+				self::$action( $data );
+			} else {
+				wp_die( 'An action type mismatch has been detected.' );
+			}
+		}
+
+		/**
 		 * Create an auto issuance.
 		 *
 		 * @param string $data Data for the action.
@@ -22,7 +42,7 @@ if ( ! class_exists( 'Accredible_Learndash_Admin_Action_Handler' ) ) :
 		public static function add_auto_issuance( $data ) {
 			self::verify_nonce( $data['nonce'], 'add_auto_issuance' );
 
-			$result = Accredible_Learndash_Model_Auto_Issuance::insert( self::auto_issuance_params( $data['accredible_learndash_object'] ) );
+			$result = Accredible_Learndash_Model_Auto_Issuance::insert( $data['accredible_learndash_object'] );
 
 			if ( false === $result ) {
 				wp_die( 'Failed to create.' );
@@ -40,8 +60,7 @@ if ( ! class_exists( 'Accredible_Learndash_Admin_Action_Handler' ) ) :
 		public static function edit_auto_issuance( $data ) {
 			self::verify_nonce( $data['nonce'], 'edit_auto_issuance' . $data['id'] );
 
-			$auto_issuance_params = self::auto_issuance_params( $data['accredible_learndash_object'] );
-
+			$auto_issuance_params = $data['accredible_learndash_object'];
 			foreach ( $auto_issuance_params as $key => $value ) {
 				if ( is_null( $auto_issuance_params[ $key ] ) || empty( $auto_issuance_params[ $key ] ) ) {
 					wp_die( 'Failed to update.' );
@@ -72,21 +91,47 @@ if ( ! class_exists( 'Accredible_Learndash_Admin_Action_Handler' ) ) :
 		}
 
 		/**
-		 * Return permitted parameters for auto issuance
+		 * Sanitize a string parameter.
 		 *
-		 * @param array $data Data to add/modify an auto issuance.
+		 * @param string $key The key of the parameter.
 		 */
-		private static function auto_issuance_params( $data ) {
-			$permitted_params     = array( 'kind', 'post_id', 'accredible_group_id' );
-			$auto_issuance_params = array();
+		private static function sanitize_parameter( $key ) {
+			return isset( $_REQUEST[ $key ] ) ? sanitize_key( wp_unslash( $_REQUEST[ $key ] ) ) : null; // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+		}
 
-			foreach ( $permitted_params as $param ) {
-				if ( array_key_exists( $param, $data ) ) {
-					$auto_issuance_params[ $param ] = $data[ $param ];
-				}
+		/**
+		 * Sanitize accredible learndash object.
+		 *
+		 * @param string $action The name of the action.
+		 */
+		private static function sanitize_object( $action ) {
+			// phpcs:ignore WordPress.Security.NonceVerification.Recommended
+			if ( ! isset( $_REQUEST['accredible_learndash_object'] ) ) {
+				return array();
 			}
 
-			return $auto_issuance_params;
+			switch ( $action ) {
+				case 'add_auto_issuance':
+				case 'edit_auto_issuance':
+					$object = array(
+						'kind'                => self::sanitize_object_field( 'kind' ),
+						'post_id'             => self::sanitize_object_field( 'post_id' ),
+						'accredible_group_id' => self::sanitize_object_field( 'accredible_group_id' ),
+					);
+					break;
+				default:
+					$object = array();
+			}
+			return $object;
+		}
+
+		/**
+		 * Sanitize accredible learndash object field.
+		 *
+		 * @param string $field The name of the field.
+		 */
+		private static function sanitize_object_field( $field ) {
+			return isset( $_REQUEST['accredible_learndash_object'][ $field ] ) ? sanitize_text_field( wp_unslash( $_REQUEST['accredible_learndash_object'][ $field ] ) ) : null; // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 		}
 
 		/**

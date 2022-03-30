@@ -34,7 +34,7 @@ if ( ! class_exists( 'Accredible_Learndash_Model' ) ) :
 				$sql .= " OFFSET $offset";
 			}
 			// XXX `$where_sql` is a raw SQL so `$wpdb->prepare` cannot be used.
-			return $wpdb->get_results( $sql ); // phpcs:disable WordPress.DB.PreparedSQL.NotPrepared
+			return $wpdb->get_results( $sql ); // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
 		}
 
 		/**
@@ -49,7 +49,7 @@ if ( ! class_exists( 'Accredible_Learndash_Model' ) ) :
 				$sql .= " WHERE $where_sql";
 			}
 			// XXX `$where_sql` is a raw SQL so `$wpdb->prepare` cannot be used.
-			return $wpdb->get_var( $sql ); // phpcs:disable WordPress.DB.PreparedSQL.NotPrepared
+			return $wpdb->get_var( $sql ); // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
 		}
 
 		/**
