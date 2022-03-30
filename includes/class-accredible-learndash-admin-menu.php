@@ -109,18 +109,16 @@ if ( ! class_exists( 'Accredible_Learndash_Admin_Menu' ) ) :
 		 * Render admin action page
 		 */
 		public static function admin_action() {
-			$action        = isset( $_REQUEST['action'] ) ? esc_attr( wp_unslash( $_REQUEST['action'] ) ) : null; // phpcs:disable WordPress.Security.ValidatedSanitizedInput.InputNotSanitized, WordPress.Security.NonceVerification.Recommended
+			$action        = self::sanitize_parameter( 'action' );
 			$class_methods = get_class_methods( 'Accredible_Learndash_Admin_Action_Handler' );
 			if ( in_array( $action, $class_methods, true ) ) {
-				// phpcs:disable WordPress.Security.ValidatedSanitizedInput.InputNotSanitized, WordPress.Security.NonceVerification.Recommended
 				$data = array(
-					'id'                          => isset( $_REQUEST['id'] ) ? esc_attr( wp_unslash( $_REQUEST['id'] ) ) : null,
-					'nonce'                       => isset( $_REQUEST['_mynonce'] ) ? esc_attr( wp_unslash( $_REQUEST['_mynonce'] ) ) : null,
-					'redirect_url'                => isset( $_REQUEST['redirect_url'] ) ? esc_attr( wp_unslash( $_REQUEST['redirect_url'] ) ) : wp_get_referer(),
-					'page_num'                    => isset( $_REQUEST['page_num'] ) ? esc_attr( wp_unslash( $_REQUEST['page_num'] ) ) : null,
-					'accredible_learndash_object' => isset( $_REQUEST['accredible_learndash_object'] ) ? wp_unslash( $_REQUEST['accredible_learndash_object'] ) : array(),
+					'id'                          => self::sanitize_parameter( 'id' ),
+					'nonce'                       => self::sanitize_parameter( '_mynonce' ),
+					'page_num'                    => self::sanitize_parameter( 'page_num' ),
+					'accredible_learndash_object' => self::sanitize_object( $action ),
+					'redirect_url'                => isset( $_REQUEST['redirect_url'] ) ? esc_url_raw( wp_unslash( $_REQUEST['redirect_url'] ) ) : wp_get_referer(), // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 				);
-				// phpcs:enable WordPress.Security.ValidatedSanitizedInput.InputNotSanitized, WordPress.Security.NonceVerification.Recommended
 				Accredible_Learndash_Admin_Action_Handler::$action( $data );
 			} else {
 				wp_die( 'An action type mismatch has been detected.' );
@@ -137,6 +135,50 @@ if ( ! class_exists( 'Accredible_Learndash_Admin_Menu' ) ) :
 				'<a href="' . admin_url( 'admin.php?page=accredible_learndash_settings' ) . '">Settings</a>',
 			);
 			return array_merge( $links, $mylinks );
+		}
+
+		/**
+		 * Sanitize a string parameter.
+		 *
+		 * @param string $key The key of the parameter.
+		 */
+		private static function sanitize_parameter( $key ) {
+			return isset( $_REQUEST[ $key ] ) ? sanitize_key( wp_unslash( $_REQUEST[ $key ] ) ) : null; // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+		}
+
+		/**
+		 * Sanitize accredible learndash object.
+		 *
+		 * @param string $action The name of the action.
+		 */
+		private static function sanitize_object( $action ) {
+			// phpcs:ignore WordPress.Security.NonceVerification.Recommended
+			if ( ! isset( $_REQUEST['accredible_learndash_object'] ) ) {
+				return array();
+			}
+
+			switch ( $action ) {
+				case 'add_auto_issuance':
+				case 'edit_auto_issuance':
+					$object = array(
+						'kind'                => self::sanitize_object_field( 'kind' ),
+						'post_id'             => self::sanitize_object_field( 'post_id' ),
+						'accredible_group_id' => self::sanitize_object_field( 'accredible_group_id' ),
+					);
+					break;
+				default:
+					$object = array();
+			}
+			return $object;
+		}
+
+		/**
+		 * Sanitize accredible learndash object field.
+		 *
+		 * @param string $field The name of the field.
+		 */
+		private static function sanitize_object_field( $field ) {
+			return isset( $_REQUEST['accredible_learndash_object'][ $field ] ) ? sanitize_text_field( wp_unslash( $_REQUEST['accredible_learndash_object'][ $field ] ) ) : null; // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 		}
 	}
 endif;

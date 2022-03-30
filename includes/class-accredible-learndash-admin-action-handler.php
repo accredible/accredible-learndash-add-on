@@ -22,7 +22,7 @@ if ( ! class_exists( 'Accredible_Learndash_Admin_Action_Handler' ) ) :
 		public static function add_auto_issuance( $data ) {
 			self::verify_nonce( $data['nonce'], 'add_auto_issuance' );
 
-			$result = Accredible_Learndash_Model_Auto_Issuance::insert( self::auto_issuance_params( $data['accredible_learndash_object'] ) );
+			$result = Accredible_Learndash_Model_Auto_Issuance::insert( $data['accredible_learndash_object'] );
 
 			if ( false === $result ) {
 				wp_die( 'Failed to create.' );
@@ -40,8 +40,7 @@ if ( ! class_exists( 'Accredible_Learndash_Admin_Action_Handler' ) ) :
 		public static function edit_auto_issuance( $data ) {
 			self::verify_nonce( $data['nonce'], 'edit_auto_issuance' . $data['id'] );
 
-			$auto_issuance_params = self::auto_issuance_params( $data['accredible_learndash_object'] );
-
+			$auto_issuance_params = $data['accredible_learndash_object'];
 			foreach ( $auto_issuance_params as $key => $value ) {
 				if ( is_null( $auto_issuance_params[ $key ] ) || empty( $auto_issuance_params[ $key ] ) ) {
 					wp_die( 'Failed to update.' );
@@ -69,24 +68,6 @@ if ( ! class_exists( 'Accredible_Learndash_Admin_Action_Handler' ) ) :
 			} else {
 				self::redirect_to( $data['redirect_url'] );
 			}
-		}
-
-		/**
-		 * Return permitted parameters for auto issuance
-		 *
-		 * @param array $data Data to add/modify an auto issuance.
-		 */
-		private static function auto_issuance_params( $data ) {
-			$permitted_params     = array( 'kind', 'post_id', 'accredible_group_id' );
-			$auto_issuance_params = array();
-
-			foreach ( $permitted_params as $param ) {
-				if ( array_key_exists( $param, $data ) ) {
-					$auto_issuance_params[ $param ] = $data[ $param ];
-				}
-			}
-
-			return $auto_issuance_params;
 		}
 
 		/**
