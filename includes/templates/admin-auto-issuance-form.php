@@ -12,8 +12,8 @@ require_once plugin_dir_path( __DIR__ ) . '/helpers/class-accredible-learndash-a
 
 $accredible_learndash_courses = Accredible_Learndash_Model_Auto_Issuance::get_course_options();
 
-$accredible_learndash_issuance_current_page = isset( $_GET['page_num'] ) ? sanitize_key( wp_unslash( $_GET['page_num'] ) ) : 1; // phpcs:disable WordPress.Security.NonceVerification.Recommended
-$accredible_learndash_issuance_id           = isset( $_GET['id'] ) ? sanitize_key( wp_unslash( $_GET['id'] ) ) : null; // phpcs:disable WordPress.Security.NonceVerification.Recommended
+$accredible_learndash_issuance_current_page = isset( $_GET['page_num'] ) ? sanitize_key( wp_unslash( $_GET['page_num'] ) ) : 1; // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+$accredible_learndash_issuance_id           = isset( $_GET['id'] ) ? sanitize_key( wp_unslash( $_GET['id'] ) ) : null; // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 
 $accredible_learndash_group       = array();
 $accredible_learndash_form_action = 'add_auto_issuance';
