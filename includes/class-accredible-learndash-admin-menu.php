@@ -73,7 +73,7 @@ if ( ! class_exists( 'Accredible_Learndash_Admin_Menu' ) ) :
 				'Admin Action',
 				'administrator',
 				'accredible_learndash_admin_action',
-				array( 'Accredible_Learndash_Admin_Menu', 'admin_action' )
+				array( 'Accredible_Learndash_Admin_Action_Handler', 'call' )
 			);
 		}
 
@@ -106,28 +106,6 @@ if ( ! class_exists( 'Accredible_Learndash_Admin_Menu' ) ) :
 		}
 
 		/**
-		 * Render admin action page
-		 */
-		public static function admin_action() {
-			$action        = isset( $_REQUEST['action'] ) ? esc_attr( wp_unslash( $_REQUEST['action'] ) ) : null; // phpcs:disable WordPress.Security.ValidatedSanitizedInput.InputNotSanitized, WordPress.Security.NonceVerification.Recommended
-			$class_methods = get_class_methods( 'Accredible_Learndash_Admin_Action_Handler' );
-			if ( in_array( $action, $class_methods, true ) ) {
-				// phpcs:disable WordPress.Security.ValidatedSanitizedInput.InputNotSanitized, WordPress.Security.NonceVerification.Recommended
-				$data = array(
-					'id'                          => isset( $_REQUEST['id'] ) ? esc_attr( wp_unslash( $_REQUEST['id'] ) ) : null,
-					'nonce'                       => isset( $_REQUEST['_mynonce'] ) ? esc_attr( wp_unslash( $_REQUEST['_mynonce'] ) ) : null,
-					'redirect_url'                => isset( $_REQUEST['redirect_url'] ) ? esc_attr( wp_unslash( $_REQUEST['redirect_url'] ) ) : wp_get_referer(),
-					'page_num'                    => isset( $_REQUEST['page_num'] ) ? esc_attr( wp_unslash( $_REQUEST['page_num'] ) ) : null,
-					'accredible_learndash_object' => isset( $_REQUEST['accredible_learndash_object'] ) ? wp_unslash( $_REQUEST['accredible_learndash_object'] ) : array(),
-				);
-				// phpcs:enable WordPress.Security.ValidatedSanitizedInput.InputNotSanitized, WordPress.Security.NonceVerification.Recommended
-				Accredible_Learndash_Admin_Action_Handler::$action( $data );
-			} else {
-				wp_die( 'An action type mismatch has been detected.' );
-			}
-		}
-
-		/**
 		 * Add plugin action links.
 		 *
 		 * @param Array $links An array of plugin links.
@@ -136,7 +114,7 @@ if ( ! class_exists( 'Accredible_Learndash_Admin_Menu' ) ) :
 			$mylinks = array(
 				'<a href="' . admin_url( 'admin.php?page=accredible_learndash_settings' ) . '">Settings</a>',
 			);
-			return array_merge( $links, $mylinks );
+			return array_merge( $mylinks, $links );
 		}
 	}
 endif;

@@ -29,7 +29,7 @@ class Accredible_Learndash_Uninstall_Test extends WP_UnitTestCase {
 		// XXX Stop transforming all `DROP TABLE` to `DROP TEMPORARY TABLE`.
 		remove_filter( 'query', array( $this, '_drop_temporary_tables' ) );
 		// Run the uninstall script.
-		define( 'WP_UNINSTALL_PLUGIN', true ); // phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedConstantFound
+		define( 'WP_UNINSTALL_PLUGIN', true ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedConstantFound
 		include plugin_dir_path( __DIR__ ) . '/uninstall.php';
 
 		// Plugin options to be empty.

@@ -12,8 +12,8 @@ require_once plugin_dir_path( __DIR__ ) . '/helpers/class-accredible-learndash-a
 
 $accredible_learndash_courses = Accredible_Learndash_Model_Auto_Issuance::get_course_options();
 
-$accredible_learndash_issuance_current_page = isset( $_GET['page_num'] ) ? esc_attr( wp_unslash( $_GET['page_num'] ) ) : 1; // phpcs:disable WordPress.Security.ValidatedSanitizedInput.InputNotSanitized, WordPress.Security.NonceVerification.Recommended
-$accredible_learndash_issuance_id           = isset( $_GET['id'] ) ? esc_attr( wp_unslash( $_GET['id'] ) ) : null; // phpcs:disable WordPress.Security.ValidatedSanitizedInput.InputNotSanitized, WordPress.Security.NonceVerification.Recommended
+$accredible_learndash_issuance_current_page = isset( $_GET['page_num'] ) ? sanitize_key( wp_unslash( $_GET['page_num'] ) ) : 1; // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+$accredible_learndash_issuance_id           = isset( $_GET['id'] ) ? sanitize_key( wp_unslash( $_GET['id'] ) ) : null; // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 
 $accredible_learndash_group       = array();
 $accredible_learndash_form_action = 'add_auto_issuance';
@@ -26,7 +26,7 @@ $accredible_learndash_issuance    = (object) array(
 if ( ! is_null( $accredible_learndash_issuance_id ) ) {
 	$accredible_learndash_form_action = 'edit_auto_issuance';
 
-	$accredible_learndash_issuance_nonce = isset( $_GET['_mynonce'] ) ? esc_attr( wp_unslash( $_GET['_mynonce'] ) ) : null;
+	$accredible_learndash_issuance_nonce = isset( $_GET['_mynonce'] ) ? sanitize_key( wp_unslash( $_GET['_mynonce'] ) ) : null;
 
 	if ( ! ( isset( $accredible_learndash_issuance_nonce ) && wp_verify_nonce( $accredible_learndash_issuance_nonce, $accredible_learndash_form_action . $accredible_learndash_issuance_id ) ) ) {
 		wp_die( 'Invalid nonce.' );
