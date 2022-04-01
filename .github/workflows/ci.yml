@@ -50,6 +50,7 @@ jobs:
         with:
           php_version: ${{ matrix.php }}
           version: 1
+          command: update
 
       - name: Build Composer Version 2
         if: ${{ matrix.php >= 7.2 }}
@@ -57,6 +58,7 @@ jobs:
         with:
           php_version: ${{ matrix.php }}
           version: 2
+          command: update
 
       - name: Initialise WP
         env:
