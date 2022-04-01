@@ -44,11 +44,19 @@ jobs:
           php-version: ${{ matrix.php }}
           ini-values: upload_max_filesize=512M
 
-      - name: Build Composer
+      - name: Build Composer Version 1
+        if: ${{ matrix.php <= 7.1 }}
         uses: php-actions/composer@v6
         with:
           php_version: ${{ matrix.php }}
-          command: update
+          version: 1
+
+      - name: Build Composer Version 2
+        if: ${{ matrix.php >= 7.2 }}
+        uses: php-actions/composer@v6
+        with:
+          php_version: ${{ matrix.php }}
+          version: 2
 
       - name: Initialise WP
         env:
