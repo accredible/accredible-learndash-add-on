@@ -29,8 +29,25 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        php: ['5.6', '7.0', '7.1', '7.2', '7.3', '7.4']
-        wordpress: ['5.9']
+        include:
+          - php: '5.6'
+            composer: 1
+            wordpress: '5.9'
+          - php: '7.0'
+            composer: 1
+            wordpress: '5.9'
+          - php: '7.1'
+            composer: 1
+            wordpress: '5.9'
+          - php: '7.2'
+            composer: 2
+            wordpress: '5.9'
+          - php: '7.3'
+            composer: 2
+            wordpress: '5.9'
+          - php: '7.4'
+            composer: 2
+            wordpress: '5.9'
 
     name: WP version ${{ matrix.wordpress }} on PHP ${{ matrix.php }}
 
@@ -44,10 +61,11 @@ jobs:
           php-version: ${{ matrix.php }}
           ini-values: upload_max_filesize=512M
 
-      - name: Build Composer
+      - name: Build Composer Version ${{ matrix.composer }}
         uses: php-actions/composer@v6
         with:
           php_version: ${{ matrix.php }}
+          version: ${{ matrix.composer }}
           command: update
 
       - name: Initialise WP
