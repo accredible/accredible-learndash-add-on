@@ -19,7 +19,7 @@ defined( 'ABSPATH' ) || die;
 define( 'ACCREDIBLE_LEARNDASH_VERSION', '1.0.1' );
 define( 'ACCREDILBE_LEARNDASH_PLUGIN_BASENAME', plugin_basename( __FILE__ ) );
 define( 'ACCREDILBE_LEARNDASH_PLUGIN_PATH', plugin_dir_path( __FILE__ ) );
-define( 'ACCREDIBLE_LEARNDASH_SCRIPT_VERSION_TOKEN', ACCREDIBLE_LEARNDASH_VERSION);
+define( 'ACCREDIBLE_LEARNDASH_SCRIPT_VERSION_TOKEN', ACCREDIBLE_LEARNDASH_VERSION );
 
 if ( ! defined( 'ACCREDIBLE_LEARNDASH_PLUGIN_URL' ) ) {
 	$accredible_learndash_plugin_url = trailingslashit( WP_PLUGIN_URL . '/' . basename( dirname( __FILE__ ) ) );
