@@ -239,7 +239,8 @@ body.accredible-learndash-admin .label {
     border: 1px solid var(--accredible-color-natural-20);
     border-radius: 10px;
     min-width: 350px;
-    height: 300px;
+    min-height: 300px;
+    max-width: 500px;
 }
 
 .accredible-content .status-tile .logo {
@@ -267,10 +268,55 @@ body.accredible-learndash-admin .label {
     width: 20px;
 }
 
+.accredible-content .status-tile .status-info {
+    display: flex;
+    justify-content: space-between;
+    grid-gap: var(--accredible-spacing-3x);
+    gap: var(--accredible-spacing-3x);
+    padding: var(--accredible-spacing-3x);
+    border-bottom: 1px solid var(--accredible-color-natural-10);
+}
+
+.accredible-content .status-tile .status-info .left {
+    display: flex;
+    flex-direction: column;
+    max-width: 250px;
+    grid-gap: var(--accredible-spacing-3x);
+    gap: var(--accredible-spacing-3x);
+}
+
+.accredible-content .status-tile .status-info .right {
+   width: 155px;
+}
+
+.accredible-content .status-tile .status-info .status-info-item {
+    display: flex;
+    flex-direction: column;
+}
+
+.accredible-content .status-tile .status-info-item .label-value {
+    font-weight: var(--accredible-font-weight-semibold);
+    color: var(--accredible-color-natural-180);
+}
+
+.accredible-credits-tile {
+    display: flex;
+    align-items: flex-start;
+    grid-gap: var(--accredible-spacing-2x);
+    gap: var(--accredible-spacing-2x);
+    padding: var(--accredible-spacing-2x);
+    border: 1px solid var(--accredible-color-natural-10);
+    border-radius: 4px;
+}
+
+.accredible-credits-tile .credits-icon {
+    width: 40px;
+    height: 40px;
+}
+
 .accredible-content .status-tile .help-links {
     height: 90px;
     padding: var(--accredible-spacing-3x);
-    border-bottom: 1px solid var(--accredible-color-natural-20);
     border-bottom-left-radius: 10px;
     border-bottom-right-radius: 10px;
     background-color: var(--accredible-color-secondary-5);

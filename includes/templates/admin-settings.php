@@ -8,6 +8,7 @@
 defined( 'ABSPATH' ) || die;
 
 require_once plugin_dir_path( __DIR__ ) . '/class-accredible-learndash-admin-setting.php';
+require_once plugin_dir_path( __DIR__ ) . '/helpers/class-accredible-learndash-admin-form-helper.php';
 
 if ( empty( get_option( Accredible_Learndash_Admin_Setting::OPTION_API_KEY ) ) ) {
 	$accredible_learndash_issuer = null;
@@ -90,6 +91,41 @@ if ( empty( get_option( Accredible_Learndash_Admin_Setting::OPTION_API_KEY ) ) )
 				<span><?php esc_html_e( 'Integration is not working' ); ?></span>
 			<?php } ?>
 			</div>
+			<?php if ( ! empty( $accredible_learndash_issuer ) && ! is_null( $accredible_learndash_issuer ) ) : ?>
+			<div class="status-info">
+				<div class="left">
+					<div class="status-info-item">
+						<span class="label"><?php esc_html_e( 'Issuer' ); ?></span>
+						<span class="label-value">
+							<?php Accredible_Learndash_Admin_Form_Helper::html( $accredible_learndash_issuer['name'] ); ?>
+						</span>
+					</div>
+					<div class="status-info-item">
+						<span class="label"><?php esc_html_e( 'Email' ); ?></span>
+						<span class="label-value">
+							<?php Accredible_Learndash_Admin_Form_Helper::html( $accredible_learndash_issuer['email'] ); ?>
+						</span>
+					</div>
+					<div class="status-info-item">
+						<span class="label"><?php esc_html_e( 'URL' ); ?></span>
+						<span class="label-value">
+							<?php Accredible_Learndash_Admin_Form_Helper::html( $accredible_learndash_issuer['url'] ); ?>
+						</span>
+					</div>
+				</div>
+				<div class="right">
+					<div class="accredible-credits-tile">
+						<img class="credits-icon" src="<?php echo esc_url( ACCREDIBLE_LEARNDASH_PLUGIN_URL . 'assets/images/credits.png' ); ?>">
+						<div class="status-info-item">
+							<span class="label"><?php esc_html_e( 'Credits Left' ); ?></span>
+							<span class="label-value">
+								<?php Accredible_Learndash_Admin_Form_Helper::html( $accredible_learndash_issuer['certificate_left'] ); ?>
+							</span>
+						</div>
+					</div>
+				</div>
+			</div>
+			<?php endif; ?>
 			<div class="help-links">
 				<div class="link-title"><?php esc_html_e( 'Need Help?' ); ?></div>
 				<ul>
