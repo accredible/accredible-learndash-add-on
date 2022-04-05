@@ -175,9 +175,11 @@ body.accredible-learndash-admin .label {
 
 /* BUTTONS */
 
-.wp-core-ui .button.accredible-button-large {
+.wp-core-ui .button.accredible-button-large,
+.accredible-button-large {
     height: 40px;
     font-size: var(--accredible-font-size-l);
+    border-radius: 4px;
 }
 
 .wp-core-ui .button.accredible-button-small,
@@ -185,6 +187,7 @@ body.accredible-learndash-admin .label {
     height: 32px;
     font-size: var(--accredible-font-size-normal);
     line-height: 30px;
+    border-radius: 4px;
 }
 
 a[class*="accredible-button"],
@@ -438,10 +441,6 @@ table.accredible-table {
 
 /* DIALOG */
 
-.accredible-dialog-wrapper {
-    display: none;
-}
-
 .accredible-dialog.ui-dialog {
     z-index: 1001;
     padding: var(--accredible-spacing-5x);
@@ -449,6 +448,7 @@ table.accredible-table {
     border-radius: 4px;
     background-color: var(--accredible-color-white);
     box-shadow: 0px 11px 15px -7px rgb(0 0 0 / 20%), 0px 24px 38px 3px rgb(0 0 0 / 14%), 0px 9px 46px 8px rgb(0 0 0 / 12%);
+    font: 400 16px/24px Source Sans Pro;
 }
 
 .accredible-dialog.ui-dialog .ui-dialog-titlebar {
@@ -458,6 +458,7 @@ table.accredible-table {
 
 .accredible-dialog.ui-dialog .ui-dialog-titlebar .ui-dialog-title {
     font-size: var(--accredible-font-size-l);
+    font-weight: var(--accredible-font-weight-semibold);
 }
 
 .accredible-dialog.ui-dialog .ui-dialog-titlebar-close {
