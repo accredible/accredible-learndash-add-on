@@ -1,0 +1,13 @@
+.github
+bin
+tests
+vendor
+
+*.xml.dist
+.gitignore
+.svnignore
+composer.*
+custom.ini
+Dockerfile
+docker-compose.yml
+README.md
