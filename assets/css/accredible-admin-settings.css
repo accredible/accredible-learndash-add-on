@@ -472,7 +472,7 @@ table.accredible-table {
 
 .accredible-dialog.ui-dialog .ui-dialog-buttonset {
     display: flex;
-    justify-content: center;
+    justify-content: flex-end;
     grid-gap: var(--accredible-spacing-3x);
     gap: var(--accredible-spacing-3x);
 }
