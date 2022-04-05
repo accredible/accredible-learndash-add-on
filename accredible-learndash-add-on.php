@@ -16,7 +16,7 @@
 
 defined( 'ABSPATH' ) || die;
 
-define( 'ACCREDIBLE_LEARNDASH_VERSION', '1.0.0' );
+define( 'ACCREDIBLE_LEARNDASH_VERSION', '1.0.2' );
 define( 'ACCREDILBE_LEARNDASH_PLUGIN_BASENAME', plugin_basename( __FILE__ ) );
 define( 'ACCREDILBE_LEARNDASH_PLUGIN_PATH', plugin_dir_path( __FILE__ ) );
 define( 'ACCREDIBLE_LEARNDASH_SCRIPT_VERSION_TOKEN', ACCREDIBLE_LEARNDASH_VERSION . '-' . time() );
