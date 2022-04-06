@@ -306,4 +306,166 @@ class Accredible_Learndash_Model_Auto_Issuance_Test extends Accredible_Learndash
 
 		$this->assertEquals( array(), $result );
 	}
+
+	/**
+	 * Test if it passes with valid data.
+	 */
+	public function test_validate() {
+		$data = array(
+			'kind'                => 'course_completed',
+			'post_id'             => 1,
+			'accredible_group_id' => 1,
+			'created_at'          => time(),
+		);
+
+		try {
+			Accredible_Learndash_Model_Auto_Issuance::validate( $data );
+			$caught_exception = null;
+		} catch ( WPDieException $error ) {
+			$caught_exception = $error->getMessage();
+		}
+
+		$this->assertNull( $caught_exception );
+	}
+
+	/**
+	 * Test if it raises an error with an empty kind.
+	 */
+	public function test_validate_when_kind_is_empty() {
+		$data = array(
+			'kind'                => '',
+			'post_id'             => 1,
+			'accredible_group_id' => 1,
+			'created_at'          => time(),
+		);
+
+		try {
+			Accredible_Learndash_Model_Auto_Issuance::validate( $data );
+			$caught_exception = null;
+		} catch ( WPDieException $error ) {
+			$caught_exception = $error->getMessage();
+		}
+
+		$this->assertEquals( 'ERROR: kind is a required field.', $caught_exception );
+	}
+
+	/**
+	 * Test if it raises an error with an empty post_id.
+	 */
+	public function test_validate_when_post_id_is_empty() {
+		$data = array(
+			'kind'                => 'course_completed',
+			'post_id'             => '',
+			'accredible_group_id' => 1,
+			'created_at'          => time(),
+		);
+
+		try {
+			Accredible_Learndash_Model_Auto_Issuance::validate( $data );
+			$caught_exception = null;
+		} catch ( WPDieException $error ) {
+			$caught_exception = $error->getMessage();
+		}
+
+		$this->assertEquals( 'ERROR: post_id is a required field.', $caught_exception );
+	}
+
+	/**
+	 * Test if it raises an error with an empty accredible_group_id.
+	 */
+	public function test_validate_when_accredible_group_id_is_empty() {
+		$data = array(
+			'kind'                => 'course_completed',
+			'post_id'             => 1,
+			'accredible_group_id' => '',
+			'created_at'          => time(),
+		);
+
+		try {
+			Accredible_Learndash_Model_Auto_Issuance::validate( $data );
+			$caught_exception = null;
+		} catch ( WPDieException $error ) {
+			$caught_exception = $error->getMessage();
+		}
+
+		$this->assertEquals( 'ERROR: accredible_group_id is a required field.', $caught_exception );
+	}
+
+	/**
+	 * Test if it raises an error with an invalid kind.
+	 */
+	public function test_validate_when_kind_is_invalid() {
+		$data = array(
+			'kind'                => 'completed',
+			'post_id'             => 1,
+			'accredible_group_id' => 1,
+			'created_at'          => time(),
+		);
+
+		try {
+			Accredible_Learndash_Model_Auto_Issuance::validate( $data );
+			$caught_exception = null;
+		} catch ( WPDieException $error ) {
+			$caught_exception = $error->getMessage();
+		}
+
+		$this->assertEquals( 'ERROR: completed is an invalid kind.', $caught_exception );
+	}
+
+	/**
+	 * Test if it raises an error when creating with duplicate data.
+	 */
+	public function test_validate_when_creating_with_duplicate_data() {
+		$data = array(
+			'kind'                => 'course_completed',
+			'post_id'             => 1,
+			'accredible_group_id' => 1,
+			'created_at'          => time(),
+		);
+		global $wpdb;
+		$wpdb->insert( $wpdb->prefix . 'accredible_learndash_auto_issuances', $data );
+
+		try {
+			Accredible_Learndash_Model_Auto_Issuance::validate( $data );
+			$caught_exception = null;
+		} catch ( WPDieException $error ) {
+			$caught_exception = $error->getMessage();
+		}
+
+		$this->assertEquals( 'ERROR: Post ID 1 already has the same kind of auto issuance.', $caught_exception );
+	}
+
+	/**
+	 * Test if it raises an error when updating with duplicate data.
+	 */
+	public function test_validate_when_updating_with_duplicate_data() {
+		$data1 = array(
+			'kind'                => 'course_completed',
+			'post_id'             => 1,
+			'accredible_group_id' => 1,
+			'created_at'          => time(),
+		);
+		$data2 = array(
+			'kind'                => 'course_completed',
+			'post_id'             => 2,
+			'accredible_group_id' => 2,
+			'created_at'          => time(),
+		);
+
+		global $wpdb;
+		$wpdb->insert( $wpdb->prefix . 'accredible_learndash_auto_issuances', $data1 );
+		$wpdb->insert( $wpdb->prefix . 'accredible_learndash_auto_issuances', $data2 );
+		$id = $wpdb->insert_id;
+
+		$data = array( 'post_id' => 1 );
+
+		try {
+			Accredible_Learndash_Model_Auto_Issuance::validate( $data, $id );
+			$caught_exception = null;
+		} catch ( WPDieException $error ) {
+			$caught_exception = $error->getMessage();
+		}
+
+		$this->assertEquals( 'ERROR: Post ID 1 already has the same kind of auto issuance.', $caught_exception );
+	}
 }
