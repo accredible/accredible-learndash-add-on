@@ -175,62 +175,109 @@ body.accredible-learndash-admin .label {
 
 /* BUTTONS */
 
-.wp-core-ui .button.accredible-button-large {
+.wp-core-ui .button.accredible-button-large,
+.accredible-button-large {
     height: 40px;
     font-size: var(--accredible-font-size-l);
+    border-radius: 4px;
 }
 
-.wp-core-ui .button.accredible-button-small {
+.wp-core-ui .button.accredible-button-small,
+.accredible-button-small {
     height: 32px;
     font-size: var(--accredible-font-size-normal);
     line-height: 30px;
+    border-radius: 4px;
 }
 
-.wp-core-ui .button.accredible-button-primary {
+a[class*="accredible-button"],
+button[class*="accredible-button"] {
+    cursor: pointer;
+}
+
+.wp-core-ui .button.accredible-button-primary,
+.accredible-button-primary {
     color: var(--accredible-color-white);
     background-color: var(--accredible-color-primary-100);
     border-color: var(--accredible-color-primary-100);
 }
 
-.wp-core-ui .button.accredible-button-primary:hover { 
+.wp-core-ui .button.accredible-button-primary:hover,
+.accredible-button-primary:hover { 
     background-color: var(--accredible-color-primary-80);
     border-color: var(--accredible-color-primary-80);
 }
 
-.wp-core-ui .button.accredible-button-primary:focus { 
+.wp-core-ui .button.accredible-button-primary:focus,
+.accredible-button-primary:focus { 
     background-color: var(--accredible-color-primary-120);
     border-color: var(--accredible-color-primary-120);
 }
 
-.wp-core-ui .button.accredible-button-primary:disabled { 
+.wp-core-ui .button.accredible-button-primary:disabled,
+.accredible-button-primary:disabled { 
     background-color: var(--accredible-color-primary-20);
     border-color: var(--accredible-color-primary-20);
 }
 
-.wp-core-ui .button.accredible-button-outline-natural {
+.wp-core-ui .button.accredible-button-outline-natural,
+.accredible-button-outline-natural {
     color: var(--accredible-color-natural-100);
     background-color: var(--accredible-color-white);
     border: 1px solid var(--accredible-color-natural-20);
 }
 
-.wp-core-ui .button.accredible-button-outline-natural:hover {
+.wp-core-ui .button.accredible-button-outline-natural:hover,
+.accredible-button-outline-natural:hover {
     color: var(--accredible-color-natural-100);
     border-color: var(--accredible-color-natural-100);
 }
 
-.wp-core-ui .button.accredible-button-outline-natural:focus {
+.wp-core-ui .button.accredible-button-outline-natural:focus,
+.accredible-button-outline-natural:focus {
     outline: none;
 }
 
-.wp-core-ui .button.accredible-button-outline-natural:active {
+.wp-core-ui .button.accredible-button-outline-natural:active,
+.accredible-button-outline-natural:active {
     color: var(--accredible-color-natural-100);
     background-color: var(--accredible-color-natural-10);
     border-color: var(--accredible-color-natural-100);
 }
 
-.wp-core-ui .button.accredible-button-outline-natural:disabled {
+.wp-core-ui .button.accredible-button-outline-natural:disabled,
+.accredible-button-outline-natural:disabled {
     color: var(--accredible-color-natural-40);
     border-color: var(--accredible-color-natural-10);
+}
+
+.wp-core-ui .button.accredible-button-flat-natural,
+.accredible-button-flat-natural {
+    color: var(--accredible-color-natural-100);
+    background-color: var(--accredible-color-white);
+    border: 0px;
+}
+
+.wp-core-ui .button.accredible-button-flat-natural:hover,
+.accredible-button-flat-natural:hover {
+    color: var(--accredible-color-natural-120);
+    background-color: var(--accredible-color-natural-5);
+}
+
+.wp-core-ui .button.accredible-button-flat-natural:focus,
+.accredible-button-flat-natural:focus {
+    outline: none;
+}
+
+.wp-core-ui .button.accredible-button-flat-natural:active,
+.accredible-button-flat-natural:active {
+    color: var(--accredible-color-natural-120);
+    background-color: var(--accredible-color-natural-10);
+}
+
+.wp-core-ui .button.accredible-button-flat-natural:disabled,
+.accredible-button-flat-natural:disabled {
+    color: var(--accredible-color-natural-40);
 }
 
 /* STATUS TILE */
@@ -436,6 +483,57 @@ table.accredible-table {
 
 .wp-core-ui .accredible-pagination-actions a.button[disabled] img {
     opacity: 0.5;
+}
+
+/* DIALOG */
+
+.accredible-dialog.ui-dialog {
+    z-index: 1001;
+    padding: var(--accredible-spacing-5x);
+    border: 1px solid var(--accredible-color-natural-20);
+    border-radius: 4px;
+    background-color: var(--accredible-color-white);
+    box-shadow: 0px 11px 15px -7px rgb(0 0 0 / 20%), 0px 24px 38px 3px rgb(0 0 0 / 14%), 0px 9px 46px 8px rgb(0 0 0 / 12%);
+    font: 400 16px/24px Source Sans Pro;
+}
+
+.accredible-dialog.ui-dialog .ui-dialog-titlebar {
+    display: flex;
+    justify-content: space-between;
+}
+
+.accredible-dialog.ui-dialog .ui-dialog-titlebar .ui-dialog-title {
+    font-size: var(--accredible-font-size-l);
+    font-weight: var(--accredible-font-weight-semibold);
+}
+
+.accredible-dialog.ui-dialog .ui-dialog-titlebar-close {
+    display: none;
+}
+
+.accredible-dialog.ui-dialog .ui-dialog-content,
+.accredible-dialog.ui-dialog .ui-dialog-content > * {
+    font-size: var(--accredible-font-size-normal);
+}
+
+.accredible-dialog.ui-dialog .ui-dialog-buttonset {
+    display: flex;
+    justify-content: flex-end;
+    grid-gap: var(--accredible-spacing-3x);
+    gap: var(--accredible-spacing-3x);
+}
+
+.accredible-learndash-admin .ui-widget-overlay {
+    background: rgba(0,0,0,.32);
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    pointer-events: auto;
+    -webkit-tap-highlight-color: transparent;
+    transition: opacity 400ms cubic-bezier(0.25, 0.8, 0.25, 1);
 }
 
 /* DIRECTION */
