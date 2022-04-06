@@ -26,5 +26,19 @@ if ( ! class_exists( 'Accredible_Learndash_Admin_Form_Helper' ) ) :
 				);
 			}
 		}
+
+		/**
+		 * Returns value if present else shows default value.
+		 *
+		 * @param mixed $value value.
+		 * @param mixed $default default value.
+		 */
+		public static function html( $value, $default = 'N/A' ) {
+			if ( empty( $value ) ) {
+				$value = $default;
+			}
+
+			echo esc_html( $value );
+		}
 	}
 endif;
