@@ -136,3 +136,56 @@ if ( empty( get_option( Accredible_Learndash_Admin_Setting::OPTION_API_KEY ) ) )
 		</div>
 	</div>
 </div>
+
+<script type="text/javascript">
+	function escapeHTML(html) {
+		var escape = document.createElement('textarea');
+		escape.textContent = html;
+    	return escape.innerHTML;
+	}
+
+	jQuery(function(){
+
+		const options = {
+			icon: 'info', // Either info | success | error.
+			message: 'Settings saved successfully',
+			duration: 3000 // (optional) Duration toast is shown before auto-closing. Time in ms.
+		};
+
+		const toastHTML = `
+		<div class="accredible-toast-message">
+			<div class="alert-icon toast-${options.icon}"></div>
+			<p>${escapeHTML(options.message)}</p>
+		</div>`;
+
+		const accredibleToast = jQuery(toastHTML).dialog({
+			draggable: false,
+			minWidth: 400,
+			minHeight: 48,
+			autoOpen: false,
+			classes: {
+				'ui-dialog': 'accredible-toast'
+			},
+			position: { my: 'bottom', at: 'center bottom', of: '.accredible-learndash-admin' },
+			buttons: [
+				{
+					class: 'accredible-toast-close',
+					click: function() {
+						jQuery(this).dialog("close");
+					}
+				}
+			],
+		});
+
+		if (options.duration && !isNaN(Number(options.duration))) {
+			accredibleToast.dialog('option', 'open', function(event, ui) {
+				const toastRef = jQuery(this); 
+				setTimeout(function(){
+					toastRef.dialog('close');
+				}, options.duration);
+			});
+		}
+
+		window.accredibleToast = accredibleToast; // TODO(MartinN) - remove after testing
+	});
+</script>

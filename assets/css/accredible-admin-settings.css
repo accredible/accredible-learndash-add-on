@@ -536,6 +536,78 @@ table.accredible-table {
     transition: opacity 400ms cubic-bezier(0.25, 0.8, 0.25, 1);
 }
 
+/* TOAST */
+
+.accredible-toast.ui-dialog .ui-dialog-titlebar,
+.accredible-toast.ui-dialog .ui-dialog-titlebar-close {
+    display: none;
+}
+
+.accredible-toast.ui-dialog {
+    display: flex;
+    align-items: center;
+    min-width: 344px;
+    max-width: 33vw;
+    min-height: 48px;
+    margin: var(--accredible-spacing-5x);
+    padding: 0 var(--accredible-spacing-3x);
+    color: var(--accredible-color-white);
+    background: var(--accredible-color-natural-140);
+    border-radius: 4px;
+    box-shadow: 0 3px 5px -1px #0003, 0 6px 10px #00000024, 0 1px 18px #0000001f;
+}
+
+.accredible-toast.ui-dialog .ui-dialog-buttonpane {
+    display: flex;
+    flex: 1;
+    justify-content: flex-end;
+}
+
+.accredible-toast.ui-dialog .ui-dialog-buttonpane .accredible-toast-close {
+    width: 14px;
+    height: 14px;
+    background-image: url('../images/close.svg');
+    background-size: cover;
+    border: 0;
+    background-color: transparent;
+    cursor: pointer;
+    user-select: none;
+    outline: none;
+}
+
+.accredible-toast-message {
+    display: flex;
+    align-items: center;
+    grid-gap: var(--accredible-spacing-2x);
+    gap: var(--accredible-spacing-2x);
+    font: 400 14px/21px Source Sans Pro;
+}
+
+.accredible-toast-message p {
+    margin: 0;
+}
+
+.accredible-toast-message .alert-icon {
+    width: 20px;
+    height: 20px;
+    align-self: flex-start;
+}
+
+.accredible-toast-message .alert-icon.toast-success {
+    background-image: url('../images/check.png');
+    background-size: cover;
+}
+
+.accredible-toast-message .alert-icon.toast-info {
+    background-image: url('../images/info.svg');
+    background-size: cover;
+}
+
+.accredible-toast-message .alert-icon.toast-error {
+    background-image: url('../images/error.png');
+    background-size: cover;
+}
+
 /* DIRECTION */
 
 .accredible-wrapper,
