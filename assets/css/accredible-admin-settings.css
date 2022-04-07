@@ -581,11 +581,11 @@ table.accredible-table {
     align-items: center;
     grid-gap: var(--accredible-spacing-2x);
     gap: var(--accredible-spacing-2x);
-    font: 400 14px/21px Source Sans Pro;
 }
 
 .accredible-toast-message p {
     margin: 0;
+    font: 400 16px/21px Source Sans Pro;
 }
 
 .accredible-toast-message .alert-icon {
