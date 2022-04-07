@@ -1,0 +1,15 @@
+.github
+bin
+tests
+vendor
+
+.gitignore
+.phpcs.xml.dist
+.svnignore
+composer.json
+composer.lock
+custom.ini
+docker-compose.yml
+Dockerfile
+phpunit.xml.dist
+README.md
