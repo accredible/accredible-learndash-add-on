@@ -152,7 +152,7 @@ class Accredible_Learndash_Admin_Scripts_Test extends WP_UnitTestCase {
 		// Navigate to dashboard page.
 		set_current_screen( 'dashboard' );
 
-		Accredible_Learndash_Admin_Scripts::load_page_ajax();
+		Accredible_Learndash_Admin_Scripts::load_page_scripts();
 
 		global $wp_scripts;
 		$this->assertTrue( empty( $wp_scripts->registered['accredible-learndash-dialog'] ) );
