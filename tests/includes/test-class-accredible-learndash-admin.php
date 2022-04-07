@@ -50,6 +50,10 @@ class Accredible_Learndash_Admin_Test extends WP_UnitTestCase {
 		);
 		$this->assertEquals(
 			10,
+			has_filter( 'admin_enqueue_scripts', array( 'Accredible_Learndash_Admin_Scripts', 'load_page_scripts' ) )
+		);
+		$this->assertEquals(
+			10,
 			has_filter( 'admin_body_class', array( 'Accredible_Learndash_Admin_Scripts', 'add_admin_body_class' ) )
 		);
 		$this->assertEquals(
