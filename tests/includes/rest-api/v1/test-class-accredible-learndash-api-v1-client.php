@@ -345,11 +345,12 @@ class Accredible_Learndash_Api_V1_Client_Test extends Accredible_Learndash_Custo
 	/**
 	 * Test if it makes a POST request and return parsed body.
 	 */
-	public function test_search_groups() {
+	public function test_search_groups_with_name() {
 		$this->response_body = file_get_contents( ACCREDILBE_LEARNDASH_API_FIXTURES_PATH . '/groups/search_groups_success.json' );
 		$this->post_data     = array(
-			'name'      => 'test',
+			'page'      => 1,
 			'page_size' => 10,
+			'name'      => 'test',
 		);
 
 		update_option( 'accredible_learndash_api_key', 'someapikey' );
@@ -380,10 +381,46 @@ class Accredible_Learndash_Api_V1_Client_Test extends Accredible_Learndash_Custo
 	/**
 	 * Test if it makes a POST request and return parsed body.
 	 */
+	public function test_search_groups_with_page_num_and_page_size() {
+		$this->response_body = file_get_contents( ACCREDILBE_LEARNDASH_API_FIXTURES_PATH . '/groups/search_groups_success.json' );
+		$this->post_data     = array(
+			'page'      => 2,
+			'page_size' => 50,
+		);
+
+		update_option( 'accredible_learndash_api_key', 'someapikey' );
+		update_option( 'accredible_learndash_server_region', 'us' );
+
+		// Stub the HTTP request.
+		add_filter(
+			'pre_http_request',
+			function( $_preempt, $args, $url ) {
+				$this->assertEquals( 'https://api.accredible.com/v1/issuer/groups/search', $url );
+				$this->assertEquals( 'POST', $args['method'] );
+				$this->assertEquals( wp_json_encode( $this->post_data ), $args['body'] );
+
+				return array(
+					'response' => array( 'code' => 200 ),
+					'body'     => $this->response_body,
+				);
+			},
+			10,
+			3
+		);
+
+		$client = new Accredible_Learndash_Api_V1_Client();
+		$res    = $client->search_groups( null, 2, 50 );
+		$this->assertEquals( json_decode( $this->response_body, true ), $res );
+	}
+
+	/**
+	 * Test if it makes a POST request and return parsed body.
+	 */
 	public function test_search_groups_when_unauthorized() {
 		$this->post_data = array(
-			'name'      => 'test',
+			'page'      => 1,
 			'page_size' => 10,
+			'name'      => 'test',
 		);
 
 		update_option( 'accredible_learndash_api_key', 'someapikey' );

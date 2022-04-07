@@ -26,9 +26,9 @@ if ( ! class_exists( 'Accredible_Learndash_Admin_Table_Helper' ) ) :
 		/**
 		 * Caches group names for faster lookup.
 		 *
-		 * @var array $group_name_cache.
+		 * @var array|null $group_name_cache.
 		 */
-		private static $group_name_cache = array();
+		private static $group_name_cache = null;
 
 		/**
 		 * Current results page.
@@ -121,17 +121,7 @@ if ( ! class_exists( 'Accredible_Learndash_Admin_Table_Helper' ) ) :
 						$value       = ! empty( $course_name ) ? $course_name : self::eval_error( 'Not found' );
 						break;
 					case self::GROUP_ID:
-						$key = $value;
-						if ( array_key_exists( $key, self::$group_name_cache ) ) {
-							$value = self::$group_name_cache[ strval( $key ) ];
-						} else {
-							// later: Consider storing `group_name` in the AutoIssaunce table for the faster page load time.
-							$client                                   = new Accredible_Learndash_Api_V1_Client();
-							$response                                 = $client->get_group( $value );
-							$value                                    = ! isset( $response['errors'] ) ? $response['group']['name'] : self::eval_error( 'Not found', $response['errors'] );
-							self::$group_name_cache[ strval( $key ) ] = $value;
-						}
-						$value;
+						$value = self::eval_group_id( $value );
 						break;
 					case self::KIND:
 						$value = self::eval_kind( $value );
@@ -166,6 +156,48 @@ if ( ! class_exists( 'Accredible_Learndash_Admin_Table_Helper' ) ) :
 		private static function table_cell( $cell_value, $classes = '' ) {
 			$start_cell_tag = empty( $classes ) ? '<td>' : '<td class="' . $classes . '">';
 			return $start_cell_tag . $cell_value . '</td>';
+		}
+
+		/**
+		 * Evaluates Accredible group ID to string.
+		 *
+		 * @param int $group_id Accredible Group ID.
+		 *
+		 * @return string
+		 */
+		private static function eval_group_id( $group_id ) {
+			if ( null === self::$group_name_cache ) {
+				self::store_group_name_cache();
+			}
+
+			$key = $group_id;
+			if ( array_key_exists( $key, self::$group_name_cache ) ) {
+				$value = self::$group_name_cache[ $key ];
+			} else {
+				$value = 'Not found';
+			}
+
+			return $value;
+		}
+
+		/**
+		 * Store group_name_cache.
+		 */
+		private static function store_group_name_cache() {
+			self::$group_name_cache = array();
+			$page                   = 1;
+			$client                 = new Accredible_Learndash_Api_V1_Client();
+			while ( ! empty( $page ) ) {
+				$response = $client->search_groups( null, $page, 50 );
+				if ( isset( $response['errors'] ) ) {
+					wp_die( 'Accredible API Search Groups Error ' . esc_attr( $response['errors'] ) );
+				}
+
+				foreach ( $response['groups'] as $group ) {
+					self::$group_name_cache[ $group['id'] ] = $group['name'];
+				}
+				$page = $response['meta']['next_page'];
+			}
 		}
 
 		/**
