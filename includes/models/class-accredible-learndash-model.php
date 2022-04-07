@@ -128,8 +128,14 @@ if ( ! class_exists( 'Accredible_Learndash_Model' ) ) :
 		 */
 		public static function validate( $data, $id = null ) {
 			foreach ( static::REQUIRED_FIELDS as $field ) {
-				if ( array_key_exists( $field, $data ) && ( null === $data[ $field ] || '' === trim( $data[ $field ] ) ) ) {
-					wp_die( 'ERROR: ' . esc_attr( $field ) . ' is a required field.' );
+				if ( null === $id ) {
+					if ( ! isset( $data[ $field ] ) || '' === trim( $data[ $field ] ) ) {
+						wp_die( 'ERROR: ' . esc_attr( $field ) . ' is a required field.' );
+					}
+				} else {
+					if ( array_key_exists( $field, $data ) && ( null === $data[ $field ] || '' === trim( $data[ $field ] ) ) ) {
+						wp_die( 'ERROR: ' . esc_attr( $field ) . ' is a required field.' );
+					}
 				}
 			}
 		}
