@@ -3,11 +3,13 @@ bin
 tests
 vendor
 
-*.xml.dist
 .gitignore
+.phpcs.xml.dist
 .svnignore
-composer.*
+composer.json
+composer.lock
 custom.ini
-Dockerfile
 docker-compose.yml
+Dockerfile
+phpunit.xml.dist
 README.md
