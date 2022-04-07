@@ -66,11 +66,24 @@ if ( ! class_exists( 'Accredible_Learndash_Admin_Scripts' ) ) :
 					)
 				);
 			}
+		}
+
+		/**
+		 * Enqueues ajax scripts for pages.
+		 */
+		public static function load_page_scripts() {
+			wp_enqueue_script(
+				'accredible-learndash-toast',
+				ACCREDIBLE_LEARNDASH_PLUGIN_URL . 'assets/js/accredible-toast.js',
+				array( 'jquery' ),
+				ACCREDIBLE_LEARNDASH_SCRIPT_VERSION_TOKEN,
+				true
+			);
 
 			// phpcs:ignore WordPress.Security.NonceVerification.Recommended
 			if ( isset( $_GET['page'] ) && 'accredible_learndash_issuance_list' === $_GET['page'] ) {
 				wp_enqueue_script(
-					'accredible-learndash-groups-dialog',
+					'accredible-learndash-dialog',
 					ACCREDIBLE_LEARNDASH_PLUGIN_URL . 'assets/js/accredible-dialog.js',
 					array( 'jquery' ),
 					ACCREDIBLE_LEARNDASH_SCRIPT_VERSION_TOKEN,

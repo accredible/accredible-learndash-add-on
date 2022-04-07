@@ -55,6 +55,7 @@ if ( ! class_exists( 'Accredible_Learndash_Admin' ) ) :
 			$this->add_menus();
 			$this->add_scripts();
 			$this->add_page_ajax_scripts();
+			$this->add_page_scripts();
 			$this->add_style_classes();
 			$this->add_ajax_actions();
 		}
@@ -89,6 +90,13 @@ if ( ! class_exists( 'Accredible_Learndash_Admin' ) ) :
 		 */
 		private function add_page_ajax_scripts() {
 			add_action( 'admin_enqueue_scripts', array( 'Accredible_Learndash_Admin_Scripts', 'load_page_ajax' ) );
+		}
+
+		/**
+		 * Add page based scripts to WP admin.
+		 */
+		private function add_page_scripts() {
+			add_action( 'admin_enqueue_scripts', array( 'Accredible_Learndash_Admin_Scripts', 'load_page_scripts' ) );
 		}
 
 		/**
