@@ -75,7 +75,7 @@ if ( empty( get_option( Accredible_Learndash_Admin_Setting::OPTION_API_KEY ) ) )
 				</div>
 			</div>
 
-			<?php submit_button( 'Save', 'accredible-button-primary accredible-button-large', 'submit', false ); ?>
+			<button type="submit" id="submit" name="submit" class="button accredible-button-primary accredible-button-large">Save</button>
 		</form>
 
 		<div class="status-tile">
@@ -139,6 +139,10 @@ if ( empty( get_option( Accredible_Learndash_Admin_Setting::OPTION_API_KEY ) ) )
 
 <script type="text/javascript">
 	jQuery(function(){
+		const submitBtn = jQuery('#submit');
+		submitBtn.on('click', function(){
+			jQuery(this).addClass('accredible-button-spinner');
+		});
 		jQuery('#settings-form').on('submit', function(){
 			event.preventDefault();
 			const settings = jQuery(this).serialize();
@@ -146,6 +150,8 @@ if ( empty( get_option( Accredible_Learndash_Admin_Setting::OPTION_API_KEY ) ) )
 				accredibleToast.success('Settings saved successfully', 3000);
 			}).fail(function(err){
 				accredibleToast.error('Failed to save settings, please try again later', 3000);
+			}).always(function(){
+				submitBtn.removeClass('accredible-button-spinner');
 			});
 		});
 	});
