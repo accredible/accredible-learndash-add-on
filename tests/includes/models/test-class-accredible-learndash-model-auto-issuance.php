@@ -308,9 +308,9 @@ class Accredible_Learndash_Model_Auto_Issuance_Test extends Accredible_Learndash
 	}
 
 	/**
-	 * Test if it passes with valid data.
+	 * Test if it passes with valid data when creating.
 	 */
-	public function test_validate() {
+	public function test_validate_when_creating() {
 		$data = array(
 			'kind'                => 'course_completed',
 			'post_id'             => 1,
@@ -320,6 +320,33 @@ class Accredible_Learndash_Model_Auto_Issuance_Test extends Accredible_Learndash
 
 		try {
 			Accredible_Learndash_Model_Auto_Issuance::validate( $data );
+			$caught_exception = null;
+		} catch ( WPDieException $error ) {
+			$caught_exception = $error->getMessage();
+		}
+
+		$this->assertNull( $caught_exception );
+	}
+
+	/**
+	 * Test if it passes with valid data when updating.
+	 */
+	public function test_validate_when_updating() {
+		$data1 = array(
+			'kind'                => 'course_completed',
+			'post_id'             => 1,
+			'accredible_group_id' => 1,
+			'created_at'          => time(),
+		);
+
+		global $wpdb;
+		$wpdb->insert( $wpdb->prefix . 'accredible_learndash_auto_issuances', $data1 );
+		$id = $wpdb->insert_id;
+
+		$data = array( 'post_id' => 2 );
+
+		try {
+			Accredible_Learndash_Model_Auto_Issuance::validate( $data, $id );
 			$caught_exception = null;
 		} catch ( WPDieException $error ) {
 			$caught_exception = $error->getMessage();
