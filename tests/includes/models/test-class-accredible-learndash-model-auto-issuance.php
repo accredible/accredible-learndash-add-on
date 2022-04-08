@@ -61,6 +61,43 @@ class Accredible_Learndash_Model_Auto_Issuance_Test extends Accredible_Learndash
 	}
 
 	/**
+	 * Test if it returns an auto issuance with a WHERE clause.
+	 */
+	public function test_get_row() {
+		$result = Accredible_Learndash_Model_Auto_Issuance::get_row();
+		$this->assertEquals( null, $result );
+
+		global $wpdb;
+		$data1 = array(
+			'kind'                => 'course_completed',
+			'post_id'             => 1,
+			'accredible_group_id' => 1,
+			'created_at'          => time(),
+		);
+		$data2 = array(
+			'kind'                => 'course_completed',
+			'post_id'             => 2,
+			'accredible_group_id' => 2,
+			'created_at'          => time(),
+		);
+		$wpdb->insert( $wpdb->prefix . 'accredible_learndash_auto_issuances', $data1 );
+		$data1_id = $wpdb->insert_id;
+		$wpdb->insert( $wpdb->prefix . 'accredible_learndash_auto_issuances', $data2 );
+		$data2_id = $wpdb->insert_id;
+
+		$result = Accredible_Learndash_Model_Auto_Issuance::get_row();
+		$this->assertEquals( $data1_id, $result->id );
+
+		// With $where_sql.
+		$result = Accredible_Learndash_Model_Auto_Issuance::get_row( 'post_id = 2' );
+		$this->assertEquals( $data2_id, $result->id );
+
+		// With no results.
+		$result = Accredible_Learndash_Model_Auto_Issuance::get_row( 'post_id = 10' );
+		$this->assertEquals( null, $result );
+	}
+
+	/**
 	 * Test if it returns the total number of found records.
 	 */
 	public function test_get_total_count() {
