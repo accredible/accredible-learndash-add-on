@@ -61,7 +61,7 @@ if ( ! class_exists( 'Accredible_Learndash_Ajax' ) ) :
 				$issuer = $response['issuer'];
 			}
 
-			// Capture html from display_issuer_info
+			// Capture html from display_issuer_info.
 			ob_start();
 			Accredible_Learndash_Issuer_Helper::display_issuer_info( $issuer );
 			$issuer_html = ob_get_clean();
