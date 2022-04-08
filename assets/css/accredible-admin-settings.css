@@ -291,7 +291,7 @@ button[class*="accredible-button"] {
     max-width: 500px;
 }
 
-#issuer-info {
+#accredible-issuer-info {
     min-height: 60px;
     padding: 0 var(--accredible-spacing-3x);
 }

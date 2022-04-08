@@ -82,7 +82,7 @@ if ( ! empty( get_option( Accredible_Learndash_Admin_Setting::OPTION_API_KEY ) )
 			<div class="logo">
 				<img src="<?php echo esc_url( ACCREDIBLE_LEARNDASH_PLUGIN_URL . 'assets/images/accredible_logo.png' ); ?>" alt="Accredible logo">
 			</div>
-			<div id="issuer-info">
+			<div id="accredible-issuer-info">
 				<?php Accredible_Learndash_Issuer_Helper::display_issuer_info( $accredible_learndash_issuer ); ?>
 			</div>
 			<div class="help-links">
@@ -109,7 +109,7 @@ if ( ! empty( get_option( Accredible_Learndash_Admin_Setting::OPTION_API_KEY ) )
 				accredibleToast.success('Settings saved successfully', 3000);
 				accredibleAjax.loadIssuerInfo().always(function(res){
 					const issuerHTML = res.data;
-					jQuery('#issuer-info').html(issuerHTML);
+					jQuery('#accredible-issuer-info').html(issuerHTML);
 				});
 			}).fail(function(err){
 				accredibleToast.error('Failed to save settings, please try again later', 3000);
