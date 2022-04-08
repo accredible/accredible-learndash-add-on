@@ -9,10 +9,10 @@ defined( 'ABSPATH' ) || die;
 
 require_once plugin_dir_path( __DIR__ ) . '/class-accredible-learndash-admin-setting.php';
 require_once plugin_dir_path( __DIR__ ) . '/helpers/class-accredible-learndash-admin-form-helper.php';
+require_once plugin_dir_path( __DIR__ ) . '/helpers/class-accredible-learndash-issuer-helper.php';
 
-if ( empty( get_option( Accredible_Learndash_Admin_Setting::OPTION_API_KEY ) ) ) {
-	$accredible_learndash_issuer = null;
-} else {
+$accredible_learndash_issuer = null;
+if ( ! empty( get_option( Accredible_Learndash_Admin_Setting::OPTION_API_KEY ) ) ) {
 	$accredible_learndash_client   = new Accredible_Learndash_Api_V1_Client();
 	$accredible_learndash_response = $accredible_learndash_client->organization_search();
 
@@ -82,50 +82,9 @@ if ( empty( get_option( Accredible_Learndash_Admin_Setting::OPTION_API_KEY ) ) )
 			<div class="logo">
 				<img src="<?php echo esc_url( ACCREDIBLE_LEARNDASH_PLUGIN_URL . 'assets/images/accredible_logo.png' ); ?>" alt="Accredible logo">
 			</div>
-			<div class="status">
-			<?php if ( ! empty( $accredible_learndash_issuer ) && ! is_null( $accredible_learndash_issuer ) ) { ?>
-				<img src="<?php echo esc_url( ACCREDIBLE_LEARNDASH_PLUGIN_URL . 'assets/images/check.png' ); ?>">
-				<span><?php esc_html_e( 'Integration is up and running' ); ?></span>
-			<?php } else { ?>
-				<img src="<?php echo esc_url( ACCREDIBLE_LEARNDASH_PLUGIN_URL . 'assets/images/error.png' ); ?>">
-				<span><?php esc_html_e( 'Integration is not working' ); ?></span>
-			<?php } ?>
+			<div id="issuer-info">
+				<?php Accredible_Learndash_Issuer_Helper::display_issuer_info( $accredible_learndash_issuer ); ?>
 			</div>
-			<?php if ( ! empty( $accredible_learndash_issuer ) && ! is_null( $accredible_learndash_issuer ) ) : ?>
-			<div class="status-info">
-				<div class="left">
-					<div class="status-info-item">
-						<span class="label"><?php esc_html_e( 'Issuer' ); ?></span>
-						<span class="label-value">
-							<?php Accredible_Learndash_Admin_Form_Helper::html( $accredible_learndash_issuer['name'] ); ?>
-						</span>
-					</div>
-					<div class="status-info-item">
-						<span class="label"><?php esc_html_e( 'Email' ); ?></span>
-						<span class="label-value">
-							<?php Accredible_Learndash_Admin_Form_Helper::html( $accredible_learndash_issuer['email'] ); ?>
-						</span>
-					</div>
-					<div class="status-info-item">
-						<span class="label"><?php esc_html_e( 'URL' ); ?></span>
-						<span class="label-value">
-							<?php Accredible_Learndash_Admin_Form_Helper::html( $accredible_learndash_issuer['url'] ); ?>
-						</span>
-					</div>
-				</div>
-				<div class="right">
-					<div class="accredible-credits-tile">
-						<img class="credits-icon" src="<?php echo esc_url( ACCREDIBLE_LEARNDASH_PLUGIN_URL . 'assets/images/credits.png' ); ?>">
-						<div class="status-info-item">
-							<span class="label"><?php esc_html_e( 'Credits Left' ); ?></span>
-							<span class="label-value">
-								<?php Accredible_Learndash_Admin_Form_Helper::html( $accredible_learndash_issuer['certificate_left'] ); ?>
-							</span>
-						</div>
-					</div>
-				</div>
-			</div>
-			<?php endif; ?>
 			<div class="help-links">
 				<div class="link-title"><?php esc_html_e( 'Need Help?' ); ?></div>
 				<ul>
@@ -148,6 +107,10 @@ if ( empty( get_option( Accredible_Learndash_Admin_Setting::OPTION_API_KEY ) ) )
 			const settings = jQuery(this).serialize();
 			jQuery.post('options.php', settings, function(res, status){
 				accredibleToast.success('Settings saved successfully', 3000);
+				accredibleAjax.loadIssuerInfo().always(function(res){
+					const issuerHTML = res.data;
+					jQuery('#issuer-info').html(issuerHTML);
+				});
 			}).fail(function(err){
 				accredibleToast.error('Failed to save settings, please try again later', 3000);
 			}).always(function(){

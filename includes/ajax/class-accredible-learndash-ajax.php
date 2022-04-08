@@ -1,21 +1,24 @@
 <?php
 /**
- * Accredible LearnDash Add-on ajax groups
+ * Accredible LearnDash Add-on ajax
  *
  * @package Accredible_Learndash_Add_On
  */
 
 defined( 'ABSPATH' ) || die;
 
-if ( ! class_exists( 'Accredible_Learndash_Ajax_Groups' ) ) :
+require_once plugin_dir_path( __DIR__ ) . '/helpers/class-accredible-learndash-issuer-helper.php';
+
+if ( ! class_exists( 'Accredible_Learndash_Ajax' ) ) :
 	/**
-	 * Accredible LearnDash Add-on ajax groups class
+	 * Accredible LearnDash Add-on ajax class.
+	 * All methods in this class are only called via ajax.
 	 */
-	class Accredible_Learndash_Ajax_Groups {
+	class Accredible_Learndash_Ajax {
 		/**
-		 * Get group options. This method is only called via ajax.
+		 * Get group options.
 		 */
-		public static function search() {
+		public static function search_groups() {
 			$groups   = array();
 			$response = array();
 
@@ -43,6 +46,27 @@ if ( ! class_exists( 'Accredible_Learndash_Ajax_Groups' ) ) :
 				wp_send_json_error();
 			}
 
+			wp_die();
+		}
+
+		/**
+		 * Get issuer details html.
+		 */
+		public static function load_issuer_html() {
+			$issuer     = null;
+			$api_client = new Accredible_Learndash_Api_V1_Client();
+			$response   = $api_client->organization_search();
+
+			if ( ! isset( $response['errors'] ) ) {
+				$issuer = $response['issuer'];
+			}
+
+			// Capture html from display_issuer_info
+			ob_start();
+			Accredible_Learndash_Issuer_Helper::display_issuer_info( $issuer );
+			$issuer_html = ob_get_clean();
+
+			wp_send_json_success( $issuer_html );
 			wp_die();
 		}
 	}

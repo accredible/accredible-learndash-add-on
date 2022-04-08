@@ -9,7 +9,7 @@ defined( 'ABSPATH' ) || die;
 
 require_once ACCREDILBE_LEARNDASH_PLUGIN_PATH . '/includes/class-accredible-learndash-admin-database.php';
 require_once ACCREDILBE_LEARNDASH_PLUGIN_PATH . '/includes/class-accredible-learndash-admin.php';
-require_once ACCREDILBE_LEARNDASH_PLUGIN_PATH . '/includes/ajax/class-accredible-learndash-ajax-groups.php';
+require_once ACCREDILBE_LEARNDASH_PLUGIN_PATH . '/includes/ajax/class-accredible-learndash-ajax.php';
 
 /**
  * Unit tests for Accredible_Learndash_Admin
@@ -60,7 +60,14 @@ class Accredible_Learndash_Admin_Test extends WP_UnitTestCase {
 			10,
 			has_filter(
 				'wp_ajax_accredible_learndash_ajax_search_groups',
-				array( 'Accredible_Learndash_Ajax_Groups', 'search' )
+				array( 'Accredible_Learndash_Ajax', 'search_groups' )
+			)
+		);
+		$this->assertEquals(
+			10,
+			has_filter(
+				'wp_ajax_accredible_learndash_ajax_load_issuer_html',
+				array( 'Accredible_Learndash_Ajax', 'load_issuer_html' )
 			)
 		);
 		$this->assertEquals(
