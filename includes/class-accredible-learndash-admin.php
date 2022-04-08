@@ -11,7 +11,7 @@ require_once plugin_dir_path( __FILE__ ) . '/class-accredible-learndash-admin-da
 require_once plugin_dir_path( __FILE__ ) . '/class-accredible-learndash-admin-menu.php';
 require_once plugin_dir_path( __FILE__ ) . '/class-accredible-learndash-admin-setting.php';
 require_once plugin_dir_path( __FILE__ ) . '/class-accredible-learndash-admin-scripts.php';
-require_once plugin_dir_path( __FILE__ ) . '/ajax/class-accredible-learndash-ajax-groups.php';
+require_once plugin_dir_path( __FILE__ ) . '/ajax/class-accredible-learndash-ajax.php';
 
 if ( ! class_exists( 'Accredible_Learndash_Admin' ) ) :
 	/**
@@ -55,6 +55,7 @@ if ( ! class_exists( 'Accredible_Learndash_Admin' ) ) :
 			$this->add_menus();
 			$this->add_scripts();
 			$this->add_page_ajax_scripts();
+			$this->add_page_scripts();
 			$this->add_style_classes();
 			$this->add_ajax_actions();
 		}
@@ -92,6 +93,13 @@ if ( ! class_exists( 'Accredible_Learndash_Admin' ) ) :
 		}
 
 		/**
+		 * Add page based scripts to WP admin.
+		 */
+		private function add_page_scripts() {
+			add_action( 'admin_enqueue_scripts', array( 'Accredible_Learndash_Admin_Scripts', 'load_page_scripts' ) );
+		}
+
+		/**
 		 * Add style classes to WP admin.
 		 */
 		private function add_style_classes() {
@@ -102,7 +110,8 @@ if ( ! class_exists( 'Accredible_Learndash_Admin' ) ) :
 		 * Add ajax actions to WP admin.
 		 */
 		public static function add_ajax_actions() {
-			add_action( 'wp_ajax_accredible_learndash_ajax_search_groups', array( 'Accredible_Learndash_Ajax_Groups', 'search' ) );
+			add_action( 'wp_ajax_accredible_learndash_ajax_search_groups', array( 'Accredible_Learndash_Ajax', 'search_groups' ) );
+			add_action( 'wp_ajax_accredible_learndash_ajax_load_issuer_html', array( 'Accredible_Learndash_Ajax', 'load_issuer_html' ) );
 		}
 	}
 endif;
