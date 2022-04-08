@@ -13,6 +13,7 @@ if ( ! class_exists( 'Accredible_Learndash_Model' ) ) :
 	 */
 	abstract class Accredible_Learndash_Model {
 		const DEFAULT_PAGE_SIZE = 50;
+		const REQUIRED_FIELDS   = array();
 
 		/**
 		 * Return a list of DB records.
@@ -92,6 +93,7 @@ if ( ! class_exists( 'Accredible_Learndash_Model' ) ) :
 		 */
 		public static function insert( $data ) {
 			$data['created_at'] = time();
+			static::validate( $data );
 			global $wpdb;
 			return $wpdb->insert( static::table_name(), $data );
 		}
@@ -103,6 +105,7 @@ if ( ! class_exists( 'Accredible_Learndash_Model' ) ) :
 		 * @param array $data Updating data.
 		 */
 		public static function update( $id, $data ) {
+			static::validate( $data, $id );
 			global $wpdb;
 			return $wpdb->update( static::table_name(), $data, array( 'id' => $id ) );
 		}
@@ -115,6 +118,26 @@ if ( ! class_exists( 'Accredible_Learndash_Model' ) ) :
 		public static function delete( $id ) {
 			global $wpdb;
 			return $wpdb->delete( static::table_name(), array( 'id' => $id ), array( '%d' ) );
+		}
+
+		/**
+		 * Validate inserting or updating data.
+		 *
+		 * @param array $data Inserting or updating data.
+		 * @param int   $id ID of the record.
+		 */
+		public static function validate( $data, $id = null ) {
+			foreach ( static::REQUIRED_FIELDS as $field ) {
+				if ( null === $id ) {
+					if ( ! isset( $data[ $field ] ) || '' === trim( $data[ $field ] ) ) {
+						wp_die( 'ERROR: ' . esc_attr( $field ) . ' is a required field.' );
+					}
+				} else {
+					if ( array_key_exists( $field, $data ) && ( null === $data[ $field ] || '' === trim( $data[ $field ] ) ) ) {
+						wp_die( 'ERROR: ' . esc_attr( $field ) . ' is a required field.' );
+					}
+				}
+			}
 		}
 
 		/**
