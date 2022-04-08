@@ -68,6 +68,50 @@ class Accredible_Learndash_Model_Auto_Issuance_Log_Test extends Accredible_Learn
 	}
 
 	/**
+	 * Test if it returns an auto issuance log with a WHERE clause.
+	 */
+	public function test_get_row() {
+		$result = Accredible_Learndash_Model_Auto_Issuance_Log::get_row();
+		$this->assertEquals( null, $result );
+
+		global $wpdb;
+		$data1 = array(
+			'accredible_learndash_auto_issuance_id' => 1,
+			'user_id'                               => 1,
+			'accredible_group_id'                   => 1,
+			'accredible_group_name'                 => 'My Course 1',
+			'recipient_name'                        => 'Tom Test',
+			'recipient_email'                       => 'tom@example.com',
+			'credential_url'                        => 'https://www.credential.net/10000000',
+			'created_at'                            => time(),
+		);
+		$data2 = array(
+			'accredible_learndash_auto_issuance_id' => 2,
+			'user_id'                               => 2,
+			'accredible_group_id'                   => 2,
+			'recipient_name'                        => 'Jerry Test',
+			'recipient_email'                       => 'jerry@example.com',
+			'error_message'                         => 'The server could not respond. Your API key might be invalid.',
+			'created_at'                            => time(),
+		);
+		$wpdb->insert( $wpdb->prefix . 'accredible_learndash_auto_issuance_logs', $data1 );
+		$data1_id = $wpdb->insert_id;
+		$wpdb->insert( $wpdb->prefix . 'accredible_learndash_auto_issuance_logs', $data2 );
+		$data2_id = $wpdb->insert_id;
+
+		$result = Accredible_Learndash_Model_Auto_Issuance_Log::get_row();
+		$this->assertEquals( $data1_id, $result->id );
+
+		// With $where_sql.
+		$result = Accredible_Learndash_Model_Auto_Issuance_Log::get_row( "user_id = 2 AND recipient_name = 'Jerry Test'" );
+		$this->assertEquals( $data2_id, $result->id );
+
+		// With no results.
+		$result = Accredible_Learndash_Model_Auto_Issuance_Log::get_row( 'user_id = 3' );
+		$this->assertEquals( null, $result );
+	}
+
+	/**
 	 * Test if it returns the total number of found records.
 	 */
 	public function test_get_total_count() {

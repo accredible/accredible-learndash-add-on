@@ -39,6 +39,22 @@ if ( ! class_exists( 'Accredible_Learndash_Model' ) ) :
 		}
 
 		/**
+		 * Return a DB record.
+		 *
+		 * @param string $where_sql SQL where clause.
+		 */
+		public static function get_row( $where_sql = '' ) {
+			global $wpdb;
+			$sql = 'SELECT * FROM ' . static::table_name();
+			if ( ! empty( $where_sql ) ) {
+				$sql .= " WHERE $where_sql";
+			}
+
+			// XXX `$where_sql` is a raw SQL so `$wpdb->prepare` cannot be used.
+			return $wpdb->get_row( $sql ); // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
+		}
+
+		/**
 		 * Return the total count of the records.
 		 *
 		 * @param string $where_sql SQL where clause.

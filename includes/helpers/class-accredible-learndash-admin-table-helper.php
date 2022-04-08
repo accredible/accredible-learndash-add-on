@@ -331,6 +331,7 @@ if ( ! class_exists( 'Accredible_Learndash_Admin_Table_Helper' ) ) :
 					if ( ( ! empty( $value['label'] ) ) && ( ! empty( $value['action'] ) ) ) {
 						$page               = '';
 						$has_confirm_dialog = false;
+						$need_nonce_url     = false;
 						switch ( $value['action'] ) {
 							case 'edit_auto_issuance':
 								$page = 'accredible_learndash_auto_issuance';
@@ -338,20 +339,25 @@ if ( ! class_exists( 'Accredible_Learndash_Admin_Table_Helper' ) ) :
 							case 'delete_auto_issuance':
 								$page               = 'accredible_learndash_admin_action';
 								$has_confirm_dialog = true;
+								$need_nonce_url     = true;
 								break;
 							default:
 								$page = 'accredible_learndash_issuance_list';
 						}
 
-						$nonce_url = wp_nonce_url(
-							admin_url( 'admin.php?page=' . $page . '&action=' . $value['action'] . '&page_num=' . self::$current_page . '&id=' . $id ),
-							$value['action'] . $id,
-							'_mynonce'
-						);
+						$url = admin_url( 'admin.php?page=' . $page . '&action=' . $value['action'] . '&page_num=' . self::$current_page . '&id=' . $id );
+
+						if ( $need_nonce_url ) {
+							$url = wp_nonce_url(
+								$url,
+								$value['action'] . $id,
+								'_mynonce'
+							);
+						}
 
 						$actions .= sprintf(
 							'<a href="%1s" %2s class="button accredible-button-outline-natural accredible-button-small">' . $value['label'] . '</a>',
-							$nonce_url,
+							$url,
 							$has_confirm_dialog ? 'data-accredible-dialog="true"' : ''
 						);
 					}
