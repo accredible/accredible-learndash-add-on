@@ -65,6 +65,19 @@ class Accredible_Learndash_Model_Auto_Issuance_Log_Test extends Accredible_Learn
 		$results = Accredible_Learndash_Model_Auto_Issuance_Log::get_results( '', $limit, $offset );
 		$this->assertCount( 1, $results );
 		$this->assertEquals( $data2_id, $results[0]->id );
+
+		// With $limit & $offset.
+		$offset  = 1;
+		$results = Accredible_Learndash_Model_Auto_Issuance_Log::get_results( '', $limit, $offset );
+		$this->assertCount( 1, $results );
+		$this->assertEquals( $data2_id, $results[0]->id );
+
+		// With $limit & $offset & order_by.
+		$offset  = 1;
+		$options = array( 'order_by' => 'id DESC' );
+		$results = Accredible_Learndash_Model_Auto_Issuance_Log::get_results( '', $limit, $offset, $options );
+		$this->assertCount( 1, $results );
+		$this->assertEquals( $data1_id, $results[0]->id );
 	}
 
 	/**
@@ -193,8 +206,11 @@ class Accredible_Learndash_Model_Auto_Issuance_Log_Test extends Accredible_Learn
 			'created_at'                            => time(),
 		);
 		$wpdb->insert( $wpdb->prefix . 'accredible_learndash_auto_issuance_logs', $data1 );
+		$data1_id = $wpdb->insert_id;
 		$wpdb->insert( $wpdb->prefix . 'accredible_learndash_auto_issuance_logs', $data2 );
+		$data2_id = $wpdb->insert_id;
 		$wpdb->insert( $wpdb->prefix . 'accredible_learndash_auto_issuance_logs', $data3 );
+		$data3_id = $wpdb->insert_id;
 
 		$page      = Accredible_Learndash_Model_Auto_Issuance_Log::get_paginated_results( 1, null );
 		$page_meta = $page['meta'];
@@ -247,6 +263,19 @@ class Accredible_Learndash_Model_Auto_Issuance_Log_Test extends Accredible_Learn
 		$this->assertEquals( null, $page_meta['prev_page'] );
 		$this->assertEquals( 1, $page_meta['total_pages'] );
 		$this->assertEquals( 1, $page_meta['total_count'] );
+		$this->assertEquals( 50, $page_meta['page_size'] );
+
+		// With $options.
+		$options   = array( 'order_by' => 'id DESC' );
+		$page      = Accredible_Learndash_Model_Auto_Issuance_Log::get_paginated_results( 1, null, '', $options );
+		$page_meta = $page['meta'];
+		$this->assertCount( 3, $page['results'] );
+		$this->assertEquals( $data3_id, $page['results'][0]->id );
+		$this->assertEquals( 1, $page_meta['current_page'] );
+		$this->assertEquals( null, $page_meta['next_page'] );
+		$this->assertEquals( null, $page_meta['prev_page'] );
+		$this->assertEquals( 1, $page_meta['total_pages'] );
+		$this->assertEquals( 3, $page_meta['total_count'] );
 		$this->assertEquals( 50, $page_meta['page_size'] );
 	}
 
