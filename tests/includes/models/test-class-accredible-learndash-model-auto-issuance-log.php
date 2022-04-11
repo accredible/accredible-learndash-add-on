@@ -66,12 +66,6 @@ class Accredible_Learndash_Model_Auto_Issuance_Log_Test extends Accredible_Learn
 		$this->assertCount( 1, $results );
 		$this->assertEquals( $data2_id, $results[0]->id );
 
-		// With $limit & $offset.
-		$offset  = 1;
-		$results = Accredible_Learndash_Model_Auto_Issuance_Log::get_results( '', $limit, $offset );
-		$this->assertCount( 1, $results );
-		$this->assertEquals( $data2_id, $results[0]->id );
-
 		// With $limit & $offset & order_by.
 		$offset  = 1;
 		$options = array( 'order_by' => 'id DESC' );
