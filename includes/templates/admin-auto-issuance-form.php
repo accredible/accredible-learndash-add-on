@@ -69,7 +69,7 @@ if ( ! is_null( $accredible_learndash_issuance_id ) ) {
 				<?php esc_html_e( 'Credential groups need to have been created before configuring auto issuance. If none appear, check your API key to make sure your integration is set up properly.' ); ?>
 			</div>
 
-			<form id="issuance-form" action="admin.php?page=accredible_learndash_admin_action&action=<?php echo esc_attr( $accredible_learndash_form_action ); ?>" method="post">
+			<form id="issuance-form">
 				<?php if ( 'add_auto_issuance' === $accredible_learndash_form_action ) { ?>
 					<?php wp_nonce_field( $accredible_learndash_form_action, '_mynonce' ); ?>
 				<?php } else { ?>
@@ -77,6 +77,7 @@ if ( ! is_null( $accredible_learndash_issuance_id ) ) {
 					<input type="hidden" name="id" value="<?php echo esc_attr( $accredible_learndash_issuance_id ); ?>">
 				<?php } ?>
 
+				<input type="hidden" name="action" value="<?php echo esc_attr( $accredible_learndash_form_action ); ?>">
 				<input type="hidden" name="page_num" value="<?php echo esc_attr( $accredible_learndash_issuance_current_page ); ?>">
 
 				<div class="accredible-form-field">
@@ -130,20 +131,49 @@ if ( ! is_null( $accredible_learndash_issuance_id ) ) {
 						readonly/>
 				</div>
 
-				<?php submit_button( 'Save', 'accredible-button-primary accredible-button-large', 'submit', false ); ?>
+				<button type="submit" id="submit" name="submit" class="button accredible-button-primary accredible-button-large">Save</button>
 			</form>
 		</div>
 	</div>
 </div>
 <script type="text/javascript">
 	jQuery( function(){
-		jQuery('#issuance-form').on('submit', function() {
-			var group_id = jQuery('#accredible_learndash_group').val();
+		const submitBtn = jQuery('#submit');
+		submitBtn.on('click', function(){
+			jQuery(this).addClass('accredible-button-spinner');
+		});
+		jQuery('#issuance-form').on('submit', function(event) {
+			const formData = {};
+			const group_id = jQuery('#accredible_learndash_group').val();
 			if ( ! group_id ) {
+				submitBtn.removeClass('accredible-button-spinner');
 				jQuery('#accredible-form-field-group-error-msg').removeClass('accredible-form-field-hidden'); // show error
 				return false; // prevent form submission
 			}
-			return true;
+
+			// build formdata object
+			jQuery(this).serializeArray().reduce(function(acc, data){
+				formData[data.name] = data.value;
+				return formData;
+			}, formData);
+
+			// call BE
+			accredibleAjax.doAutoIssuanceAction(
+				formData
+			).always(function(res){
+				if ((typeof(res) === 'object')) {
+					const message = res.data && res.data.message ? res.data.message : res.data;
+					if (res.success) {
+						accredibleToast.success(message);
+					} else {
+						accredibleToast.error(message);
+					}
+				}
+
+				submitBtn.removeClass('accredible-button-spinner');
+			});
+
+			return false; // prevent form submission
 		});
 	});
 </script>
