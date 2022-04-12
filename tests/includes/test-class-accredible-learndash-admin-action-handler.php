@@ -56,7 +56,7 @@ class Accredible_Learndash_Admin_Action_Handler_Test extends Accredible_Learndas
 					'accredible_learndash_object' => $new_data,
 				)
 			);
-		} catch ( WPDieException $error ) { // phpcs:disable Generic.CodeAnalysis.EmptyStatement.DetectedCatch
+		} catch ( WPDieException $error ) { // phpcs:ignore Generic.CodeAnalysis.EmptyStatement.DetectedCatch
 			// We expected this, do nothing.
 		}
 
