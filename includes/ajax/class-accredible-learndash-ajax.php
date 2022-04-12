@@ -8,6 +8,7 @@
 defined( 'ABSPATH' ) || die;
 
 require_once plugin_dir_path( __DIR__ ) . '/helpers/class-accredible-learndash-issuer-helper.php';
+require_once plugin_dir_path( __DIR__ ) . 'class-accredible-learndash-admin-action-handler.php';
 
 if ( ! class_exists( 'Accredible_Learndash_Ajax' ) ) :
 	/**
@@ -68,6 +69,14 @@ if ( ! class_exists( 'Accredible_Learndash_Ajax' ) ) :
 
 			wp_send_json_success( $issuer_html );
 			wp_die();
+		}
+
+		/**
+		 * Triggers the appropriate action in Accredible_Learndash_Admin_Action_Handler
+		 */
+		public static function handle_auto_issuance_action() {
+			// call action.
+			Accredible_Learndash_Admin_Action_Handler::call();
 		}
 	}
 endif;
