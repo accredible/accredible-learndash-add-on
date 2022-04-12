@@ -13,6 +13,17 @@ jQuery(function(){
             'action': 'accredible_learndash_ajax_handle_auto_issuance_action',
         };
         post_data = Object.assign(post_data, formData);
-        return jQuery.post(accredibledata.ajaxurl, post_data).then();
+        return jQuery.post(accredibledata.ajaxurl, post_data).then(function(res){
+           try {
+                return JSON.parse(res);
+            } catch (error) {
+                // handle wp_die messsages
+                const response = { success: false, data: { message: res } };
+                if(typeof res === 'string' && res.includes('ERROR')) {
+                    response.data.message = res.substring(7);
+                }
+                return response;
+           }
+        });
     };
 });
