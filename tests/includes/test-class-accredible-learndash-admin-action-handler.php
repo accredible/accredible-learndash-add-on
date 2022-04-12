@@ -36,16 +36,30 @@ class Accredible_Learndash_Admin_Action_Handler_Test extends Accredible_Learndas
 		wp_set_current_user( $admin_user );
 		$nonce        = wp_create_nonce( 'add_auto_issuance' );
 		$redirect_url = admin_url( 'admin.php?page=accredible_learndash_issuance_list&page_num=3' );
-
-		$this->expectOutputString( "<p>Processing...</p><script>window.location.href='$redirect_url'</script>" );
-		Accredible_Learndash_Admin_Action_Handler::add_auto_issuance(
+		$output_string     = wp_json_encode(
 			array(
-				'nonce'                       => $nonce,
-				'redirect_url'                => admin_url( 'post-new.php' ),
-				'page_num'                    => 3,
-				'accredible_learndash_object' => $new_data,
+				'success' => true,
+				'data'    => array(
+					'message'     => 'Saved auto issuance successfully.',
+					'redirectUrl' => esc_url( $redirect_url ),
+				),
 			)
 		);
+
+		$this->expectOutputString( $output_string );
+		try {
+			Accredible_Learndash_Admin_Action_Handler::add_auto_issuance(
+				array(
+					'nonce'                       => $nonce,
+					'redirect_url'                => admin_url( 'post-new.php' ),
+					'page_num'                    => 3,
+					'accredible_learndash_object' => $new_data,
+				)
+			);
+		} catch ( WPDieException $error ) {
+			// We expected this, do nothing.
+		}
+
 		$results       = $wpdb->get_results(
 			$wpdb->prepare( 'SELECT * FROM %1s;', $table_name )
 		);
@@ -128,18 +142,31 @@ class Accredible_Learndash_Admin_Action_Handler_Test extends Accredible_Learndas
 		// Login as an admin.
 		$admin_user = self::factory()->user->create( array( 'role' => 'administrator' ) );
 		wp_set_current_user( $admin_user );
-		$nonce        = wp_create_nonce( "edit_auto_issuance$record_id" );
-		$redirect_url = admin_url( 'post-new.php?id=1&page_num=2' );
-
-		$this->expectOutputString( "<p>Processing...</p><script>window.location.href='$redirect_url'</script>" );
-		Accredible_Learndash_Admin_Action_Handler::edit_auto_issuance(
+		$nonce         = wp_create_nonce( "edit_auto_issuance$record_id" );
+		$redirect_url  = admin_url( 'post-new.php?id=1&page_num=2' );
+		$output_string = wp_json_encode(
 			array(
-				'id'                          => $record_id,
-				'nonce'                       => $nonce,
-				'redirect_url'                => $redirect_url,
-				'accredible_learndash_object' => $new_data,
+				'success' => true,
+				'data'    => array(
+					'message'     => 'Saved auto issuance successfully.',
+					'redirectUrl' => esc_url( $redirect_url ),
+				),
 			)
 		);
+
+		$this->expectOutputString( $output_string );
+		try {
+			Accredible_Learndash_Admin_Action_Handler::edit_auto_issuance(
+				array(
+					'id'                          => $record_id,
+					'nonce'                       => $nonce,
+					'redirect_url'                => $redirect_url,
+					'accredible_learndash_object' => $new_data,
+				)
+			);
+		} catch ( WPDieException $error ) {
+			// We expected this, do nothing.
+		}
 
 		$result = $wpdb->get_row(
 			$wpdb->prepare( 'SELECT * FROM %1s WHERE id = %d;', $table_name, $record_id )
