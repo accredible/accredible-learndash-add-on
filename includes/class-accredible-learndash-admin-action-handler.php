@@ -42,19 +42,24 @@ if ( ! class_exists( 'Accredible_Learndash_Admin_Action_Handler' ) ) :
 		public static function add_auto_issuance( $data ) {
 			self::verify_nonce( $data['nonce'], 'add_auto_issuance' );
 
-			$result = Accredible_Learndash_Model_Auto_Issuance::insert( $data['accredible_learndash_object'] );
+			$result   = Accredible_Learndash_Model_Auto_Issuance::insert( $data['accredible_learndash_object'] );
+			$success  = false !== $result;
+			$res_data = array( 'message' => 'Failed to save auto issuance. Please try again later.' );
 
-			if ( false === $result ) {
-				wp_send_json_error( 'Failed to save auto issuance. Please try again later.' );
-			} else {
+			if ( $success ) {
 				$redirect_url = admin_url( 'admin.php?page=accredible_learndash_issuance_list&page_num=' . $data['page_num'] );
-				wp_send_json_success(
-					array(
-						'message'     => 'Saved auto issuance successfully.',
-						'redirectUrl' => $redirect_url,
-					)
-				);
+
+				$res_data['message']     = 'Saved auto issuance successfully.';
+				$res_data['redirectUrl'] = esc_url( $redirect_url );
 			}
+
+			echo wp_json_encode(
+				array(
+					'success' => $success,
+					'data'    => $res_data,
+				)
+			);
+			wp_die();
 		}
 
 		/**
@@ -67,16 +72,21 @@ if ( ! class_exists( 'Accredible_Learndash_Admin_Action_Handler' ) ) :
 
 			$auto_issuance_params = $data['accredible_learndash_object'];
 			$result               = Accredible_Learndash_Model_Auto_Issuance::update( $data['id'], $auto_issuance_params );
-			if ( false === $result ) {
-				wp_send_json_error( 'Failed to save auto issuance. Please try again later.' );
-			} else {
-				wp_send_json_success(
-					array(
-						'message'     => 'Saved auto issuance successfully.',
-						'redirectUrl' => $data['redirect_url'],
-					)
-				);
+			$response             = array( 'message' => 'Failed to save auto issuance. Please try again later.' );
+			$success              = false !== $result;
+
+			if ( $success ) {
+				$response['message']     = 'Saved auto issuance successfully.';
+				$response['redirectUrl'] = esc_url( $data['redirect_url'] );
 			}
+
+			echo wp_json_encode(
+				array(
+					'success' => $success,
+					'data'    => $response,
+				)
+			);
+			wp_die();
 		}
 
 		/**
