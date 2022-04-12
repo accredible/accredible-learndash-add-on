@@ -18,7 +18,7 @@ if ( ! class_exists( 'Accredible_Learndash_Admin_Action_Handler' ) ) :
 		 * Call the requested action.
 		 */
 		public static function call() {
-			$action        = self::sanitize_parameter( 'action' );
+			$action        = self::sanitize_parameter( 'call_action' );
 			$class_methods = get_class_methods( 'Accredible_Learndash_Admin_Action_Handler' );
 			if ( in_array( $action, $class_methods, true ) ) {
 				$data = array(

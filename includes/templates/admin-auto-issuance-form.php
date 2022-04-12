@@ -77,7 +77,7 @@ if ( ! is_null( $accredible_learndash_issuance_id ) ) {
 					<input type="hidden" name="id" value="<?php echo esc_attr( $accredible_learndash_issuance_id ); ?>">
 				<?php } ?>
 
-				<input type="hidden" name="action" value="<?php echo esc_attr( $accredible_learndash_form_action ); ?>">
+				<input type="hidden" name="call_action" value="<?php echo esc_attr( $accredible_learndash_form_action ); ?>">
 				<input type="hidden" name="page_num" value="<?php echo esc_attr( $accredible_learndash_issuance_current_page ); ?>">
 
 				<div class="accredible-form-field">
