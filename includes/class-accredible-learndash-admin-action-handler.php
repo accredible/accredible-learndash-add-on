@@ -30,7 +30,7 @@ if ( ! class_exists( 'Accredible_Learndash_Admin_Action_Handler' ) ) :
 				);
 				self::$action( $data );
 			} else {
-				wp_send_json_error( 'An action type mismatch has been detected.' );
+				wp_die( 'An action type mismatch has been detected.' );
 			}
 		}
 
