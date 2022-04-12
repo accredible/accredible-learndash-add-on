@@ -56,7 +56,7 @@ class Accredible_Learndash_Admin_Action_Handler_Test extends Accredible_Learndas
 					'accredible_learndash_object' => $new_data,
 				)
 			);
-		} catch ( WPDieException $error ) {
+		} catch ( WPDieException $error ) { // phpcs:disable Generic.CodeAnalysis.EmptyStatement.DetectedCatch
 			// We expected this, do nothing.
 		}
 
@@ -164,7 +164,7 @@ class Accredible_Learndash_Admin_Action_Handler_Test extends Accredible_Learndas
 					'accredible_learndash_object' => $new_data,
 				)
 			);
-		} catch ( WPDieException $error ) {
+		} catch ( WPDieException $error ) { // phpcs:ignore Generic.CodeAnalysis.EmptyStatement.DetectedCatch
 			// We expected this, do nothing.
 		}
 
@@ -307,7 +307,7 @@ class Accredible_Learndash_Admin_Action_Handler_Test extends Accredible_Learndas
 			$caught_exception = $error->getMessage();
 		}
 
-		$this->assertEquals( 'Invalid nonce.', $caught_exception );
+		$this->assertEquals( 'ERROR: Invalid nonce.', $caught_exception );
 		$results = $wpdb->get_results(
 			$wpdb->prepare( 'SELECT * FROM %1s;', $table_name )
 		);
