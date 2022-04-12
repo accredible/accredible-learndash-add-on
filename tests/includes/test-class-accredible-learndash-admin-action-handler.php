@@ -34,9 +34,9 @@ class Accredible_Learndash_Admin_Action_Handler_Test extends Accredible_Learndas
 		// Login as an admin.
 		$admin_user = self::factory()->user->create( array( 'role' => 'administrator' ) );
 		wp_set_current_user( $admin_user );
-		$nonce        = wp_create_nonce( 'add_auto_issuance' );
-		$redirect_url = admin_url( 'admin.php?page=accredible_learndash_issuance_list&page_num=3' );
-		$output_string     = wp_json_encode(
+		$nonce         = wp_create_nonce( 'add_auto_issuance' );
+		$redirect_url  = admin_url( 'admin.php?page=accredible_learndash_issuance_list&page_num=3' );
+		$output_string = wp_json_encode(
 			array(
 				'success' => true,
 				'data'    => array(
