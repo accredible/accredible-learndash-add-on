@@ -65,6 +65,57 @@ class Accredible_Learndash_Model_Auto_Issuance_Log_Test extends Accredible_Learn
 		$results = Accredible_Learndash_Model_Auto_Issuance_Log::get_results( '', $limit, $offset );
 		$this->assertCount( 1, $results );
 		$this->assertEquals( $data2_id, $results[0]->id );
+
+		// With $limit & $offset & order_by.
+		$offset  = 1;
+		$options = array( 'order_by' => 'id DESC' );
+		$results = Accredible_Learndash_Model_Auto_Issuance_Log::get_results( '', $limit, $offset, $options );
+		$this->assertCount( 1, $results );
+		$this->assertEquals( $data1_id, $results[0]->id );
+	}
+
+	/**
+	 * Test if it returns an auto issuance log with a WHERE clause.
+	 */
+	public function test_get_row() {
+		$result = Accredible_Learndash_Model_Auto_Issuance_Log::get_row();
+		$this->assertEquals( null, $result );
+
+		global $wpdb;
+		$data1 = array(
+			'accredible_learndash_auto_issuance_id' => 1,
+			'user_id'                               => 1,
+			'accredible_group_id'                   => 1,
+			'accredible_group_name'                 => 'My Course 1',
+			'recipient_name'                        => 'Tom Test',
+			'recipient_email'                       => 'tom@example.com',
+			'credential_url'                        => 'https://www.credential.net/10000000',
+			'created_at'                            => time(),
+		);
+		$data2 = array(
+			'accredible_learndash_auto_issuance_id' => 2,
+			'user_id'                               => 2,
+			'accredible_group_id'                   => 2,
+			'recipient_name'                        => 'Jerry Test',
+			'recipient_email'                       => 'jerry@example.com',
+			'error_message'                         => 'The server could not respond. Your API key might be invalid.',
+			'created_at'                            => time(),
+		);
+		$wpdb->insert( $wpdb->prefix . 'accredible_learndash_auto_issuance_logs', $data1 );
+		$data1_id = $wpdb->insert_id;
+		$wpdb->insert( $wpdb->prefix . 'accredible_learndash_auto_issuance_logs', $data2 );
+		$data2_id = $wpdb->insert_id;
+
+		$result = Accredible_Learndash_Model_Auto_Issuance_Log::get_row();
+		$this->assertEquals( $data1_id, $result->id );
+
+		// With $where_sql.
+		$result = Accredible_Learndash_Model_Auto_Issuance_Log::get_row( "user_id = 2 AND recipient_name = 'Jerry Test'" );
+		$this->assertEquals( $data2_id, $result->id );
+
+		// With no results.
+		$result = Accredible_Learndash_Model_Auto_Issuance_Log::get_row( 'user_id = 3' );
+		$this->assertEquals( null, $result );
 	}
 
 	/**
@@ -149,8 +200,11 @@ class Accredible_Learndash_Model_Auto_Issuance_Log_Test extends Accredible_Learn
 			'created_at'                            => time(),
 		);
 		$wpdb->insert( $wpdb->prefix . 'accredible_learndash_auto_issuance_logs', $data1 );
+		$data1_id = $wpdb->insert_id;
 		$wpdb->insert( $wpdb->prefix . 'accredible_learndash_auto_issuance_logs', $data2 );
+		$data2_id = $wpdb->insert_id;
 		$wpdb->insert( $wpdb->prefix . 'accredible_learndash_auto_issuance_logs', $data3 );
+		$data3_id = $wpdb->insert_id;
 
 		$page      = Accredible_Learndash_Model_Auto_Issuance_Log::get_paginated_results( 1, null );
 		$page_meta = $page['meta'];
@@ -203,6 +257,19 @@ class Accredible_Learndash_Model_Auto_Issuance_Log_Test extends Accredible_Learn
 		$this->assertEquals( null, $page_meta['prev_page'] );
 		$this->assertEquals( 1, $page_meta['total_pages'] );
 		$this->assertEquals( 1, $page_meta['total_count'] );
+		$this->assertEquals( 50, $page_meta['page_size'] );
+
+		// With $options.
+		$options   = array( 'order_by' => 'id DESC' );
+		$page      = Accredible_Learndash_Model_Auto_Issuance_Log::get_paginated_results( 1, null, '', $options );
+		$page_meta = $page['meta'];
+		$this->assertCount( 3, $page['results'] );
+		$this->assertEquals( $data3_id, $page['results'][0]->id );
+		$this->assertEquals( 1, $page_meta['current_page'] );
+		$this->assertEquals( null, $page_meta['next_page'] );
+		$this->assertEquals( null, $page_meta['prev_page'] );
+		$this->assertEquals( 1, $page_meta['total_pages'] );
+		$this->assertEquals( 3, $page_meta['total_count'] );
 		$this->assertEquals( 50, $page_meta['page_size'] );
 	}
 

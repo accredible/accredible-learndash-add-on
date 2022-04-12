@@ -13,6 +13,7 @@ if ( ! class_exists( 'Accredible_Learndash_Model' ) ) :
 	 */
 	abstract class Accredible_Learndash_Model {
 		const DEFAULT_PAGE_SIZE = 50;
+		const REQUIRED_FIELDS   = array();
 
 		/**
 		 * Return a list of DB records.
@@ -20,12 +21,16 @@ if ( ! class_exists( 'Accredible_Learndash_Model' ) ) :
 		 * @param string $where_sql SQL where clause.
 		 * @param int    $limit Limit value.
 		 * @param int    $offset Offset value.
+		 * @param array  $options SQL options.
 		 */
-		public static function get_results( $where_sql = '', $limit = null, $offset = null ) {
+		public static function get_results( $where_sql = '', $limit = null, $offset = null, $options = array() ) {
 			global $wpdb;
 			$sql = 'SELECT * FROM ' . static::table_name();
 			if ( ! empty( $where_sql ) ) {
 				$sql .= " WHERE $where_sql";
+			}
+			if ( isset( $options['order_by'] ) ) {
+				$sql .= ' ORDER BY ' . $options['order_by'];
 			}
 			if ( ! empty( $limit ) ) {
 				$sql .= " LIMIT $limit";
@@ -35,6 +40,22 @@ if ( ! class_exists( 'Accredible_Learndash_Model' ) ) :
 			}
 			// XXX `$where_sql` is a raw SQL so `$wpdb->prepare` cannot be used.
 			return $wpdb->get_results( $sql ); // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
+		}
+
+		/**
+		 * Return a DB record.
+		 *
+		 * @param string $where_sql SQL where clause.
+		 */
+		public static function get_row( $where_sql = '' ) {
+			global $wpdb;
+			$sql = 'SELECT * FROM ' . static::table_name();
+			if ( ! empty( $where_sql ) ) {
+				$sql .= " WHERE $where_sql";
+			}
+
+			// XXX `$where_sql` is a raw SQL so `$wpdb->prepare` cannot be used.
+			return $wpdb->get_row( $sql ); // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
 		}
 
 		/**
@@ -58,15 +79,16 @@ if ( ! class_exists( 'Accredible_Learndash_Model' ) ) :
 		 * @param int    $page_num The current page number.
 		 * @param int    $page_size Page size.
 		 * @param string $where_sql SQL where clause.
+		 * @param array  $options SQL options.
 		 */
-		public static function get_paginated_results( $page_num, $page_size, $where_sql = '' ) {
+		public static function get_paginated_results( $page_num, $page_size, $where_sql = '', $options = array() ) {
 			if ( empty( $page_size ) ) {
 				$page_size = static::DEFAULT_PAGE_SIZE;
 			}
 			$current_page = empty( $page_num ) ? 1 : $page_num;
 			$offset       = $page_size * ( $current_page - 1 );
 
-			$results     = static::get_results( $where_sql, $page_size, $offset );
+			$results     = static::get_results( $where_sql, $page_size, $offset, $options );
 			$total_count = static::get_total_count( $where_sql );
 			$total_pages = ceil( $total_count / $page_size );
 			$next_page   = $current_page < $total_pages ? $current_page + 1 : null;
@@ -92,6 +114,7 @@ if ( ! class_exists( 'Accredible_Learndash_Model' ) ) :
 		 */
 		public static function insert( $data ) {
 			$data['created_at'] = time();
+			static::validate( $data );
 			global $wpdb;
 			return $wpdb->insert( static::table_name(), $data );
 		}
@@ -103,6 +126,7 @@ if ( ! class_exists( 'Accredible_Learndash_Model' ) ) :
 		 * @param array $data Updating data.
 		 */
 		public static function update( $id, $data ) {
+			static::validate( $data, $id );
 			global $wpdb;
 			return $wpdb->update( static::table_name(), $data, array( 'id' => $id ) );
 		}
@@ -115,6 +139,26 @@ if ( ! class_exists( 'Accredible_Learndash_Model' ) ) :
 		public static function delete( $id ) {
 			global $wpdb;
 			return $wpdb->delete( static::table_name(), array( 'id' => $id ), array( '%d' ) );
+		}
+
+		/**
+		 * Validate inserting or updating data.
+		 *
+		 * @param array $data Inserting or updating data.
+		 * @param int   $id ID of the record.
+		 */
+		public static function validate( $data, $id = null ) {
+			foreach ( static::REQUIRED_FIELDS as $field ) {
+				if ( null === $id ) {
+					if ( ! isset( $data[ $field ] ) || '' === trim( $data[ $field ] ) ) {
+						wp_die( 'ERROR: ' . esc_attr( $field ) . ' is a required field.' );
+					}
+				} else {
+					if ( array_key_exists( $field, $data ) && ( null === $data[ $field ] || '' === trim( $data[ $field ] ) ) ) {
+						wp_die( 'ERROR: ' . esc_attr( $field ) . ' is a required field.' );
+					}
+				}
+			}
 		}
 
 		/**

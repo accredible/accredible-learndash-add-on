@@ -61,13 +61,7 @@ if ( ! class_exists( 'Accredible_Learndash_Admin_Action_Handler' ) ) :
 			self::verify_nonce( $data['nonce'], 'edit_auto_issuance' . $data['id'] );
 
 			$auto_issuance_params = $data['accredible_learndash_object'];
-			foreach ( $auto_issuance_params as $key => $value ) {
-				if ( is_null( $auto_issuance_params[ $key ] ) || empty( $auto_issuance_params[ $key ] ) ) {
-					wp_die( 'Failed to update.' );
-				}
-			}
-
-			$result = Accredible_Learndash_Model_Auto_Issuance::update( $data['id'], $auto_issuance_params );
+			$result               = Accredible_Learndash_Model_Auto_Issuance::update( $data['id'], $auto_issuance_params );
 			if ( false === $result ) {
 				wp_die( 'Failed to update.' );
 			} else {

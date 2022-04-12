@@ -32,7 +32,9 @@ $accredible_learndash_table_helper = new Accredible_Learndash_Admin_Table_Helper
 
 $accredible_learndash_page = Accredible_Learndash_Model_Auto_Issuance_Log::get_paginated_results(
 	$accredible_learndash_current_page,
-	$accredible_learndash_page_size
+	$accredible_learndash_page_size,
+	'',
+	array( 'order_by' => 'id DESC' )
 );
 ?>
 

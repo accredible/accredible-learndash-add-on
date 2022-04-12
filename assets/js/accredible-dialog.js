@@ -6,7 +6,7 @@ jQuery( function(){
         autoOpen: false,
         minWidth: 400,
         classes: {
-            'ui-dialog': 'accredible-dialog'
+            'ui-dialog': 'accredible-dialog accredible-no-close'
         },
         buttons: [
             {

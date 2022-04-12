@@ -26,9 +26,9 @@ if ( ! class_exists( 'Accredible_Learndash_Admin_Table_Helper' ) ) :
 		/**
 		 * Caches group names for faster lookup.
 		 *
-		 * @var array $group_name_cache.
+		 * @var array|null $group_name_cache.
 		 */
-		private static $group_name_cache = array();
+		private static $group_name_cache = null;
 
 		/**
 		 * Current results page.
@@ -121,17 +121,7 @@ if ( ! class_exists( 'Accredible_Learndash_Admin_Table_Helper' ) ) :
 						$value       = ! empty( $course_name ) ? $course_name : self::eval_error( 'Not found' );
 						break;
 					case self::GROUP_ID:
-						$key = $value;
-						if ( array_key_exists( $key, self::$group_name_cache ) ) {
-							$value = self::$group_name_cache[ strval( $key ) ];
-						} else {
-							// later: Consider storing `group_name` in the AutoIssaunce table for the faster page load time.
-							$client                                   = new Accredible_Learndash_Api_V1_Client();
-							$response                                 = $client->get_group( $value );
-							$value                                    = ! isset( $response['errors'] ) ? $response['group']['name'] : self::eval_error( 'Not found', $response['errors'] );
-							self::$group_name_cache[ strval( $key ) ] = $value;
-						}
-						$value;
+						$value = self::eval_group_id( $value );
 						break;
 					case self::KIND:
 						$value = self::eval_kind( $value );
@@ -166,6 +156,48 @@ if ( ! class_exists( 'Accredible_Learndash_Admin_Table_Helper' ) ) :
 		private static function table_cell( $cell_value, $classes = '' ) {
 			$start_cell_tag = empty( $classes ) ? '<td>' : '<td class="' . $classes . '">';
 			return $start_cell_tag . $cell_value . '</td>';
+		}
+
+		/**
+		 * Evaluates Accredible group ID to string.
+		 *
+		 * @param int $group_id Accredible Group ID.
+		 *
+		 * @return string
+		 */
+		private static function eval_group_id( $group_id ) {
+			if ( null === self::$group_name_cache ) {
+				self::store_group_name_cache();
+			}
+
+			$key = $group_id;
+			if ( array_key_exists( $key, self::$group_name_cache ) ) {
+				$value = self::$group_name_cache[ $key ];
+			} else {
+				$value = 'Not found';
+			}
+
+			return $value;
+		}
+
+		/**
+		 * Store group_name_cache.
+		 */
+		private static function store_group_name_cache() {
+			self::$group_name_cache = array();
+			$page                   = 1;
+			$client                 = new Accredible_Learndash_Api_V1_Client();
+			while ( ! empty( $page ) ) {
+				$response = $client->search_groups( null, $page, 50 );
+				if ( isset( $response['errors'] ) ) {
+					wp_die( 'Accredible API Search Groups Error ' . esc_attr( $response['errors'] ) );
+				}
+
+				foreach ( $response['groups'] as $group ) {
+					self::$group_name_cache[ $group['id'] ] = $group['name'];
+				}
+				$page = $response['meta']['next_page'];
+			}
 		}
 
 		/**
@@ -299,6 +331,7 @@ if ( ! class_exists( 'Accredible_Learndash_Admin_Table_Helper' ) ) :
 					if ( ( ! empty( $value['label'] ) ) && ( ! empty( $value['action'] ) ) ) {
 						$page               = '';
 						$has_confirm_dialog = false;
+						$need_nonce_url     = false;
 						switch ( $value['action'] ) {
 							case 'edit_auto_issuance':
 								$page = 'accredible_learndash_auto_issuance';
@@ -306,20 +339,25 @@ if ( ! class_exists( 'Accredible_Learndash_Admin_Table_Helper' ) ) :
 							case 'delete_auto_issuance':
 								$page               = 'accredible_learndash_admin_action';
 								$has_confirm_dialog = true;
+								$need_nonce_url     = true;
 								break;
 							default:
 								$page = 'accredible_learndash_issuance_list';
 						}
 
-						$nonce_url = wp_nonce_url(
-							admin_url( 'admin.php?page=' . $page . '&action=' . $value['action'] . '&page_num=' . self::$current_page . '&id=' . $id ),
-							$value['action'] . $id,
-							'_mynonce'
-						);
+						$url = admin_url( 'admin.php?page=' . $page . '&action=' . $value['action'] . '&page_num=' . self::$current_page . '&id=' . $id );
+
+						if ( $need_nonce_url ) {
+							$url = wp_nonce_url(
+								$url,
+								$value['action'] . $id,
+								'_mynonce'
+							);
+						}
 
 						$actions .= sprintf(
 							'<a href="%1s" %2s class="button accredible-button-outline-natural accredible-button-small">' . $value['label'] . '</a>',
-							$nonce_url,
+							$url,
 							$has_confirm_dialog ? 'data-accredible-dialog="true"' : ''
 						);
 					}

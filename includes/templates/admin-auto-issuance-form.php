@@ -26,13 +26,13 @@ $accredible_learndash_issuance    = (object) array(
 if ( ! is_null( $accredible_learndash_issuance_id ) ) {
 	$accredible_learndash_form_action = 'edit_auto_issuance';
 
-	$accredible_learndash_issuance_nonce = isset( $_GET['_mynonce'] ) ? sanitize_key( wp_unslash( $_GET['_mynonce'] ) ) : null;
+	$accredible_learndash_issuance_nonce = isset( $_GET['_mynonce'] ) ? sanitize_key( wp_unslash( $_GET['_mynonce'] ) ) : null; // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 
-	if ( ! ( isset( $accredible_learndash_issuance_nonce ) && wp_verify_nonce( $accredible_learndash_issuance_nonce, $accredible_learndash_form_action . $accredible_learndash_issuance_id ) ) ) {
-		wp_die( 'Invalid nonce.' );
+	$accredible_learndash_issuance = Accredible_Learndash_Model_Auto_Issuance::get_row( "id = $accredible_learndash_issuance_id" );
+
+	if ( ! ( isset( $accredible_learndash_issuance ) ) ) {
+		wp_die( 'Auto Issuance not found.' );
 	}
-
-	$accredible_learndash_issuance = Accredible_Learndash_Model_Auto_Issuance::get_results( "id = $accredible_learndash_issuance_id" )[0];
 
 	// Fetch saved group by id to fill autocomplete.
 	if ( ! is_null( $accredible_learndash_issuance ) && ! empty( $accredible_learndash_issuance->accredible_group_id ) ) {

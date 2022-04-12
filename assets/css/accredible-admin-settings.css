@@ -180,6 +180,7 @@ body.accredible-learndash-admin .label {
     height: 40px;
     font-size: var(--accredible-font-size-l);
     border-radius: 4px;
+    min-width: 70px;
 }
 
 .wp-core-ui .button.accredible-button-small,
@@ -288,6 +289,11 @@ button[class*="accredible-button"] {
     min-width: 350px;
     min-height: 300px;
     max-width: 500px;
+}
+
+#accredible-issuer-info {
+    min-height: 60px;
+    padding: 0 var(--accredible-spacing-3x);
 }
 
 .accredible-content .status-tile .logo {
@@ -535,6 +541,127 @@ table.accredible-table {
     -webkit-tap-highlight-color: transparent;
     transition: opacity 400ms cubic-bezier(0.25, 0.8, 0.25, 1);
 }
+
+/* TOAST */
+
+.accredible-toast.ui-dialog .ui-dialog-titlebar,
+.accredible-toast.ui-dialog .ui-dialog-titlebar-close {
+    display: none;
+}
+
+.accredible-toast.ui-dialog {
+    display: flex;
+    align-items: center;
+    min-width: 344px;
+    max-width: 33vw;
+    min-height: 48px;
+    margin: var(--accredible-spacing-5x);
+    padding: 0 var(--accredible-spacing-3x);
+    color: var(--accredible-color-white);
+    background: var(--accredible-color-natural-140);
+    border-radius: 4px;
+    box-shadow: 0 3px 5px -1px #0003, 0 6px 10px #00000024, 0 1px 18px #0000001f;
+}
+
+.accredible-toast.ui-dialog .ui-dialog-buttonpane {
+    display: flex;
+    flex: 1;
+    justify-content: flex-end;
+}
+
+.accredible-toast.ui-dialog .ui-dialog-buttonpane .accredible-toast-close {
+    width: 14px;
+    height: 14px;
+    background-image: url('../images/close.svg');
+    background-size: cover;
+    border: 0;
+    background-color: transparent;
+    cursor: pointer;
+    user-select: none;
+    outline: none;
+}
+
+.accredible-toast-message {
+    display: flex;
+    align-items: center;
+    grid-gap: var(--accredible-spacing-2x);
+    gap: var(--accredible-spacing-2x);
+}
+
+.accredible-toast-message p {
+    margin: 0;
+    font: 400 16px/21px Source Sans Pro;
+}
+
+.accredible-toast-message .alert-icon {
+    width: 20px;
+    height: 20px;
+    align-self: flex-start;
+}
+
+.accredible-toast-message .alert-icon.toast-success {
+    background-image: url('../images/check.png');
+    background-size: cover;
+}
+
+.accredible-toast-message .alert-icon.toast-info {
+    background-image: url('../images/info.svg');
+    background-size: cover;
+}
+
+.accredible-toast-message .alert-icon.toast-error {
+    background-image: url('../images/error.png');
+    background-size: cover;
+}
+
+/* BUTTON SPINNER */
+
+.wp-core-ui .button.accredible-button-spinner {
+    display: flex;
+    align-items: center;
+    grid-gap: var(--accredible-spacing-2x);
+    gap: var(--accredible-spacing-2x);
+}
+
+.accredible-button-spinner:after {
+    display: inline-block;
+    width: 14px;
+    height: 14px;
+    border-top: 2px solid rgba(255, 255, 255, 0.2);
+    border-right: 2px solid rgba(255, 255, 255, 0.2);
+    border-bottom: 2px solid rgba(255, 255, 255, 0.2);
+    border-left: 2px solid var(--accredible-color-white);
+    border-radius: 50%;
+    content: "";
+    -ms-transform: translateZ(0);
+    -webkit-transform: translateZ(0);
+    transform: translateZ(0);
+    -webkit-animation: accredibleSpin 1.1s infinite linear;
+    animation: accredibleSpin 1.1s infinite linear;
+}
+
+@-webkit-keyframes accredibleSpin {
+    0% {
+        -webkit-transform: rotate(0deg);
+        transform: rotate(0deg);
+    }
+    100% {
+        -webkit-transform: rotate(360deg);
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes accredibleSpin {
+    0% {
+        -webkit-transform: rotate(0deg);
+        transform: rotate(0deg);
+    }
+    100% {
+        -webkit-transform: rotate(360deg);
+        transform: rotate(360deg);
+    }
+}
+
 
 /* DIRECTION */
 

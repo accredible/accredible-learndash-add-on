@@ -72,7 +72,7 @@ class Accredible_Learndash_Admin_Action_Handler_Test extends Accredible_Learndas
 		$new_data = array(
 			'post_id'             => 1,
 			'accredible_group_id' => 4,
-			'kind'                => null,
+			'kind'                => '',
 		);
 
 		// Login as an admin.
@@ -99,7 +99,7 @@ class Accredible_Learndash_Admin_Action_Handler_Test extends Accredible_Learndas
 		);
 
 		$this->assertCount( 0, $results );
-		$this->assertEquals( 'Failed to create.', $caught_exception );
+		$this->assertEquals( 'ERROR: kind is a required field.', $caught_exception );
 	}
 
 	/**
@@ -169,7 +169,7 @@ class Accredible_Learndash_Admin_Action_Handler_Test extends Accredible_Learndas
 		$new_data = array(
 			'id'                  => $id,
 			'post_id'             => 2,
-			'accredible_group_id' => null,
+			'accredible_group_id' => 2,
 			'kind'                => null,
 		);
 
@@ -197,7 +197,7 @@ class Accredible_Learndash_Admin_Action_Handler_Test extends Accredible_Learndas
 			$wpdb->prepare( 'SELECT * FROM %1s WHERE id = %d;', $table_name, $id )
 		);
 
-		$this->assertEquals( 'Failed to update.', $caught_exception );
+		$this->assertEquals( 'ERROR: kind is a required field.', $caught_exception );
 		$this->assertEquals( 1, $result->post_id );
 		$this->assertEquals( 1, $result->accredible_group_id );
 	}
