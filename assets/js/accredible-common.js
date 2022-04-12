@@ -19,7 +19,7 @@ jQuery(function(){
             } catch (error) {
                 // handle wp_die messsages
                 const response = { success: false, data: { message: res } };
-                if(typeof res === 'string' && res.includes('ERROR')) {
+                if(typeof res === 'string' && res.match(/error/i) !== null) {
                     response.data.message = res.substring(7);
                 }
                 return response;
