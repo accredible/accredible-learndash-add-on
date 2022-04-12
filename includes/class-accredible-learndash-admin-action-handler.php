@@ -30,7 +30,7 @@ if ( ! class_exists( 'Accredible_Learndash_Admin_Action_Handler' ) ) :
 				);
 				self::$action( $data );
 			} else {
-				wp_die( 'An action type mismatch has been detected.' );
+				wp_send_json_error( 'An action type mismatch has been detected.' );
 			}
 		}
 
@@ -45,10 +45,15 @@ if ( ! class_exists( 'Accredible_Learndash_Admin_Action_Handler' ) ) :
 			$result = Accredible_Learndash_Model_Auto_Issuance::insert( $data['accredible_learndash_object'] );
 
 			if ( false === $result ) {
-				wp_die( 'Failed to create.' );
+				wp_send_json_error( 'Failed to save auto issuance. Please try again later.' );
 			} else {
 				$redirect_url = admin_url( 'admin.php?page=accredible_learndash_issuance_list&page_num=' . $data['page_num'] );
-				self::redirect_to( $redirect_url );
+				wp_send_json_success(
+					array(
+						'message'     => 'Saved auto issuance successfully.',
+						'redirectUrl' => $redirect_url,
+					)
+				);
 			}
 		}
 
@@ -63,9 +68,14 @@ if ( ! class_exists( 'Accredible_Learndash_Admin_Action_Handler' ) ) :
 			$auto_issuance_params = $data['accredible_learndash_object'];
 			$result               = Accredible_Learndash_Model_Auto_Issuance::update( $data['id'], $auto_issuance_params );
 			if ( false === $result ) {
-				wp_die( 'Failed to update.' );
+				wp_send_json_error( 'Failed to save auto issuance. Please try again later.' );
 			} else {
-				self::redirect_to( $data['redirect_url'] );
+				wp_send_json_success(
+					array(
+						'message'     => 'Saved auto issuance successfully.',
+						'redirectUrl' => $data['redirect_url'],
+					)
+				);
 			}
 		}
 
