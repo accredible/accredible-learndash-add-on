@@ -53,6 +53,8 @@ if ( ! class_exists( 'Accredible_Learndash_Model_Auto_Issuance' ) ) :
 
 		/**
 		 * Validate inserting or updating data.
+		 * 
+		 * @throws Exception Exception containing the validation error message.
 		 *
 		 * @param array $data Inserting or updating data.
 		 * @param int   $id ID of the record.

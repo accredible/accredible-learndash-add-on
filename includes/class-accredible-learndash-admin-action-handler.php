@@ -16,6 +16,10 @@ if ( ! class_exists( 'Accredible_Learndash_Admin_Action_Handler' ) ) :
 	class Accredible_Learndash_Admin_Action_Handler {
 		/**
 		 * Call the requested action.
+		 * 
+		 * @throws Exception Exception containing the error message.
+		 * 
+		 * @return mixed results from called action.
 		 */
 		public static function call() {
 			$action        = self::sanitize_parameter( 'call_action' );
@@ -36,8 +40,11 @@ if ( ! class_exists( 'Accredible_Learndash_Admin_Action_Handler' ) ) :
 
 		/**
 		 * Create an auto issuance.
+		 * 
+		 * @throws Exception Exception containing the error message.
 		 *
 		 * @param string $data Data for the action.
+		 * @return string[] result.
 		 */
 		public static function add_auto_issuance( $data ) {
 			self::verify_nonce( $data['nonce'], 'add_auto_issuance' );
@@ -58,8 +65,11 @@ if ( ! class_exists( 'Accredible_Learndash_Admin_Action_Handler' ) ) :
 
 		/**
 		 * Edit an auto issuance.
+		 * 
+		 * @throws Exception Exception containing the error message.
 		 *
 		 * @param string $data Data for the action.
+		 * @return string[] result.
 		 */
 		public static function edit_auto_issuance( $data ) {
 			self::verify_nonce( $data['nonce'], 'edit_auto_issuance' . $data['id'] );
