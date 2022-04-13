@@ -309,7 +309,7 @@ class Accredible_Learndash_Admin_Action_Handler_Test extends Accredible_Learndas
 			$caught_exception = $error->getMessage();
 		}
 
-		$this->assertEquals( 'ERROR: Invalid nonce.', $caught_exception );
+		$this->assertEquals( 'Invalid nonce.', $caught_exception );
 		$results = $wpdb->get_results(
 			$wpdb->prepare( 'SELECT * FROM %1s;', $table_name )
 		);

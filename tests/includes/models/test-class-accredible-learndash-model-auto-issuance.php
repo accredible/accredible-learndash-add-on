@@ -496,7 +496,7 @@ class Accredible_Learndash_Model_Auto_Issuance_Test extends Accredible_Learndash
 			$caught_exception = $error->getMessage();
 		}
 
-		$this->assertEquals( 'ERROR: completed is an invalid kind.', $caught_exception );
+		$this->assertEquals( 'completed is an invalid kind.', $caught_exception );
 	}
 
 	/**
@@ -519,7 +519,7 @@ class Accredible_Learndash_Model_Auto_Issuance_Test extends Accredible_Learndash
 			$caught_exception = $error->getMessage();
 		}
 
-		$this->assertEquals( 'ERROR: Post ID 1 already has the same kind of auto issuance.', $caught_exception );
+		$this->assertEquals( 'Post ID 1 already has the same kind of auto issuance.', $caught_exception );
 	}
 
 	/**
@@ -553,6 +553,6 @@ class Accredible_Learndash_Model_Auto_Issuance_Test extends Accredible_Learndash
 			$caught_exception = $error->getMessage();
 		}
 
-		$this->assertEquals( 'ERROR: Post ID 1 already has the same kind of auto issuance.', $caught_exception );
+		$this->assertEquals( 'Post ID 1 already has the same kind of auto issuance.', $caught_exception );
 	}
 }

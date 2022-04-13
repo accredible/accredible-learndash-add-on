@@ -146,7 +146,7 @@ if ( ! class_exists( 'Accredible_Learndash_Admin_Action_Handler' ) ) :
 		 */
 		private static function verify_nonce( $nonce, $action ) {
 			if ( ! ( isset( $nonce ) && wp_verify_nonce( $nonce, $action ) ) ) {
-				wp_die( 'ERROR: Invalid nonce.' );
+				wp_die( 'Invalid nonce.' );
 			};
 		}
 

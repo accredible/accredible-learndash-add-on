@@ -66,7 +66,7 @@ if ( ! class_exists( 'Accredible_Learndash_Model_Auto_Issuance' ) ) :
 			$kind    = array_key_exists( 'kind', $data ) ? $data['kind'] : null;
 
 			if ( ! self::is_kind_valid( $kind ) ) {
-				throw new Exception( 'ERROR: ' . esc_attr( $kind ) . ' is an invalid kind.' );
+				throw new Exception( esc_attr( $kind ) . ' is an invalid kind.' );
 			}
 
 			if ( self::is_duplicate( $post_id, $kind, $id ) ) {
@@ -74,7 +74,7 @@ if ( ! class_exists( 'Accredible_Learndash_Model_Auto_Issuance' ) ) :
 				if ( empty( $title ) ) {
 					$title = 'Post ID ' . $post_id;
 				}
-				throw new Exception( 'ERROR: ' . esc_attr( $title ) . ' already has the same kind of auto issuance.' );
+				throw new Exception( esc_attr( $title ) . ' already has the same kind of auto issuance.' );
 			}
 		}
 
