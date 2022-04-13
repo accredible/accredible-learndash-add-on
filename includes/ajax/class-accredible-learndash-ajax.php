@@ -75,8 +75,12 @@ if ( ! class_exists( 'Accredible_Learndash_Ajax' ) ) :
 		 * Triggers the appropriate action in Accredible_Learndash_Admin_Action_Handler
 		 */
 		public static function handle_auto_issuance_action() {
-			// call action.
-			Accredible_Learndash_Admin_Action_Handler::call();
+			try {
+				$results = Accredible_Learndash_Admin_Action_Handler::call();
+				wp_send_json_success( $results );
+			} catch ( \Exception $wp_exception ) {
+				wp_send_json_error( $wp_exception->getMessage() );
+			}
 		}
 	}
 endif;
