@@ -46,7 +46,6 @@ class Accredible_Learndash_Admin_Action_Handler_Test extends Accredible_Learndas
 			)
 		);
 
-		$this->expectOutputString( $output_string );
 		try {
 			Accredible_Learndash_Admin_Action_Handler::add_auto_issuance(
 				array(
@@ -56,8 +55,9 @@ class Accredible_Learndash_Admin_Action_Handler_Test extends Accredible_Learndas
 					'accredible_learndash_object' => $new_data,
 				)
 			);
-		} catch ( WPDieException $error ) { // phpcs:ignore Generic.CodeAnalysis.EmptyStatement.DetectedCatch
-			// We expected this, do nothing.
+			$caught_exception = null;
+		} catch ( \Exception $error ) {
+			$caught_exception = $error->getMessage();
 		}
 
 		$results       = $wpdb->get_results(
@@ -65,6 +65,7 @@ class Accredible_Learndash_Admin_Action_Handler_Test extends Accredible_Learndas
 		);
 		$auto_issuance = $results[0];
 
+		$this->assertNull( $caught_exception );
 		$this->assertCount( 1, $results );
 		$this->assertEquals( 2, $auto_issuance->post_id );
 		$this->assertEquals( 4, $auto_issuance->accredible_group_id );
@@ -154,7 +155,6 @@ class Accredible_Learndash_Admin_Action_Handler_Test extends Accredible_Learndas
 			)
 		);
 
-		$this->expectOutputString( $output_string );
 		try {
 			Accredible_Learndash_Admin_Action_Handler::edit_auto_issuance(
 				array(
@@ -164,14 +164,16 @@ class Accredible_Learndash_Admin_Action_Handler_Test extends Accredible_Learndas
 					'accredible_learndash_object' => $new_data,
 				)
 			);
-		} catch ( WPDieException $error ) { // phpcs:ignore Generic.CodeAnalysis.EmptyStatement.DetectedCatch
-			// We expected this, do nothing.
+			$caught_exception = null;
+		} catch ( \Exception $error ) {
+			$caught_exception = $error->getMessage();
 		}
 
 		$result = $wpdb->get_row(
 			$wpdb->prepare( 'SELECT * FROM %1s WHERE id = %d;', $table_name, $record_id )
 		);
 
+		$this->assertNull( $caught_exception );
 		$this->assertEquals( 2, $result->post_id );
 		$this->assertEquals( 4, $result->accredible_group_id );
 	}
@@ -303,7 +305,7 @@ class Accredible_Learndash_Admin_Action_Handler_Test extends Accredible_Learndas
 				)
 			);
 			$caught_exception = null;
-		} catch ( WPDieException $error ) {
+		} catch ( \Exception $error ) {
 			$caught_exception = $error->getMessage();
 		}
 

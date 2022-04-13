@@ -492,7 +492,7 @@ class Accredible_Learndash_Model_Auto_Issuance_Test extends Accredible_Learndash
 		try {
 			Accredible_Learndash_Model_Auto_Issuance::validate( $data );
 			$caught_exception = null;
-		} catch ( WPDieException $error ) {
+		} catch ( \Exception $error ) {
 			$caught_exception = $error->getMessage();
 		}
 
@@ -515,7 +515,7 @@ class Accredible_Learndash_Model_Auto_Issuance_Test extends Accredible_Learndash
 		try {
 			Accredible_Learndash_Model_Auto_Issuance::validate( $data );
 			$caught_exception = null;
-		} catch ( WPDieException $error ) {
+		} catch ( \Exception $error ) {
 			$caught_exception = $error->getMessage();
 		}
 
@@ -549,7 +549,7 @@ class Accredible_Learndash_Model_Auto_Issuance_Test extends Accredible_Learndash
 		try {
 			Accredible_Learndash_Model_Auto_Issuance::validate( $data, $id );
 			$caught_exception = null;
-		} catch ( WPDieException $error ) {
+		} catch ( \Exception $error ) {
 			$caught_exception = $error->getMessage();
 		}
 

@@ -28,9 +28,9 @@ if ( ! class_exists( 'Accredible_Learndash_Admin_Action_Handler' ) ) :
 					'accredible_learndash_object' => self::sanitize_object( $action ),
 					'redirect_url'                => isset( $_REQUEST['redirect_url'] ) ? esc_url_raw( wp_unslash( $_REQUEST['redirect_url'] ) ) : wp_get_referer(), // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 				);
-				self::$action( $data );
+				return self::$action( $data );
 			} else {
-				wp_die( 'An action type mismatch has been detected.' );
+				throw new Exception( 'An action type mismatch has been detected.' );
 			}
 		}
 
@@ -42,24 +42,18 @@ if ( ! class_exists( 'Accredible_Learndash_Admin_Action_Handler' ) ) :
 		public static function add_auto_issuance( $data ) {
 			self::verify_nonce( $data['nonce'], 'add_auto_issuance' );
 
-			$result   = Accredible_Learndash_Model_Auto_Issuance::insert( $data['accredible_learndash_object'] );
-			$success  = false !== $result;
-			$res_data = array( 'message' => 'Failed to save auto issuance. Please try again later.' );
+			$result = Accredible_Learndash_Model_Auto_Issuance::insert( $data['accredible_learndash_object'] );
 
-			if ( $success ) {
-				$redirect_url = admin_url( 'admin.php?page=accredible_learndash_issuance_list&page_num=' . $data['page_num'] );
-
-				$res_data['message']     = 'Saved auto issuance successfully.';
-				$res_data['redirectUrl'] = esc_url( $redirect_url );
+			if ( false === $result ) {
+				throw new Exception( 'Failed to save auto issuance. Please try again later.' );
 			}
 
-			echo wp_json_encode(
-				array(
-					'success' => $success,
-					'data'    => $res_data,
-				)
+			$redirect_url = admin_url( 'admin.php?page=accredible_learndash_issuance_list&page_num=' . $data['page_num'] );
+
+			return array(
+				'message'     => 'Saved auto issuance successfully.',
+				'redirectUrl' => esc_url( $redirect_url ),
 			);
-			wp_die();
 		}
 
 		/**
@@ -72,21 +66,15 @@ if ( ! class_exists( 'Accredible_Learndash_Admin_Action_Handler' ) ) :
 
 			$auto_issuance_params = $data['accredible_learndash_object'];
 			$result               = Accredible_Learndash_Model_Auto_Issuance::update( $data['id'], $auto_issuance_params );
-			$response             = array( 'message' => 'Failed to save auto issuance. Please try again later.' );
-			$success              = false !== $result;
 
-			if ( $success ) {
-				$response['message']     = 'Saved auto issuance successfully.';
-				$response['redirectUrl'] = esc_url( $data['redirect_url'] );
+			if ( false === $result ) {
+				throw new Exception( 'Failed to save auto issuance. Please try again later.' );
 			}
 
-			echo wp_json_encode(
-				array(
-					'success' => $success,
-					'data'    => $response,
-				)
+			return array(
+				'message'     => 'Saved auto issuance successfully.',
+				'redirectUrl' => esc_url( $data['redirect_url'] ),
 			);
-			wp_die();
 		}
 
 		/**
