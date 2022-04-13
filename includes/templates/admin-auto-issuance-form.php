@@ -164,9 +164,9 @@ if ( ! is_null( $accredible_learndash_issuance_id ) ) {
 				if ((typeof(res) === 'object')) {
 					const message = res.data && res.data.message ? res.data.message : res.data;
 					if (res.success) {
-						accredibleToast.success(message);
+						accredibleToast.success(message, 3000);
 					} else {
-						accredibleToast.error(message);
+						accredibleToast.error(message, 3000);
 					}
 				}
 
