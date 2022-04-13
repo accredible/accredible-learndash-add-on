@@ -46,8 +46,6 @@ if ( ! class_exists( 'Accredible_Learndash_Ajax' ) ) :
 			} else {
 				wp_send_json_error();
 			}
-
-			wp_die();
 		}
 
 		/**
@@ -68,7 +66,6 @@ if ( ! class_exists( 'Accredible_Learndash_Ajax' ) ) :
 			$issuer_html = ob_get_clean();
 
 			wp_send_json_success( $issuer_html );
-			wp_die();
 		}
 
 		/**
