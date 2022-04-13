@@ -44,7 +44,7 @@ if ( ! class_exists( 'Accredible_Learndash_Admin_Action_Handler' ) ) :
 		 * @throws Exception Exception containing the error message.
 		 *
 		 * @param string $data Data for the action.
-		 * @return string[] result.
+		 * @return string result.
 		 */
 		public static function add_auto_issuance( $data ) {
 			self::verify_nonce( $data['nonce'], 'add_auto_issuance' );
@@ -55,12 +55,7 @@ if ( ! class_exists( 'Accredible_Learndash_Admin_Action_Handler' ) ) :
 				throw new Exception( 'Failed to save auto issuance. Please try again later.' );
 			}
 
-			$redirect_url = admin_url( 'admin.php?page=accredible_learndash_issuance_list&page_num=' . $data['page_num'] );
-
-			return array(
-				'message'     => 'Saved auto issuance successfully.',
-				'redirectUrl' => esc_url( $redirect_url ),
-			);
+			return 'Saved auto issuance successfully.';
 		}
 
 		/**
@@ -69,7 +64,7 @@ if ( ! class_exists( 'Accredible_Learndash_Admin_Action_Handler' ) ) :
 		 * @throws Exception Exception containing the error message.
 		 *
 		 * @param string $data Data for the action.
-		 * @return string[] result.
+		 * @return string result.
 		 */
 		public static function edit_auto_issuance( $data ) {
 			self::verify_nonce( $data['nonce'], 'edit_auto_issuance' . $data['id'] );
@@ -81,10 +76,7 @@ if ( ! class_exists( 'Accredible_Learndash_Admin_Action_Handler' ) ) :
 				throw new Exception( 'Failed to save auto issuance. Please try again later.' );
 			}
 
-			return array(
-				'message'     => 'Saved auto issuance successfully.',
-				'redirectUrl' => esc_url( $data['redirect_url'] ),
-			);
+			return 'Saved auto issuance successfully.';
 		}
 
 		/**
