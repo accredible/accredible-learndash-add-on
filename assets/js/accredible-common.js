@@ -14,13 +14,13 @@ jQuery(function(){
         };
         post_data = Object.assign(post_data, formData);
         return jQuery.post(accredibledata.ajaxurl, post_data).then(function(res){
-           try {
-                return JSON.parse(res);
+            try {
+                return typeof res === 'object' ? res : JSON.parse(res);
             } catch (error) {
                 // handle wp_die messsages
-                const response = { success: false, data: { message: res } };
+                const response = { success: false, data: { res } };
                 if(typeof res === 'string' && res.match(/error/i) !== null) {
-                    response.data.message = res.substring(7);
+                    response.data = res.substring(7);
                 }
                 return response;
            }
