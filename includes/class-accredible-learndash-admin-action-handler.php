@@ -16,9 +16,9 @@ if ( ! class_exists( 'Accredible_Learndash_Admin_Action_Handler' ) ) :
 	class Accredible_Learndash_Admin_Action_Handler {
 		/**
 		 * Call the requested action.
-		 * 
+		 *
 		 * @throws Exception Exception containing the error message.
-		 * 
+		 *
 		 * @return mixed results from called action.
 		 */
 		public static function call() {
@@ -40,7 +40,7 @@ if ( ! class_exists( 'Accredible_Learndash_Admin_Action_Handler' ) ) :
 
 		/**
 		 * Create an auto issuance.
-		 * 
+		 *
 		 * @throws Exception Exception containing the error message.
 		 *
 		 * @param string $data Data for the action.
@@ -65,7 +65,7 @@ if ( ! class_exists( 'Accredible_Learndash_Admin_Action_Handler' ) ) :
 
 		/**
 		 * Edit an auto issuance.
-		 * 
+		 *
 		 * @throws Exception Exception containing the error message.
 		 *
 		 * @param string $data Data for the action.
