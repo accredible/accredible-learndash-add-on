@@ -58,7 +58,14 @@ class Accredible_Learndash_Admin_Action_Handler_Test extends Accredible_Learndas
 		$auto_issuance = $results[0];
 
 		$this->assertNull( $caught_exception );
-		$this->assertEquals( 'Saved auto issuance successfully.', $add_result );
+		$this->assertEquals(
+			array(
+				'message' => 'Saved auto issuance successfully.',
+				'id'      => $auto_issuance->id,
+				'nonce'   => wp_create_nonce( 'edit_auto_issuance' . $auto_issuance->id ),
+			),
+			$add_result
+		);
 
 		$this->assertCount( 1, $results );
 		$this->assertEquals( 2, $auto_issuance->post_id );

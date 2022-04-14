@@ -116,7 +116,9 @@ if ( ! class_exists( 'Accredible_Learndash_Model' ) ) :
 			$data['created_at'] = time();
 			static::validate( $data );
 			global $wpdb;
-			return $wpdb->insert( static::table_name(), $data );
+			$wpdb->insert( static::table_name(), $data );
+			$insert_id = $wpdb->insert_id;
+			return $insert_id;
 		}
 
 		/**

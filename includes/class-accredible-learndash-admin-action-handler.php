@@ -44,18 +44,22 @@ if ( ! class_exists( 'Accredible_Learndash_Admin_Action_Handler' ) ) :
 		 * @throws Exception Exception containing the error message.
 		 *
 		 * @param string $data Data for the action.
-		 * @return string result.
+		 * @return mixed result.
 		 */
 		public static function add_auto_issuance( $data ) {
 			self::verify_nonce( $data['nonce'], 'add_auto_issuance' );
 
 			$result = Accredible_Learndash_Model_Auto_Issuance::insert( $data['accredible_learndash_object'] );
 
-			if ( false === $result ) {
+			if ( $result < 1 ) {
 				throw new Exception( 'Failed to save auto issuance. Please try again later.' );
 			}
 
-			return 'Saved auto issuance successfully.';
+			return array(
+				'message' => 'Saved auto issuance successfully.',
+				'id'      => $result,
+				'nonce'   => wp_create_nonce( 'edit_auto_issuance' . $result ),
+			);
 		}
 
 		/**

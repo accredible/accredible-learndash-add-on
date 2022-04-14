@@ -77,8 +77,8 @@ if ( ! is_null( $accredible_learndash_issuance_id ) ) {
 					<input type="hidden" name="id" value="<?php echo esc_attr( $accredible_learndash_issuance_id ); ?>">
 				<?php } ?>
 
-				<input type="hidden" name="call_action" value="<?php echo esc_attr( $accredible_learndash_form_action ); ?>">
-				<input type="hidden" name="page_num" value="<?php echo esc_attr( $accredible_learndash_issuance_current_page ); ?>">
+				<input type="hidden" id="call_action" name="call_action" value="<?php echo esc_attr( $accredible_learndash_form_action ); ?>">
+				<input type="hidden" id="page_num" name="page_num" value="<?php echo esc_attr( $accredible_learndash_issuance_current_page ); ?>">
 
 				<div class="accredible-form-field">
 					<label><?php esc_html_e( 'Issuance Trigger' ); ?></label>
@@ -164,6 +164,13 @@ if ( ! is_null( $accredible_learndash_issuance_id ) ) {
 				if ((typeof(res) === 'object')) {
 					const message = res.data && res.data.message ? res.data.message : res.data;
 					if (res.success) {
+						if (res.data && res.data.id && res.data.nonce) {
+							// update nonce
+							jQuery('#_mynonce').val(res.data.nonce);
+							// add id input
+							jQuery(`<input type="hidden" id="id" name="id" value="${res.data.id}">`).insertAfter('#_mynonce');
+							jQuery('#call_action').val('edit_auto_issuance');
+						}
 						accredibleToast.success(message, 3000);
 					} else {
 						accredibleToast.error(message, 3000);
