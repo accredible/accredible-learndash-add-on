@@ -106,7 +106,7 @@ class Accredible_Learndash_Admin_Action_Handler_Test extends Accredible_Learndas
 				)
 			);
 			$caught_exception = null;
-		} catch ( WPDieException $error ) {
+		} catch ( \Exception $error ) {
 			$caught_exception = $error->getMessage();
 		}
 
@@ -115,7 +115,7 @@ class Accredible_Learndash_Admin_Action_Handler_Test extends Accredible_Learndas
 		);
 
 		$this->assertCount( 0, $results );
-		$this->assertEquals( 'ERROR: kind is a required field.', $caught_exception );
+		$this->assertEquals( 'kind is a required field.', $caught_exception );
 	}
 
 	/**
@@ -213,7 +213,7 @@ class Accredible_Learndash_Admin_Action_Handler_Test extends Accredible_Learndas
 				)
 			);
 			$caught_exception = null;
-		} catch ( WPDieException $error ) {
+		} catch ( \Exception $error ) {
 			$caught_exception = $error->getMessage();
 		}
 
@@ -221,7 +221,7 @@ class Accredible_Learndash_Admin_Action_Handler_Test extends Accredible_Learndas
 			$wpdb->prepare( 'SELECT * FROM %1s WHERE id = %d;', $table_name, $id )
 		);
 
-		$this->assertEquals( 'ERROR: kind is a required field.', $caught_exception );
+		$this->assertEquals( 'kind is a required field.', $caught_exception );
 		$this->assertEquals( 1, $result->post_id );
 		$this->assertEquals( 1, $result->accredible_group_id );
 	}

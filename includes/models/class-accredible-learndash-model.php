@@ -146,6 +146,8 @@ if ( ! class_exists( 'Accredible_Learndash_Model' ) ) :
 		/**
 		 * Validate inserting or updating data.
 		 *
+		 * @throws Exception Exception containing the validation error message.
+		 *
 		 * @param array $data Inserting or updating data.
 		 * @param int   $id ID of the record.
 		 */
@@ -153,11 +155,11 @@ if ( ! class_exists( 'Accredible_Learndash_Model' ) ) :
 			foreach ( static::REQUIRED_FIELDS as $field ) {
 				if ( null === $id ) {
 					if ( ! isset( $data[ $field ] ) || '' === trim( $data[ $field ] ) ) {
-						wp_die( 'ERROR: ' . esc_attr( $field ) . ' is a required field.' );
+						throw new Exception( esc_attr( $field ) . ' is a required field.' );
 					}
 				} else {
 					if ( array_key_exists( $field, $data ) && ( null === $data[ $field ] || '' === trim( $data[ $field ] ) ) ) {
-						wp_die( 'ERROR: ' . esc_attr( $field ) . ' is a required field.' );
+						throw new Exception( esc_attr( $field ) . ' is a required field.' );
 					}
 				}
 			}
