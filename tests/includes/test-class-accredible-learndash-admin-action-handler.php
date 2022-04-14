@@ -34,27 +34,19 @@ class Accredible_Learndash_Admin_Action_Handler_Test extends Accredible_Learndas
 		// Login as an admin.
 		$admin_user = self::factory()->user->create( array( 'role' => 'administrator' ) );
 		wp_set_current_user( $admin_user );
-		$nonce         = wp_create_nonce( 'add_auto_issuance' );
-		$redirect_url  = admin_url( 'admin.php?page=accredible_learndash_issuance_list&page_num=3' );
-		$output_string = wp_json_encode(
-			array(
-				'success' => true,
-				'data'    => array(
-					'message'     => 'Saved auto issuance successfully.',
-					'redirectUrl' => esc_url( $redirect_url ),
-				),
-			)
-		);
+		$nonce        = wp_create_nonce( 'add_auto_issuance' );
+		$redirect_url = admin_url( 'post-new.php' );
 
 		try {
-			Accredible_Learndash_Admin_Action_Handler::add_auto_issuance(
+			$add_result = Accredible_Learndash_Admin_Action_Handler::add_auto_issuance(
 				array(
 					'nonce'                       => $nonce,
-					'redirect_url'                => admin_url( 'post-new.php' ),
+					'redirect_url'                => $redirect_url,
 					'page_num'                    => 3,
 					'accredible_learndash_object' => $new_data,
 				)
 			);
+
 			$caught_exception = null;
 		} catch ( \Exception $error ) {
 			$caught_exception = $error->getMessage();
@@ -66,6 +58,8 @@ class Accredible_Learndash_Admin_Action_Handler_Test extends Accredible_Learndas
 		$auto_issuance = $results[0];
 
 		$this->assertNull( $caught_exception );
+		$this->assertEquals( 'Saved auto issuance successfully.', $add_result );
+
 		$this->assertCount( 1, $results );
 		$this->assertEquals( 2, $auto_issuance->post_id );
 		$this->assertEquals( 4, $auto_issuance->accredible_group_id );
@@ -143,20 +137,11 @@ class Accredible_Learndash_Admin_Action_Handler_Test extends Accredible_Learndas
 		// Login as an admin.
 		$admin_user = self::factory()->user->create( array( 'role' => 'administrator' ) );
 		wp_set_current_user( $admin_user );
-		$nonce         = wp_create_nonce( "edit_auto_issuance$record_id" );
-		$redirect_url  = admin_url( 'post-new.php?id=1&page_num=2' );
-		$output_string = wp_json_encode(
-			array(
-				'success' => true,
-				'data'    => array(
-					'message'     => 'Saved auto issuance successfully.',
-					'redirectUrl' => esc_url( $redirect_url ),
-				),
-			)
-		);
+		$nonce        = wp_create_nonce( "edit_auto_issuance$record_id" );
+		$redirect_url = admin_url( 'post-new.php?id=1&page_num=2' );
 
 		try {
-			Accredible_Learndash_Admin_Action_Handler::edit_auto_issuance(
+			$edit_result = Accredible_Learndash_Admin_Action_Handler::edit_auto_issuance(
 				array(
 					'id'                          => $record_id,
 					'nonce'                       => $nonce,
@@ -164,18 +149,21 @@ class Accredible_Learndash_Admin_Action_Handler_Test extends Accredible_Learndas
 					'accredible_learndash_object' => $new_data,
 				)
 			);
+
 			$caught_exception = null;
 		} catch ( \Exception $error ) {
 			$caught_exception = $error->getMessage();
 		}
 
-		$result = $wpdb->get_row(
+		$row = $wpdb->get_row(
 			$wpdb->prepare( 'SELECT * FROM %1s WHERE id = %d;', $table_name, $record_id )
 		);
 
 		$this->assertNull( $caught_exception );
-		$this->assertEquals( 2, $result->post_id );
-		$this->assertEquals( 4, $result->accredible_group_id );
+		$this->assertEquals( 'Saved auto issuance successfully.', $edit_result );
+
+		$this->assertEquals( 2, $row->post_id );
+		$this->assertEquals( 4, $row->accredible_group_id );
 	}
 
 	/**
