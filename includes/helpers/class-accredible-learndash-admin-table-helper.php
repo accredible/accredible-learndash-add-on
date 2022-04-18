@@ -345,7 +345,7 @@ if ( ! class_exists( 'Accredible_Learndash_Admin_Table_Helper' ) ) :
 								$page = 'accredible_learndash_issuance_list';
 						}
 
-						$url = admin_url( 'admin.php?page=' . $page . '&action=' . $value['action'] . '&page_num=' . self::$current_page . '&id=' . $id );
+						$url = admin_url( 'admin.php?page=' . $page . '&call_action=' . $value['action'] . '&page_num=' . self::$current_page . '&id=' . $id );
 
 						if ( $need_nonce_url ) {
 							$url = wp_nonce_url(

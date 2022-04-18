@@ -10,7 +10,7 @@ jQuery(function(){
     function _open(type, message, duration) {
         const toastHTML = `
         <div class="accredible-toast-message">
-            <div class="alert-icon toast-${type}"></div>
+            <div><div class="alert-icon toast-${type}"></div></div>
             <p>${_escapeHTML(message)}</p>
         </div>`;
 
