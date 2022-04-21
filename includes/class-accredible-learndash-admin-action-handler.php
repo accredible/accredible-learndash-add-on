@@ -16,9 +16,13 @@ if ( ! class_exists( 'Accredible_Learndash_Admin_Action_Handler' ) ) :
 	class Accredible_Learndash_Admin_Action_Handler {
 		/**
 		 * Call the requested action.
+		 *
+		 * @throws Exception Exception containing the error message.
+		 *
+		 * @return mixed results from called action.
 		 */
 		public static function call() {
-			$action        = self::sanitize_parameter( 'action' );
+			$action        = self::sanitize_parameter( 'call_action' );
 			$class_methods = get_class_methods( 'Accredible_Learndash_Admin_Action_Handler' );
 			if ( in_array( $action, $class_methods, true ) ) {
 				$data = array(
@@ -28,45 +32,55 @@ if ( ! class_exists( 'Accredible_Learndash_Admin_Action_Handler' ) ) :
 					'accredible_learndash_object' => self::sanitize_object( $action ),
 					'redirect_url'                => isset( $_REQUEST['redirect_url'] ) ? esc_url_raw( wp_unslash( $_REQUEST['redirect_url'] ) ) : wp_get_referer(), // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 				);
-				self::$action( $data );
+				return self::$action( $data );
 			} else {
-				wp_die( 'An action type mismatch has been detected.' );
+				throw new Exception( 'An action type mismatch has been detected.' );
 			}
 		}
 
 		/**
 		 * Create an auto issuance.
 		 *
+		 * @throws Exception Exception containing the error message.
+		 *
 		 * @param string $data Data for the action.
+		 * @return mixed result.
 		 */
 		public static function add_auto_issuance( $data ) {
 			self::verify_nonce( $data['nonce'], 'add_auto_issuance' );
 
-			$result = Accredible_Learndash_Model_Auto_Issuance::insert( $data['accredible_learndash_object'] );
+			$auto_issuance_id = Accredible_Learndash_Model_Auto_Issuance::insert( $data['accredible_learndash_object'] );
 
-			if ( false === $result ) {
-				wp_die( 'Failed to create.' );
-			} else {
-				$redirect_url = admin_url( 'admin.php?page=accredible_learndash_issuance_list&page_num=' . $data['page_num'] );
-				self::redirect_to( $redirect_url );
+			if ( $auto_issuance_id < 1 ) {
+				throw new Exception( 'Failed to save auto issuance. Please try again later.' );
 			}
+
+			return array(
+				'message' => 'Saved auto issuance successfully.',
+				'id'      => $auto_issuance_id,
+				'nonce'   => wp_create_nonce( 'edit_auto_issuance' . $auto_issuance_id ),
+			);
 		}
 
 		/**
 		 * Edit an auto issuance.
 		 *
+		 * @throws Exception Exception containing the error message.
+		 *
 		 * @param string $data Data for the action.
+		 * @return string result.
 		 */
 		public static function edit_auto_issuance( $data ) {
 			self::verify_nonce( $data['nonce'], 'edit_auto_issuance' . $data['id'] );
 
 			$auto_issuance_params = $data['accredible_learndash_object'];
 			$result               = Accredible_Learndash_Model_Auto_Issuance::update( $data['id'], $auto_issuance_params );
+
 			if ( false === $result ) {
-				wp_die( 'Failed to update.' );
-			} else {
-				self::redirect_to( $data['redirect_url'] );
+				throw new Exception( 'Failed to save auto issuance. Please try again later.' );
 			}
+
+			return 'Saved auto issuance successfully.';
 		}
 
 		/**

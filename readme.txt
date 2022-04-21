@@ -5,7 +5,7 @@ Donate link: https://accredible.com/
 Requires at least: 5.9
 Tested up to: 5.9.2
 Requires PHP: 5.6
-Stable tag: 1.0.4
+Stable tag: 1.0.5
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -64,6 +64,9 @@ You can report any issues or bugs on our project [GitHub](https://github.com/acc
 7. Example Google certificate.
 
 == Changelog ==
+
+= 1.0.5 =
+Improve auto issuance form UX/UI.
 
 = 1.0.4 =
 Add validations to models and improve UI.

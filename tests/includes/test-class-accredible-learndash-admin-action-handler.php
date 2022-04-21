@@ -35,21 +35,37 @@ class Accredible_Learndash_Admin_Action_Handler_Test extends Accredible_Learndas
 		$admin_user = self::factory()->user->create( array( 'role' => 'administrator' ) );
 		wp_set_current_user( $admin_user );
 		$nonce        = wp_create_nonce( 'add_auto_issuance' );
-		$redirect_url = admin_url( 'admin.php?page=accredible_learndash_issuance_list&page_num=3' );
+		$redirect_url = admin_url( 'post-new.php' );
 
-		$this->expectOutputString( "<p>Processing...</p><script>window.location.href='$redirect_url'</script>" );
-		Accredible_Learndash_Admin_Action_Handler::add_auto_issuance(
-			array(
-				'nonce'                       => $nonce,
-				'redirect_url'                => admin_url( 'post-new.php' ),
-				'page_num'                    => 3,
-				'accredible_learndash_object' => $new_data,
-			)
-		);
+		try {
+			$add_result = Accredible_Learndash_Admin_Action_Handler::add_auto_issuance(
+				array(
+					'nonce'                       => $nonce,
+					'redirect_url'                => $redirect_url,
+					'page_num'                    => 3,
+					'accredible_learndash_object' => $new_data,
+				)
+			);
+
+			$caught_exception = null;
+		} catch ( \Exception $error ) {
+			$caught_exception = $error->getMessage();
+		}
+
 		$results       = $wpdb->get_results(
 			$wpdb->prepare( 'SELECT * FROM %1s;', $table_name )
 		);
 		$auto_issuance = $results[0];
+
+		$this->assertNull( $caught_exception );
+		$this->assertEquals(
+			array(
+				'message' => 'Saved auto issuance successfully.',
+				'id'      => $auto_issuance->id,
+				'nonce'   => wp_create_nonce( 'edit_auto_issuance' . $auto_issuance->id ),
+			),
+			$add_result
+		);
 
 		$this->assertCount( 1, $results );
 		$this->assertEquals( 2, $auto_issuance->post_id );
@@ -90,7 +106,7 @@ class Accredible_Learndash_Admin_Action_Handler_Test extends Accredible_Learndas
 				)
 			);
 			$caught_exception = null;
-		} catch ( WPDieException $error ) {
+		} catch ( \Exception $error ) {
 			$caught_exception = $error->getMessage();
 		}
 
@@ -99,7 +115,7 @@ class Accredible_Learndash_Admin_Action_Handler_Test extends Accredible_Learndas
 		);
 
 		$this->assertCount( 0, $results );
-		$this->assertEquals( 'ERROR: kind is a required field.', $caught_exception );
+		$this->assertEquals( 'kind is a required field.', $caught_exception );
 	}
 
 	/**
@@ -131,22 +147,30 @@ class Accredible_Learndash_Admin_Action_Handler_Test extends Accredible_Learndas
 		$nonce        = wp_create_nonce( "edit_auto_issuance$record_id" );
 		$redirect_url = admin_url( 'post-new.php?id=1&page_num=2' );
 
-		$this->expectOutputString( "<p>Processing...</p><script>window.location.href='$redirect_url'</script>" );
-		Accredible_Learndash_Admin_Action_Handler::edit_auto_issuance(
-			array(
-				'id'                          => $record_id,
-				'nonce'                       => $nonce,
-				'redirect_url'                => $redirect_url,
-				'accredible_learndash_object' => $new_data,
-			)
-		);
+		try {
+			$edit_result = Accredible_Learndash_Admin_Action_Handler::edit_auto_issuance(
+				array(
+					'id'                          => $record_id,
+					'nonce'                       => $nonce,
+					'redirect_url'                => $redirect_url,
+					'accredible_learndash_object' => $new_data,
+				)
+			);
 
-		$result = $wpdb->get_row(
+			$caught_exception = null;
+		} catch ( \Exception $error ) {
+			$caught_exception = $error->getMessage();
+		}
+
+		$row = $wpdb->get_row(
 			$wpdb->prepare( 'SELECT * FROM %1s WHERE id = %d;', $table_name, $record_id )
 		);
 
-		$this->assertEquals( 2, $result->post_id );
-		$this->assertEquals( 4, $result->accredible_group_id );
+		$this->assertNull( $caught_exception );
+		$this->assertEquals( 'Saved auto issuance successfully.', $edit_result );
+
+		$this->assertEquals( 2, $row->post_id );
+		$this->assertEquals( 4, $row->accredible_group_id );
 	}
 
 	/**
@@ -189,7 +213,7 @@ class Accredible_Learndash_Admin_Action_Handler_Test extends Accredible_Learndas
 				)
 			);
 			$caught_exception = null;
-		} catch ( WPDieException $error ) {
+		} catch ( \Exception $error ) {
 			$caught_exception = $error->getMessage();
 		}
 
@@ -197,7 +221,7 @@ class Accredible_Learndash_Admin_Action_Handler_Test extends Accredible_Learndas
 			$wpdb->prepare( 'SELECT * FROM %1s WHERE id = %d;', $table_name, $id )
 		);
 
-		$this->assertEquals( 'ERROR: kind is a required field.', $caught_exception );
+		$this->assertEquals( 'kind is a required field.', $caught_exception );
 		$this->assertEquals( 1, $result->post_id );
 		$this->assertEquals( 1, $result->accredible_group_id );
 	}
@@ -276,7 +300,7 @@ class Accredible_Learndash_Admin_Action_Handler_Test extends Accredible_Learndas
 				)
 			);
 			$caught_exception = null;
-		} catch ( WPDieException $error ) {
+		} catch ( \Exception $error ) {
 			$caught_exception = $error->getMessage();
 		}
 
