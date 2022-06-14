@@ -3,7 +3,7 @@ jQuery( function(){
         jQuery('#accredible_learndash_group_autocomplete').autocomplete({
             classes: { "ui-autocomplete": "accredible-autocomplete" },
             delay: 500,
-            minLength: 3,
+            minLength: 2,
             source: function(request, response){
                 var post_data = {
                     'action': 'accredible_learndash_ajax_search_groups',
