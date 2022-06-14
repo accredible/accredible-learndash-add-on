@@ -72,7 +72,7 @@ if ( ! class_exists( 'Accredible_Learndash_Ajax' ) ) :
 		/**
 		 * load auto issuances
 		 */
-		public static function load_auto_issuances() {
+		public static function load_auto_issuance_list_html() {
 			$current_page = self::get_request_value( 'page_num', 1 );
 			$page_size    = 20;
 
