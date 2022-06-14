@@ -103,16 +103,16 @@ if ( ! class_exists( 'Accredible_Learndash_Ajax' ) ) :
 
 		/**
 		 * Returns a resolved $_REQUEST value
-		 * 
+		 *
 		 * @param string $key the key to fetch the value
-		 * @param mixed $default_value default value to return
-		 * 
+		 * @param mixed  $default_value default value to return
+		 *
 		 * @return mixed
 		 */
 		public static function get_request_value( $key, $default_value ) {
 			if ( self::has_request_value( $key ) ) {
 				// phpcs:ignore WordPress.Security.NonceVerification.Recommended
-				return sanitize_text_field( wp_unslash( $_REQUEST[$key] ) );
+				return sanitize_text_field( wp_unslash( $_REQUEST[ $key ] ) );
 			} else {
 				return $default_value;
 			}
@@ -120,14 +120,14 @@ if ( ! class_exists( 'Accredible_Learndash_Ajax' ) ) :
 
 		/**
 		 * Returns a boolean value if $_REQUEST value exists
-		 * 
+		 *
 		 * @param string $key the key to fetch the value
-		 * 
+		 *
 		 * @return boolean
 		 */
 		public static function has_request_value( $key ) {
 			// phpcs:ignore WordPress.Security.NonceVerification.Recommended
-			return ( isset( $_REQUEST[$key] ) && ! empty( $_REQUEST[$key] ) );
+			return ( isset( $_REQUEST[ $key ] ) && ! empty( $_REQUEST[ $key ] ) );
 		}
 	}
 endif;
