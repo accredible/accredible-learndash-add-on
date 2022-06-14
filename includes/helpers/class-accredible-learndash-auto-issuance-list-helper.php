@@ -30,8 +30,8 @@ if ( ! class_exists( 'Accredible_Learndash_Auto_Issuance_List_Helper' ) ) :
 		 * Displays auto issuance list information html.
 		 *
 		 * @param mixed $page_results auto issuance list and page meta.
-		 * @param int   $current_page current page
-		 * @param int   $page_size number of results shown in page
+		 * @param int   $current_page current page.
+		 * @param int   $page_size number of results shown in page.
 		 */
 		public static function display_auto_issuance_list_info( $page_results, $current_page, $page_size ) {
 			$table_helper = new Accredible_Learndash_Admin_Table_Helper(

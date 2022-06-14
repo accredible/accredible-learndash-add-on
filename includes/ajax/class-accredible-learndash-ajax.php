@@ -70,7 +70,7 @@ if ( ! class_exists( 'Accredible_Learndash_Ajax' ) ) :
 		}
 
 		/**
-		 * load auto issuances
+		 * Load auto issuances
 		 */
 		public static function load_auto_issuance_list_html() {
 			$current_page = self::get_request_value( 'page_num', 1 );
@@ -81,7 +81,7 @@ if ( ! class_exists( 'Accredible_Learndash_Ajax' ) ) :
 				$page_size
 			);
 
-			// Capture html from display_auto_issuance_list_info
+			// Capture html from display_auto_issuance_list_info.
 			ob_start();
 			Accredible_Learndash_Auto_Issuance_List_Helper::display_auto_issuance_list_info( $page_results, $current_page, $page_size );
 			$auto_issuance_list_html = ob_get_clean();
@@ -104,30 +104,19 @@ if ( ! class_exists( 'Accredible_Learndash_Ajax' ) ) :
 		/**
 		 * Returns a resolved $_REQUEST value
 		 *
-		 * @param string $key the key to fetch the value
-		 * @param mixed  $default_value default value to return
+		 * @param string $key the key to fetch the value.
+		 * @param mixed  $default_value default value to return.
 		 *
 		 * @return mixed
 		 */
 		public static function get_request_value( $key, $default_value ) {
-			if ( self::has_request_value( $key ) ) {
+			// phpcs:ignore WordPress.Security.NonceVerification.Recommended
+			if ( isset( $_REQUEST[ $key ] ) && ! empty( $_REQUEST[ $key ] ) ) {
 				// phpcs:ignore WordPress.Security.NonceVerification.Recommended
 				return sanitize_text_field( wp_unslash( $_REQUEST[ $key ] ) );
 			} else {
 				return $default_value;
 			}
-		}
-
-		/**
-		 * Returns a boolean value if $_REQUEST value exists
-		 *
-		 * @param string $key the key to fetch the value
-		 *
-		 * @return boolean
-		 */
-		public static function has_request_value( $key ) {
-			// phpcs:ignore WordPress.Security.NonceVerification.Recommended
-			return ( isset( $_REQUEST[ $key ] ) && ! empty( $_REQUEST[ $key ] ) );
 		}
 	}
 endif;
