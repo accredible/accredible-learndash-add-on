@@ -10,9 +10,8 @@ defined( 'ABSPATH' ) || die;
 require_once plugin_dir_path( __DIR__ ) . '/helpers/class-accredible-learndash-auto-issuance-list-helper.php';
 require_once plugin_dir_path( __DIR__ ) . '/models/class-accredible-learndash-model-auto-issuance.php';
 
-$accredible_learndash_current_page  = isset( $_GET['page_num'] ) ? sanitize_key( wp_unslash( $_GET['page_num'] ) ) : 1; // phpcs:ignore WordPress.Security.NonceVerification.Recommended
-$accredible_learndash_page_size     = 20;
-
+$accredible_learndash_current_page = isset( $_GET['page_num'] ) ? sanitize_key( wp_unslash( $_GET['page_num'] ) ) : 1; // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+$accredible_learndash_page_size    = 20;
 $accredible_learndash_page_results = Accredible_Learndash_Model_Auto_Issuance::get_paginated_results(
 	$accredible_learndash_current_page,
 	$accredible_learndash_page_size
@@ -29,10 +28,12 @@ $accredible_learndash_page_results = Accredible_Learndash_Model_Auto_Issuance::g
 		</a>
 	</div>
 	<div class="accredible-content">
-		<?php Accredible_Learndash_Auto_Issuance_List_Helper::display_auto_issuance_list_info(
-			$accredible_learndash_page_results, 
+		<?php
+		Accredible_Learndash_Auto_Issuance_List_Helper::display_auto_issuance_list_info(
+			$accredible_learndash_page_results,
 			$accredible_learndash_current_page,
 			$accredible_learndash_page_size
-		); ?>
+		);
+		?>
 	</div>
 </div>
