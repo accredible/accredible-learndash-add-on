@@ -37,9 +37,37 @@ jQuery( function(){
             };
             
             if (element.tagName === 'A') {
-                const href = element.href;
+                const actionParams = jQuery(element).data('accredibleActionParams');
+                const closeDialog = function() {
+                    dialog.dialog('close');
+                }
                 options.buttons[1].click = function() {
-                    window.location.href = href;
+                    const formData = {};
+                    actionParams.split('&').reduce(function(acc, curr) {
+                        const keyValue = curr.split('=');
+                        acc[keyValue[0]] = keyValue[1];
+                        return acc;
+                    }, formData);
+
+                    // call BE
+                    accredibleAjax.doAutoIssuanceAction(
+                        formData
+                    ).always(function(res){
+                        if ((typeof(res) === 'object')) {
+                            const message = res.data && res.data.message ? res.data.message : res.data;
+                            if (res.success) {
+                                closeDialog();
+                                accredibleToast.success(message, 5000);
+                                // Reload auto issuances.
+                                accredibleAjax.loadAutoIssuanceListInfo().always(function(res){
+                                    const issuerHTML = res.data;
+                                    jQuery('.accredible-content').html(issuerHTML);
+                                });
+                            } else {
+                                accredibleToast.error(message, 5000);
+                            }
+                        }
+                    });
                 }
             }
 
