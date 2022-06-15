@@ -20,7 +20,7 @@ jQuery(function(){
                 // handle wp_die messsages
                 const response = { success: false, data: res };
                 if(typeof res === 'string' && res.match(/error/i) !== null) {
-                    response.data = 'Failed to save auto issuance. Please try again later.';
+                    response.data = 'Failed to perform requested action. Please try again later.';
                 }
                 return response;
            }
