@@ -8,6 +8,7 @@
 defined( 'ABSPATH' ) || die;
 
 require_once plugin_dir_path( __DIR__ ) . '/helpers/class-accredible-learndash-issuer-helper.php';
+require_once plugin_dir_path( __DIR__ ) . '/helpers/class-accredible-learndash-auto-issuance-list-helper.php';
 require_once plugin_dir_path( __DIR__ ) . 'class-accredible-learndash-admin-action-handler.php';
 
 if ( ! class_exists( 'Accredible_Learndash_Ajax' ) ) :
@@ -69,6 +70,26 @@ if ( ! class_exists( 'Accredible_Learndash_Ajax' ) ) :
 		}
 
 		/**
+		 * Load auto issuances
+		 */
+		public static function load_auto_issuance_list_html() {
+			$current_page = self::get_request_value( 'page_num', 1 );
+			$page_size    = 20;
+
+			$page_results = Accredible_Learndash_Model_Auto_Issuance::get_paginated_results(
+				$current_page,
+				$page_size
+			);
+
+			// Capture html from display_auto_issuance_list_info.
+			ob_start();
+			Accredible_Learndash_Auto_Issuance_List_Helper::display_auto_issuance_list_info( $page_results, $current_page, $page_size );
+			$auto_issuance_list_html = ob_get_clean();
+
+			wp_send_json_success( $auto_issuance_list_html );
+		}
+
+		/**
 		 * Triggers the appropriate action in Accredible_Learndash_Admin_Action_Handler
 		 */
 		public static function handle_auto_issuance_action() {
@@ -77,6 +98,24 @@ if ( ! class_exists( 'Accredible_Learndash_Ajax' ) ) :
 				wp_send_json_success( $results );
 			} catch ( \Exception $wp_exception ) {
 				wp_send_json_error( $wp_exception->getMessage() );
+			}
+		}
+
+		/**
+		 * Returns a resolved $_REQUEST value
+		 *
+		 * @param string $key the key to fetch the value.
+		 * @param mixed  $default_value default value to return.
+		 *
+		 * @return mixed
+		 */
+		public static function get_request_value( $key, $default_value ) {
+			// phpcs:ignore WordPress.Security.NonceVerification.Recommended
+			if ( isset( $_REQUEST[ $key ] ) && ! empty( $_REQUEST[ $key ] ) ) {
+				// phpcs:ignore WordPress.Security.NonceVerification.Recommended
+				return sanitize_text_field( wp_unslash( $_REQUEST[ $key ] ) );
+			} else {
+				return $default_value;
 			}
 		}
 	}

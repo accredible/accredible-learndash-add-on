@@ -293,7 +293,6 @@ button[class*="accredible-button"] {
 
 #accredible-issuer-info {
     min-height: 60px;
-    padding: 0 var(--accredible-spacing-3x);
 }
 
 .accredible-content .status-tile .logo {

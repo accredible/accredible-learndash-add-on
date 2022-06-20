@@ -26,4 +26,11 @@ jQuery(function(){
            }
         });
     };
+
+    accredibleAjax.loadAutoIssuanceListInfo = function() {
+        var post_data = {
+            'action': 'accredible_learndash_ajax_load_auto_issuance_list_html'
+        };
+        return jQuery.post(accredibledata.ajaxurl, post_data).then();
+    }
 });
