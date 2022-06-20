@@ -102,6 +102,24 @@ if ( ! class_exists( 'Accredible_Learndash_Ajax' ) ) :
 		}
 
 		/**
+		 * Get page html.
+		 */
+		public static function load_page_html() {
+			$accredible_learndash_issuance_id           = self::get_request_value( 'id', 1 );
+			$accredible_learndash_issuance_current_page = self::get_request_value( 'page', null );
+
+			// Capture html from page.
+			ob_start();
+
+			require plugin_dir_path( __DIR__ ) . 'templates/admin-auto-issuance-form.php';
+
+			$page_html = ob_get_clean();
+
+			wp_send_json_success( $page_html );
+			wp_die();
+		}
+
+		/**
 		 * Returns a resolved $_REQUEST value
 		 *
 		 * @param string $key the key to fetch the value.

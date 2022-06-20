@@ -8,6 +8,16 @@ jQuery(function(){
         return jQuery.post(accredibledata.ajaxurl, post_data).then();
     };
 
+    accredibleAjax.loadPage = function(data) {
+        const post_data = {
+            action: 'accredible_learndash_ajax_load_page_html'
+        };
+        if (data) {
+            Object.assign(post_data, data);
+        }
+        return jQuery.post(accredibledata.ajaxurl, post_data).then();
+    };
+
     accredibleAjax.doAutoIssuanceAction = function(formData) {
         var post_data = {
             action: 'accredible_learndash_ajax_handle_auto_issuance_action',
