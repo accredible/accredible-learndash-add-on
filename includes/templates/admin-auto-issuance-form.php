@@ -117,6 +117,8 @@ if ( ! is_null( $accredible_learndash_issuance_id ) ) {
 </div>
 <script type="text/javascript">
 	jQuery( function(){
+		accredibleAutoComplete.init();
+		
 		const submitBtn = jQuery('#submit');
 		submitBtn.on('click', function(){
 			jQuery(this).addClass('accredible-button-spinner');
