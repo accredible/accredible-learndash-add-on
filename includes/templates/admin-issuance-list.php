@@ -37,3 +37,35 @@ $accredible_learndash_page_results = Accredible_Learndash_Model_Auto_Issuance::g
 		?>
 	</div>
 </div>
+
+<script type="text/javascript">
+	jQuery(function(){
+		function getParams(actionParamsData) {
+			params = {};
+			actionParamsData.split('&').reduce(function(acc, curr) {
+				const keyValue = curr.split('=');
+				acc[keyValue[0]] = keyValue[1];
+				return acc;
+			}, params);
+
+			return params;
+		}
+
+		jQuery('[data-accredible-sidenav]').on('click', function(event){
+			const element = this;
+			if (jQuery(element).data('accredibleSidenav')) {
+				event.preventDefault();
+				const actionParamsData = jQuery(element).data('accredibleActionParams');
+				const params = getParams(actionParamsData);
+				const pageData = {
+					id: params['id'],
+					page_num: params['page_num']
+				};
+				accredibleAjax.loadPage(pageData).done(function(res){
+					// console.log(res.data);
+					accredibleSidenav.open(res.data, 'Edit Auto Issuance');
+				});
+			}
+		});
+	});
+</script>
