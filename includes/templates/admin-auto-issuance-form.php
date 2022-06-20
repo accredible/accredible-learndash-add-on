@@ -10,11 +10,7 @@ defined( 'ABSPATH' ) || die;
 require_once plugin_dir_path( __DIR__ ) . '/models/class-accredible-learndash-model-auto-issuance.php';
 require_once plugin_dir_path( __DIR__ ) . '/helpers/class-accredible-learndash-admin-form-helper.php';
 
-$accredible_learndash_courses = Accredible_Learndash_Model_Auto_Issuance::get_course_options();
-
-$accredible_learndash_issuance_current_page = isset( $_GET['page_num'] ) ? sanitize_key( wp_unslash( $_GET['page_num'] ) ) : 1; // phpcs:ignore WordPress.Security.NonceVerification.Recommended
-$accredible_learndash_issuance_id           = isset( $_GET['id'] ) ? sanitize_key( wp_unslash( $_GET['id'] ) ) : null; // phpcs:ignore WordPress.Security.NonceVerification.Recommended
-
+$accredible_learndash_courses     = Accredible_Learndash_Model_Auto_Issuance::get_course_options();
 $accredible_learndash_group       = array();
 $accredible_learndash_form_action = 'add_auto_issuance';
 $accredible_learndash_issuance    = (object) array(
@@ -25,10 +21,7 @@ $accredible_learndash_issuance    = (object) array(
 
 if ( ! is_null( $accredible_learndash_issuance_id ) ) {
 	$accredible_learndash_form_action = 'edit_auto_issuance';
-
-	$accredible_learndash_issuance_nonce = isset( $_GET['_mynonce'] ) ? sanitize_key( wp_unslash( $_GET['_mynonce'] ) ) : null; // phpcs:ignore WordPress.Security.NonceVerification.Recommended
-
-	$accredible_learndash_issuance = Accredible_Learndash_Model_Auto_Issuance::get_row( "id = $accredible_learndash_issuance_id" );
+	$accredible_learndash_issuance    = Accredible_Learndash_Model_Auto_Issuance::get_row( "id = $accredible_learndash_issuance_id" );
 
 	if ( ! ( isset( $accredible_learndash_issuance ) ) ) {
 		wp_die( 'Auto Issuance not found.' );
@@ -49,20 +42,6 @@ if ( ! is_null( $accredible_learndash_issuance_id ) ) {
 ?>
 
 <div class="accredible-wrapper">
-	<div class="accredible-header-tile">
-		<div class="accredible-flex-center">
-			<a	href="admin.php?page=accredible_learndash_issuance_list&page_num=<?php echo esc_attr( $accredible_learndash_issuance_current_page ); ?>"
-				class="accredible-flex-center accredible-image-icon"
-				aria-label="<?php echo esc_attr( 'Go to issuance list' ); ?>">
-				<img src="<?php echo esc_url( ACCREDIBLE_LEARNDASH_PLUGIN_URL . 'assets/images/chevron-left.png' ); ?>">
-			</a>
-
-			<h1 class="title"><?php esc_html_e( 'Configure Auto Issuance' ); ?></h1>
-		</div>
-
-		<a	href="admin.php?page=accredible_learndash_issuance_list&page_num=<?php echo esc_attr( $accredible_learndash_issuance_current_page ); ?>" 
-			class="button accredible-button-outline-natural accredible-button-large"><?php esc_html_e( 'Cancel' ); ?></a>
-	</div>
 	<div class="accredible-content">
 		<div class="accredible-form-wrapper">
 			<div class="accredible-info-tile">
@@ -80,7 +59,7 @@ if ( ! is_null( $accredible_learndash_issuance_id ) ) {
 				<input type="hidden" id="call_action" name="call_action" value="<?php echo esc_attr( $accredible_learndash_form_action ); ?>">
 				<input type="hidden" id="page_num" name="page_num" value="<?php echo esc_attr( $accredible_learndash_issuance_current_page ); ?>">
 
-				<div class="accredible-form-field">
+				<div class="accredible-form-field accredible-fill-width">
 					<label><?php esc_html_e( 'Issuance Trigger' ); ?></label>
 
 					<div class="accredible-radio-group">
@@ -91,7 +70,7 @@ if ( ! is_null( $accredible_learndash_issuance_id ) ) {
 					</div>
 				</div>
 
-				<div class="accredible-form-field">
+				<div class="accredible-form-field accredible-fill-width">
 					<label for="accredible_learndash_course"><?php esc_html_e( 'Select a course' ); ?></label>
 
 					<select id="accredible_learndash_course" name="accredible_learndash_object[post_id]" required>
@@ -109,7 +88,7 @@ if ( ! is_null( $accredible_learndash_issuance_id ) ) {
 					<?php endif; ?>
 				</div>
 
-				<div class="accredible-form-field">
+				<div class="accredible-form-field accredible-fill-width">
 					<label for="accredible_learndash_group"><?php esc_html_e( 'Select the credential group' ); ?></label>
 
 					<input
