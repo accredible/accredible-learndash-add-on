@@ -59,7 +59,7 @@ jQuery( function(){
                                 closeDialog();
                                 accredibleToast.success(message, 5000);
                                 // Reload auto issuances.
-                                accredibleAjax.loadAutoIssuanceListInfo().always(function(res){
+                                accredibleAjax.loadAutoIssuanceListInfo(formData.page_num).always(function(res){
                                     const issuerHTML = res.data;
                                     jQuery('.accredible-content').html(issuerHTML);
                                 });

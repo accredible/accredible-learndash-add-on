@@ -3,14 +3,14 @@ accredibleAjax = {};
 jQuery(function(){
     accredibleAjax.loadIssuerInfo = function() {
         var post_data = {
-            'action': 'accredible_learndash_ajax_load_issuer_html'
+            action: 'accredible_learndash_ajax_load_issuer_html'
         };
         return jQuery.post(accredibledata.ajaxurl, post_data).then();
     };
 
     accredibleAjax.doAutoIssuanceAction = function(formData) {
         var post_data = {
-            'action': 'accredible_learndash_ajax_handle_auto_issuance_action',
+            action: 'accredible_learndash_ajax_handle_auto_issuance_action',
         };
         post_data = Object.assign(post_data, formData);
         return jQuery.post(accredibledata.ajaxurl, post_data).then(function(res){
@@ -27,9 +27,10 @@ jQuery(function(){
         });
     };
 
-    accredibleAjax.loadAutoIssuanceListInfo = function() {
+    accredibleAjax.loadAutoIssuanceListInfo = function(currentPage) {
         var post_data = {
-            'action': 'accredible_learndash_ajax_load_auto_issuance_list_html'
+            action: 'accredible_learndash_ajax_load_auto_issuance_list_html',
+            page_num: currentPage
         };
         return jQuery.post(accredibledata.ajaxurl, post_data).then();
     }
