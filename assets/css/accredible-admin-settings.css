@@ -548,9 +548,34 @@ table.accredible-table {
 }
 
 /* SIDENAV */
+.accredible-sidenav.ui-dialog .accredible-wrapper {
+    display: flex;
+    height: calc(100% - var(--accredible-spacing-6x));
+}
 
 .accredible-sidenav.ui-dialog .ui-dialog-content .accredible-wrapper {
     padding: var(--accredible-spacing-6x) 0 0;
+}
+
+.accredible-sidenav.ui-dialog .accredible-form-wrapper {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.accredible-sidenav.ui-dialog .accredible-form-wrapper form {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.accredible-sidenav-actions {
+    flex: 1;
+    display: flex;
+    align-items: flex-end;
+    justify-content: flex-end;
+    grid-gap: var(--accredible-spacing-2x);
+    gap: var(--accredible-spacing-2x);
 }
 
 /* TOAST */
