@@ -86,16 +86,20 @@ if ( ! class_exists( 'Accredible_Learndash_Admin_Action_Handler' ) ) :
 		/**
 		 * Delete an auto issuance.
 		 *
+		 * @throws Exception Exception containing the error message.
+		 *
 		 * @param string $data Data for the action.
+		 * @return string result.
 		 */
 		public static function delete_auto_issuance( $data ) {
 			self::verify_nonce( $data['nonce'], 'delete_auto_issuance' . $data['id'] );
 			$result = Accredible_Learndash_Model_Auto_Issuance::delete( $data['id'] );
+
 			if ( false === $result ) {
-				wp_die( 'Failed to delete.' );
-			} else {
-				self::redirect_to( $data['redirect_url'] );
+				throw new Exception( 'Failed to delete auto issuance. Please try again later.' );
 			}
+
+			return 'Deleted auto issuance successfully.';
 		}
 
 		/**

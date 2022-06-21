@@ -73,6 +73,13 @@ class Accredible_Learndash_Admin_Test extends WP_UnitTestCase {
 		$this->assertEquals(
 			10,
 			has_filter(
+				'wp_ajax_accredible_learndash_ajax_load_auto_issuance_list_html',
+				array( 'Accredible_Learndash_Ajax', 'load_auto_issuance_list_html' )
+			)
+		);
+		$this->assertEquals(
+			10,
+			has_filter(
 				$activation_hook_name,
 				array( 'Accredible_Learndash_Admin_Setting', 'set_default' )
 			)

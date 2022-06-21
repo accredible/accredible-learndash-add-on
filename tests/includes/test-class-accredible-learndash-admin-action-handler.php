@@ -250,20 +250,29 @@ class Accredible_Learndash_Admin_Action_Handler_Test extends Accredible_Learndas
 		// Login as an admin.
 		$admin_user = self::factory()->user->create( array( 'role' => 'administrator' ) );
 		wp_set_current_user( $admin_user );
-		$nonce        = wp_create_nonce( "delete_auto_issuance$id" );
-		$redirect_url = admin_url( 'post-new.php' );
+		$nonce = wp_create_nonce( "delete_auto_issuance$id" );
 
-		$this->expectOutputString( "<p>Processing...</p><script>window.location.href='$redirect_url'</script>" );
-		Accredible_Learndash_Admin_Action_Handler::delete_auto_issuance(
-			array(
-				'id'           => $id,
-				'nonce'        => $nonce,
-				'redirect_url' => admin_url( 'post-new.php' ),
-			)
-		);
+		try {
+			$delete_result = Accredible_Learndash_Admin_Action_Handler::delete_auto_issuance(
+				array(
+					'id'           => $id,
+					'nonce'        => $nonce,
+					'redirect_url' => admin_url( 'post-new.php' ),
+				)
+			);
+
+			$caught_exception = null;
+		} catch ( \Exception $error ) {
+			$caught_exception = $error->getMessage();
+		}
+
 		$results = $wpdb->get_results(
 			$wpdb->prepare( 'SELECT * FROM %1s;', $table_name )
 		);
+
+		$this->assertNull( $caught_exception );
+		$this->assertEquals( 'Deleted auto issuance successfully.', $delete_result );
+
 		$this->assertCount( 0, $results );
 	}
 
