@@ -62,8 +62,11 @@ $accredible_learndash_page_results = Accredible_Learndash_Model_Auto_Issuance::g
 					page_num: params['page_num']
 				};
 				accredibleAjax.loadPage(pageData).done(function(res){
-					// console.log(res.data);
-					accredibleSidenav.open(res.data, 'Edit Auto Issuance');
+					const options = {
+						title: 'Edit Auto Issuance',
+						showCancelAction: false
+					};
+					accredibleSidenav.open(res.data, options);
 				});
 			}
 		});

@@ -1,7 +1,7 @@
 const accredibleSidenav = {};
 
 jQuery(function(){
-    accredibleSidenav.open = function(html, title) {
+    accredibleSidenav.open = function(html, options) {
         if (!html) {
             html = '<div></div';
         }
@@ -19,10 +19,25 @@ jQuery(function(){
             draggable: false,
             resizable: false,
             modal: true,
+            show: true,
             classes: {
                 'ui-dialog': 'accredible-dialog accredible-sidenav'
             },
-            buttons: [
+            close: function(event, ui) {
+                jQuery(this).remove();
+            },
+        });
+
+        accredibleSidenav.close = function() {
+            sidenavRef.dialog('close');
+        }
+
+        // Set dialog options.
+        const sidenavOptions = sidenavRef.dialog('option');
+        sidenavOptions.title = options.title;
+        
+        if (options.showCancelAction) {
+            sidenavOptions.buttons = [
                 {
                     text: "Cancel",
                     class: 'accredible-button-flat-natural accredible-button-large',
@@ -30,18 +45,10 @@ jQuery(function(){
                         jQuery(this).dialog("close");
                     }
                 }
-            ],
-            show: {
-                effect: 'blind', // TODO(MartinN) - should slide right.
-                // direction: 'right',
-                duration: 800
-            },
-        });
-
-        if (title) {
-            sidenavRef.dialog('option', 'title', title);
+            ]
         }
 
+        sidenavRef.dialog('option', sidenavOptions);
         sidenavRef.dialog('open');
     };
 });
