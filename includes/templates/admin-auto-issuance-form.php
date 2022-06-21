@@ -112,6 +112,7 @@ if ( ! is_null( $accredible_learndash_issuance_id ) ) {
 			accredibleAjax.loadAutoIssuanceListInfo(page_num).always(function(res){
 				const issuerHTML = res.data;
 				jQuery('.accredible-content').html(issuerHTML);
+				setupEditClickHandler();
 			});
 		}
 

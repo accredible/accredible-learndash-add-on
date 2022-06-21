@@ -22,7 +22,9 @@ $accredible_learndash_page_results = Accredible_Learndash_Model_Auto_Issuance::g
 	<div class="accredible-header-tile">
 		<h1 class="title"><?php esc_html_e( 'Auto Issuances' ); ?></h1>
 
-		<a	href="admin.php?page=accredible_learndash_auto_issuance&page_num=<?php echo esc_attr( $accredible_learndash_current_page ); ?>"
+		<a	href="javascript:void(0);"
+			data-accredible-sidenav="true"
+			data-accredible-action-params="page=accredible_learndash_auto_issuance&page_num=<?php echo esc_attr( $accredible_learndash_current_page ); ?>"
 			class="button accredible-button-primary accredible-button-large">
 			<?php esc_html_e( 'New Configuration' ); ?>
 		</a>
@@ -39,36 +41,44 @@ $accredible_learndash_page_results = Accredible_Learndash_Model_Auto_Issuance::g
 </div>
 
 <script type="text/javascript">
-	jQuery(function(){
-		function getParams(actionParamsData) {
-			params = {};
-			actionParamsData.split('&').reduce(function(acc, curr) {
-				const keyValue = curr.split('=');
-				acc[keyValue[0]] = keyValue[1];
-				return acc;
-			}, params);
+	function getParams(actionParamsData) {
+		params = {};
+		actionParamsData.split('&').reduce(function(acc, curr) {
+			const keyValue = curr.split('=');
+			acc[keyValue[0]] = keyValue[1];
+			return acc;
+		}, params);
 
-			return params;
-		}
+		return params;
+	}
 
+	function setupEditClickHandler() {
 		jQuery('[data-accredible-sidenav]').on('click', function(event){
 			const element = this;
 			if (jQuery(element).data('accredibleSidenav')) {
 				event.preventDefault();
+				let sidenavTitle = 'Add Auto Issuance';
 				const actionParamsData = jQuery(element).data('accredibleActionParams');
 				const params = getParams(actionParamsData);
 				const pageData = {
-					id: params['id'],
 					page_num: params['page_num']
 				};
+				if (params['id']) {
+					sidenavTitle = 'Edit Auto Issuance';
+					pageData.id = params['id'];
+				}
 				accredibleAjax.loadPage(pageData).done(function(res){
 					const options = {
-						title: 'Edit Auto Issuance',
+						title: sidenavTitle,
 						showCancelAction: false
 					};
 					accredibleSidenav.open(res.data, options);
 				});
 			}
 		});
+	}
+
+	jQuery(function(){
+		setupEditClickHandler();
 	});
 </script>

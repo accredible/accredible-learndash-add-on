@@ -62,6 +62,7 @@ jQuery( function(){
                                 accredibleAjax.loadAutoIssuanceListInfo(formData.page_num).always(function(res){
                                     const issuerHTML = res.data;
                                     jQuery('.accredible-content').html(issuerHTML);
+                                    setupEditClickHandler();
                                 });
                             } else {
                                 accredibleToast.error(message, 5000);
