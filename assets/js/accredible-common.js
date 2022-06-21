@@ -44,4 +44,12 @@ jQuery(function(){
         };
         return jQuery.post(accredibledata.ajaxurl, post_data).then();
     }
+
+    accredibleAjax.getGroup = function(groupId) {
+        var post_data = {
+            action: 'accredible_learndash_ajax_get_group',
+            group_id: groupId
+        };
+        return jQuery.post(accredibledata.ajaxurl, post_data).then();
+    }
 });
