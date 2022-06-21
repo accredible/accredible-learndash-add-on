@@ -26,18 +26,6 @@ if ( ! is_null( $accredible_learndash_issuance_id ) ) {
 	if ( ! ( isset( $accredible_learndash_issuance ) ) ) {
 		wp_die( 'Auto Issuance not found.' );
 	}
-
-	// Fetch saved group by id to fill autocomplete.
-	if ( ! is_null( $accredible_learndash_issuance ) && ! empty( $accredible_learndash_issuance->accredible_group_id ) ) {
-		$accredible_learndash_client    = new Accredible_Learndash_Api_V1_Client();
-		$accredible_learndash_group_res = $accredible_learndash_client->get_group( $accredible_learndash_issuance->accredible_group_id );
-		if ( ! isset( $accredible_learndash_group_res['errors'] ) ) {
-			$accredible_learndash_group = array(
-				'id'   => $accredible_learndash_group_res['group']['id'],
-				'name' => $accredible_learndash_group_res['group']['name'],
-			);
-		}
-	}
 }
 ?>
 
@@ -106,23 +94,55 @@ if ( ! is_null( $accredible_learndash_issuance_id ) ) {
 						type="hidden"
 						id="accredible_learndash_group"
 						name="accredible_learndash_object[accredible_group_id]"
-						<?php Accredible_Learndash_Admin_Form_Helper::value_attr( $accredible_learndash_group, 'id' ); ?>
+						<?php Accredible_Learndash_Admin_Form_Helper::value_attr( $accredible_learndash_issuance, 'accredible_group_id' ); ?>
 						readonly/>
 				</div>
 
-				<button type="submit" id="submit" name="submit" class="button accredible-button-primary accredible-button-large">Save</button>
+				<div class="accredible-sidenav-actions">
+					<button type="button" id="cancel" class="button accredible-button-flat-natural accredible-button-large">Cancel</button>
+					<button type="submit" id="submit" name="submit" class="button accredible-button-primary accredible-button-large">Save</button>
+				</div>
 			</form>
 		</div>
 	</div>
 </div>
 <script type="text/javascript">
 	jQuery( function(){
+		function reloadAutoIssuanceList(page_num) {
+			accredibleAjax.loadAutoIssuanceListInfo(page_num).always(function(res){
+				const issuerHTML = res.data;
+				jQuery('.accredible-content').html(issuerHTML);
+			});
+		}
+
+		// Initialize groups autocomplete.
 		accredibleAutoComplete.init();
-		
+
+		// Fetch saved group by id to fill autocomplete.
+		const groupId = jQuery('#accredible_learndash_group').val();
+		if (groupId) {
+			const autocompleteElem = jQuery('#accredible_learndash_group_autocomplete');
+			autocompleteElem.addClass('ui-autocomplete-loading');
+			accredibleAjax.getGroup(groupId).done(function(res){
+				if (res.data) {
+					autocompleteElem.removeClass('ui-autocomplete-loading');
+					autocompleteElem.val(res.data.name);
+				}
+			});
+		}
+
+		// Add loading spinner on click.
 		const submitBtn = jQuery('#submit');
 		submitBtn.on('click', function(){
 			jQuery(this).addClass('accredible-button-spinner');
 		});
+
+		// Close dialog on cancel click.
+		const cancelBtn = jQuery('#cancel');
+		cancelBtn.on('click', function() {
+			accredibleSidenav.close();
+		});
+
 		jQuery('#issuance-form').on('submit', function(event) {
 			const formData = {};
 			const group_id = jQuery('#accredible_learndash_group').val();
@@ -150,11 +170,14 @@ if ( ! is_null( $accredible_learndash_issuance_id ) ) {
 							jQuery('#_mynonce').val(res.data.nonce);
 							// add id input
 							jQuery(`<input type="hidden" id="id" name="id" value="${res.data.id}">`).insertAfter('#_mynonce');
+							// update action
 							jQuery('#call_action').val('edit_auto_issuance');
 						}
-						accredibleToast.success(message, 3000);
+						reloadAutoIssuanceList(formData.page_num);
+						accredibleSidenav.close();
+						accredibleToast.success(message, 5000);
 					} else {
-						accredibleToast.error(message, 3000);
+						accredibleToast.error(message, 5000);
 					}
 				}
 
