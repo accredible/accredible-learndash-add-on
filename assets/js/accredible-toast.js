@@ -31,6 +31,9 @@ jQuery(function(){
                     }
                 }
             ],
+            close: function(event, ui) {
+                jQuery(this).remove();
+            }
         });
 
         if (duration && !isNaN(Number(duration))) {
