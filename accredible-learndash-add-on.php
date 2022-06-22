@@ -7,7 +7,7 @@
  * Plugin Name: Accredible LearnDash Add-on
  * Plugin URI:  https://github.com/accredible/accredible-learndash-add-on
  * Description: Issue credentials, certificates, or badges for your LearnDash courses through Accredible digital credentialing.
- * Version:     1.0.5
+ * Version:     1.0.6
  * Author:      Accredible
  * Author URI:  https://www.accredible.com/
  * License:     GPLv2 or later
@@ -16,7 +16,7 @@
 
 defined( 'ABSPATH' ) || die;
 
-define( 'ACCREDIBLE_LEARNDASH_VERSION', '1.0.5' );
+define( 'ACCREDIBLE_LEARNDASH_VERSION', '1.0.6' );
 define( 'ACCREDILBE_LEARNDASH_PLUGIN_BASENAME', plugin_basename( __FILE__ ) );
 define( 'ACCREDILBE_LEARNDASH_PLUGIN_PATH', plugin_dir_path( __FILE__ ) );
 define( 'ACCREDIBLE_LEARNDASH_SCRIPT_VERSION_TOKEN', ACCREDIBLE_LEARNDASH_VERSION );

@@ -6,7 +6,7 @@ jQuery( function(){
             jQuery('#accredible_learndash_group_autocomplete').autocomplete({
                 classes: { "ui-autocomplete": "accredible-autocomplete" },
                 delay: 500,
-                minLength: 3,
+                minLength: 2,
                 source: function(request, response){
                     var post_data = {
                         'action': 'accredible_learndash_ajax_search_groups',
@@ -23,16 +23,16 @@ jQuery( function(){
                 select: function(event, ui) {
                     var group_name = "";
                     var group_id = ""
-    
+
                     if (ui.item.value !== 'no_results') {
                         group_name = ui.item.label;
                         group_id = ui.item.value;
                         jQuery('#accredible-form-field-group-error-msg').addClass('accredible-form-field-hidden');
                     }
-                    
+
                     jQuery("#accredible_learndash_group_autocomplete").val(group_name);
                     jQuery("#accredible_learndash_group").val(group_id);
-    
+
                     event.preventDefault();
                 }
             });
