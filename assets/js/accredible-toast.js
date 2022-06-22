@@ -36,6 +36,7 @@ jQuery(function(){
                 }
             ],
             close: function(event, ui) {
+                _clearToastTimeout();
                 jQuery(this).dialog('destroy');
             }
         });
@@ -52,6 +53,13 @@ jQuery(function(){
         dialogRef.dialog('open');
     };
 
+    function _clearToastTimeout() {
+        if (accredibleToast.timeout) {
+            clearTimeout(accredibleToast.timeout);
+            accredibleToast.timeout = null;
+        }
+    }
+
     accredibleToast.info = function(message, duration) {
         _open('info', message, duration);
     }
@@ -65,10 +73,7 @@ jQuery(function(){
     }
 
     accredibleToast.closeAll = function() {
-        if (accredibleToast.timeout) {
-            clearTimeout(accredibleToast.timeout);
-            accredibleToast.timeout = null;
-        }
+        _clearToastTimeout();
         jQuery('.accredible-toast-message').dialog('destroy');
     }
 });
