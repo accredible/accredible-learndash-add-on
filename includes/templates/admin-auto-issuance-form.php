@@ -120,20 +120,22 @@ if ( ! is_null( $accredible_learndash_issuance_id ) ) {
 		accredibleAutoComplete.init();
 
 		// Fetch saved group by id to fill autocomplete.
+		const submitBtn = jQuery('#submit');
 		const groupId = jQuery('#accredible_learndash_group').val();
 		if (groupId) {
+			submitBtn.attr('disabled', true);
 			const autocompleteElem = jQuery('#accredible_learndash_group_autocomplete');
 			autocompleteElem.addClass('ui-autocomplete-loading');
 			accredibleAjax.getGroup(groupId).done(function(res){
 				if (res.data) {
 					autocompleteElem.removeClass('ui-autocomplete-loading');
 					autocompleteElem.val(res.data.name);
+					submitBtn.removeAttr('disabled');
 				}
 			});
 		}
 
 		// Add loading spinner on click.
-		const submitBtn = jQuery('#submit');
 		submitBtn.on('click', function(){
 			jQuery(this).addClass('accredible-button-spinner');
 		});
