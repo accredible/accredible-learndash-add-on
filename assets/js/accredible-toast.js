@@ -32,7 +32,7 @@ jQuery(function(){
                 }
             ],
             close: function(event, ui) {
-                jQuery(this).remove();
+                jQuery(this).dialog('destroy');
             }
         });
 

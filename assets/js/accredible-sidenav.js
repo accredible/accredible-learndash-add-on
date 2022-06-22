@@ -14,7 +14,7 @@ jQuery(function(){
             position: { 
                 my: 'top', 
                 at: 'right top', 
-                of: '#wpcontent' 
+                of: '#wpcontent'
             },
             draggable: false,
             resizable: false,
@@ -24,7 +24,7 @@ jQuery(function(){
                 'ui-dialog': 'accredible-dialog accredible-sidenav'
             },
             close: function(event, ui) {
-                jQuery(this).remove();
+                jQuery(this).dialog('destroy');
             },
         });
 
