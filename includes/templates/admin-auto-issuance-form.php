@@ -20,11 +20,11 @@ $accredible_learndash_issuance    = (object) array(
 );
 
 if ( ! is_null( $accredible_learndash_issuance_id ) ) {
-	$accredible_learndash_form_action = 'edit_auto_issuance';
-	$accredible_learndash_issuance    = Accredible_Learndash_Model_Auto_Issuance::get_row( "id = $accredible_learndash_issuance_id" );
+	$accredible_learndash_issuance_row = Accredible_Learndash_Model_Auto_Issuance::get_row( "id = $accredible_learndash_issuance_id" );
 
-	if ( ! ( isset( $accredible_learndash_issuance ) ) ) {
-		wp_die( 'Auto Issuance not found.' );
+	if ( isset( $accredible_learndash_issuance_row ) ) {
+		$accredible_learndash_form_action = 'edit_auto_issuance';
+		$accredible_learndash_issuance    = $accredible_learndash_issuance_row;
 	}
 }
 ?>
