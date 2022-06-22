@@ -69,7 +69,7 @@ $accredible_learndash_page_results = Accredible_Learndash_Model_Auto_Issuance::g
 					sidenavTitle = 'Edit Auto Issuance';
 					pageData.id = params['id'];
 				}
-				accredibleAjax.loadPage(pageData).done(function(res){
+				accredibleAjax.loadIssuanceSidenav(pageData).done(function(res){
 					const options = {
 						title: sidenavTitle,
 						showCancelAction: false

@@ -8,9 +8,9 @@ jQuery(function(){
         return jQuery.post(accredibledata.ajaxurl, post_data).then();
     };
 
-    accredibleAjax.loadPage = function(data) {
+    accredibleAjax.loadIssuanceSidenav = function(data) {
         const post_data = {
-            action: 'accredible_learndash_ajax_load_page_html'
+            action: 'accredible_learndash_ajax_load_issuance_form_html'
         };
         if (data) {
             Object.assign(post_data, data);

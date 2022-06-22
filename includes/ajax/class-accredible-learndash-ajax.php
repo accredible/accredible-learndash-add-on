@@ -130,7 +130,7 @@ if ( ! class_exists( 'Accredible_Learndash_Ajax' ) ) :
 		/**
 		 * Get page html.
 		 */
-		public static function load_page_html() {
+		public static function load_issuance_form_html() {
 			$accredible_learndash_issuance_id           = self::get_request_value( 'id', null );
 			$accredible_learndash_issuance_current_page = self::get_request_value( 'page', null );
 
