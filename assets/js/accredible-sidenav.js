@@ -12,7 +12,7 @@ jQuery(function(){
             minWidth: '500',
             height: jQuery('#wpwrap').innerHeight(),
             position: { 
-                my: 'top', 
+                my: 'right top', 
                 at: 'right top', 
                 of: '#wpcontent'
             },
