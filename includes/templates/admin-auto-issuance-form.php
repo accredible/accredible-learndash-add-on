@@ -108,16 +108,6 @@ if ( ! is_null( $accredible_learndash_issuance_id ) ) {
 </div>
 <script type="text/javascript">
 	jQuery( function(){
-		function reloadAutoIssuanceList(page_num) {
-			accredibleAjax.loadAutoIssuanceListInfo(page_num).always(function(res){
-				const issuerHTML = res.data;
-				jQuery('.accredible-content').html(issuerHTML);
-				// Re-initialise event handlers
-				setupEditClickHandler();
-				accredibleDialog.init();
-			});
-		}
-
 		// Initialize groups autocomplete.
 		accredibleAutoComplete.init();
 
@@ -178,15 +168,23 @@ if ( ! is_null( $accredible_learndash_issuance_id ) ) {
 							// update action
 							jQuery('#call_action').val('edit_auto_issuance');
 						}
-						reloadAutoIssuanceList(formData.page_num);
-						accredibleSidenav.close();
-						accredibleToast.success(message, 5000);
+
+						accredibleAjax.loadAutoIssuanceListInfo(formData.page_num).always(function(res){
+							const issuerHTML = res.data;
+							jQuery('.accredible-content').html(issuerHTML);
+							// Re-initialise event handlers
+							setupEditClickHandler();
+							accredibleDialog.init();
+							// close dialog
+							accredibleSidenav.close();
+							// show toast
+							accredibleToast.success(message, 5000);
+						});
 					} else {
 						accredibleToast.error(message, 5000);
+						submitBtn.removeClass('accredible-button-spinner');
 					}
 				}
-
-				submitBtn.removeClass('accredible-button-spinner');
 			});
 
 			return false; // prevent form submission
