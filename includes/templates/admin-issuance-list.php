@@ -54,6 +54,7 @@ $accredible_learndash_page_results = Accredible_Learndash_Model_Auto_Issuance::g
 
 	function setupEditClickHandler() {
 		accredibleToast.closeAll(); // prevent collision with toasts.
+		jQuery('[data-accredible-sidenav]').off('click');
 		jQuery('[data-accredible-sidenav]').on('click', function(event){
 			const element = this;
 			if (jQuery(element).data('accredibleSidenav')) {
