@@ -104,22 +104,6 @@ class Accredible_Learndash_Admin_Scripts_Test extends WP_UnitTestCase {
 	}
 
 	/**
-	 * Test if it doesn't load page ajax scripts.
-	 */
-	public function test_should_not_load_page_ajax() {
-		// Reset related WP scripts.
-		wp_deregister_script( 'accredible-learndash-groups-autocomplete' );
-
-		// Navigate to dashboard page.
-		set_current_screen( 'dashboard' );
-
-		Accredible_Learndash_Admin_Scripts::load_page_ajax();
-
-		global $wp_scripts;
-		$this->assertTrue( empty( $wp_scripts->registered['accredible-learndash-groups-autocomplete'] ) );
-	}
-
-	/**
 	 * Test if it enqueues page scripts.
 	 */
 	public function test_load_page_scripts() {
