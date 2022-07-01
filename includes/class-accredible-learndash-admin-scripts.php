@@ -64,7 +64,10 @@ if ( ! class_exists( 'Accredible_Learndash_Admin_Scripts' ) ) :
 				)
 			);
 
-			self::enqueue_groups_autocomplete();
+			// phpcs:ignore WordPress.Security.NonceVerification.Recommended
+			if ( isset( $_GET['page'] ) && 'accredible_learndash_issuance_list' === $_GET['page'] ) {
+				self::enqueue_groups_autocomplete();
+			}
 		}
 
 		/**
