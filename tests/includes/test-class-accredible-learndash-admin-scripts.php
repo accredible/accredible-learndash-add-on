@@ -93,9 +93,9 @@ class Accredible_Learndash_Admin_Scripts_Test extends WP_UnitTestCase {
 		$admin_user = self::factory()->user->create( array( 'role' => 'administrator' ) );
 		wp_set_current_user( $admin_user );
 
-		// Navigate to auto_issuance form page.
-		$this->go_to( admin_url( 'admin.php?page=accredible_learndash_auto_issuance' ) );
-		set_current_screen( 'toplevel_page_accredible_learndash_auto_issuance' );
+		// Navigate to auto_issuance list page.
+		$this->go_to( admin_url( 'admin.php?page=accredible_learndash_issuance_list' ) );
+		set_current_screen( 'toplevel_page_accredible_learndash_issuance_list' );
 
 		Accredible_Learndash_Admin_Scripts::load_page_ajax();
 

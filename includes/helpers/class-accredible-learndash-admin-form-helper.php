@@ -19,6 +19,7 @@ if ( ! class_exists( 'Accredible_Learndash_Admin_Form_Helper' ) ) :
 		 * @param array $key key to get value.
 		 */
 		public static function value_attr( $obj, $key ) {
+			$obj = (array) $obj;
 			if ( ! empty( $obj ) && isset( $obj[ $key ] ) ) {
 				echo sprintf(
 					'value="%s"',

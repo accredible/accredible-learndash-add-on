@@ -35,8 +35,7 @@ class Accredible_Learndash_Admin_Menu_Test extends WP_UnitTestCase {
 		$this->assertSame( 'accredible_learndash_issuance_log', $submenu[ $main_menu_slug ][2][2] );
 		$this->assertSame( 'accredible_learndash_settings', $submenu[ $main_menu_slug ][3][2] );
 
-		$this->assertSame( 'accredible_learndash_auto_issuance', $submenu[''][0][2] );
-		$this->assertSame( 'accredible_learndash_admin_action', $submenu[''][1][2] );
+		$this->assertSame( 'accredible_learndash_admin_action', $submenu[''][0][2] );
 	}
 
 	/**

@@ -50,6 +50,32 @@ if ( ! class_exists( 'Accredible_Learndash_Ajax' ) ) :
 		}
 
 		/**
+		 * Get group by id.
+		 */
+		public static function get_group() {
+			$response = array();
+
+			// phpcs:ignore WordPress.Security.NonceVerification.Recommended
+			if ( isset( $_REQUEST['group_id'] ) && ! empty( $_REQUEST['group_id'] ) ) {
+				// phpcs:ignore WordPress.Security.NonceVerification.Recommended
+				$group_id   = sanitize_text_field( wp_unslash( $_REQUEST['group_id'] ) );
+				$api_client = new Accredible_Learndash_Api_V1_Client();
+				$response   = $api_client->get_group( $group_id );
+			}
+
+			if ( ! isset( $response['errors'] ) ) {
+				$group = array(
+					'id'   => $response['group']['id'],
+					'name' => $response['group']['name'],
+				);
+
+				wp_send_json_success( $group );
+			} else {
+				wp_send_json_error();
+			}
+		}
+
+		/**
 		 * Get issuer details html.
 		 */
 		public static function load_issuer_html() {
@@ -99,6 +125,24 @@ if ( ! class_exists( 'Accredible_Learndash_Ajax' ) ) :
 			} catch ( \Exception $wp_exception ) {
 				wp_send_json_error( $wp_exception->getMessage() );
 			}
+		}
+
+		/**
+		 * Get page html.
+		 */
+		public static function load_issuance_form_html() {
+			$accredible_learndash_issuance_id           = self::get_request_value( 'id', null );
+			$accredible_learndash_issuance_current_page = self::get_request_value( 'page_num', null );
+
+			// Capture html from page.
+			ob_start();
+
+			require plugin_dir_path( __DIR__ ) . 'templates/admin-auto-issuance-form.php';
+
+			$page_html = ob_get_clean();
+
+			wp_send_json_success( $page_html );
+			wp_die();
 		}
 
 		/**
