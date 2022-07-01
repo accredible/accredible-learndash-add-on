@@ -12,7 +12,7 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Issue credentials, certificates, or badges for your LearnDash courses through Accredible digital credentialing.
 
 == Description ==
-The “Accredible LearnDash Add-on” allows you to issue [credentials](https://www.credential.net/10000005, "credentials"), certificates, and badges to your students when they complete your course. [Accredible](http://accredible.com "Accredible") credentials are:
+The “Accredible LearnDash Add-on” allows you to issue [credentials](https://www.credential.net/10000005 "credentials"), certificates, and badges to your students when they complete your course. [Accredible](http://accredible.com "Accredible") credentials are:
 
 * Easy to design with our drag and drop certificate builder
 * Shareable, transferable, verifiable, and OpenBadge compliant
@@ -21,9 +21,9 @@ The “Accredible LearnDash Add-on” allows you to issue [credentials](https://
 
 Your course content is valuable, and your learners are proud to share their achievements. Make is easy for them.
 
-**Note:** You will need an Accredible account to use this add-on. [Check out our many features](https://www.accredible.com/solutions/more-features, "More features") to see if this is right for you. You will also need the [LearnDash plugin](http://www.learndash.com "LearnDash") v3.6 or higher installed.
+**Note:** You will need an Accredible account to use this add-on. [Check out our many features](https://www.accredible.com/solutions/more-features "More features") to see if this is right for you. You will also need the [LearnDash plugin](http://www.learndash.com "LearnDash") v3.6 or higher installed.
 
-For instructions to set up this add-on, visit our [Help Center](https://help.accredible.com/, "Help Center").
+For instructions to set up this add-on, visit our [Help Center](https://help.accredible.com/how-to-setup-and-use-learndash "Help Center").
 
 == Installation ==
 
