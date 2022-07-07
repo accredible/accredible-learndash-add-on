@@ -26,7 +26,7 @@ if ( ! class_exists( 'Accredible_Learndash_Learndash_Functions' ) ) :
 		}
 
 		/**
-		 * Determine the type of ID being passed.
+		 * Gets the course ID for a resource.
 		 *
 		 * @param WP_Post|int|null $id ID of the resource.
 		 * @param boolean          $bypass_cb If true will bypass course_builder logic.
