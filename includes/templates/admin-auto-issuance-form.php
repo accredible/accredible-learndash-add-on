@@ -8,9 +8,11 @@
 defined( 'ABSPATH' ) || die;
 
 require_once plugin_dir_path( __DIR__ ) . '/models/class-accredible-learndash-model-auto-issuance.php';
+require_once plugin_dir_path( __DIR__ ) . '/learndash/class-accredible-learndash-learndash-utils.php';
 require_once plugin_dir_path( __DIR__ ) . '/helpers/class-accredible-learndash-admin-form-helper.php';
 
-$accredible_learndash_courses     = Accredible_Learndash_Model_Auto_Issuance::get_course_options();
+$accredible_learndash_utils       = new Accredible_Learndash_Learndash_Utils();
+$accredible_learndash_courses     = $accredible_learndash_utils->get_course_options();
 $accredible_learndash_group       = array();
 $accredible_learndash_form_action = 'add_auto_issuance';
 $accredible_learndash_issuance    = (object) array(

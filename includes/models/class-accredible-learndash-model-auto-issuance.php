@@ -27,31 +27,6 @@ if ( ! class_exists( 'Accredible_Learndash_Model_Auto_Issuance' ) ) :
 		}
 
 		/**
-		 * Get available courses.
-		 *
-		 * @param string $post_type post_type to filter options.
-		 *
-		 * @return array
-		 */
-		public static function get_course_options( $post_type = 'sfwd-courses' ) {
-			$args    = array(
-				'post_type' => $post_type,
-			);
-			$courses = array();
-			$posts   = get_posts( $args );
-
-			if ( ! empty( $posts ) ) {
-				foreach ( $posts as $value ) {
-					$course_id             = get_post_field( 'ID', $value );
-					$course_name           = get_the_title( $value );
-					$courses[ $course_id ] = $course_name;
-				}
-			}
-
-			return $courses;
-		}
-
-		/**
 		 * Validate inserting or updating data.
 		 *
 		 * @throws Exception Exception containing the validation error message.

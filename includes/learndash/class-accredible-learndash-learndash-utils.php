@@ -28,6 +28,29 @@ if ( ! class_exists( 'Accredible_Learndash_Learndash_Utils' ) ) :
 		}
 
 		/**
+		 * Get available courses.
+		 *
+		 * @return array
+		 */
+		public static function get_course_options() {
+			$args    = array(
+				'post_type' => 'sfwd-courses',
+			);
+			$courses = array();
+			$posts   = get_posts( $args );
+
+			if ( ! empty( $posts ) ) {
+				foreach ( $posts as $value ) {
+					$course_id             = get_post_field( 'ID', $value );
+					$course_name           = get_the_title( $value );
+					$courses[ $course_id ] = $course_name;
+				}
+			}
+
+			return $courses;
+		}
+
+		/**
 		 * Get a list of lessons that belong to a course.
 		 *
 		 * @param int $course_id LearnDash course ID.
@@ -50,7 +73,7 @@ if ( ! class_exists( 'Accredible_Learndash_Learndash_Utils' ) ) :
 		 *
 		 * @param int $child_post_id Should be the ID of anything that belongs to a course.
 		 *
-		 * @return array
+		 * @return WP_POST
 		 */
 		public function get_parent_course( $child_post_id ) {
 			$course_id = $this->functions->learndash_get_course_id( $child_post_id );

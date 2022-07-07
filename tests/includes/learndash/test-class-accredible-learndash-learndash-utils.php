@@ -15,6 +15,46 @@ require_once ACCREDILBE_LEARNDASH_PLUGIN_PATH . '/includes/learndash/class-accre
  */
 class Accredible_Learndash_Learndash_Utils_Test extends WP_UnitTestCase {
 	/**
+	 * Test if it get the course options.
+	 */
+	public function test_get_course_options() {
+		$data1 = array(
+			'post_title' => 'Test Course Title 1',
+			'post_type'  => 'sfwd-courses',
+		);
+		$data2 = array(
+			'post_title' => 'Test Course Title 2',
+			'post_type'  => 'sfwd-courses',
+		);
+		$data3 = array(
+			'post_title' => 'Default post',
+		);
+		$id1   = self::factory()->post->create( $data1 );
+		$id2   = self::factory()->post->create( $data2 );
+		self::factory()->post->create( $data3 );
+
+		$expected_result = array(
+			$id1 => $data1['post_title'],
+			$id2 => $data2['post_title'],
+		);
+
+		$utils  = new Accredible_Learndash_Learndash_Utils();
+		$result = $utils->get_course_options();
+
+		$this->assertEquals( $expected_result, $result );
+	}
+
+	/**
+	 * Test if it return empty array when no courses available.
+	 */
+	public function test_get_course_options_when_not_found() {
+		$utils  = new Accredible_Learndash_Learndash_Utils();
+		$result = $utils->get_course_options();
+
+		$this->assertEquals( array(), $result );
+	}
+
+	/**
 	 * Test if it returns a list of lessons that belong to a course.
 	 */
 	public function test_get_lesson_options() {
