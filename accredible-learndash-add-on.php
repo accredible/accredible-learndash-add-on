@@ -39,7 +39,7 @@ if ( ! defined( 'ACCREDIBLE_LEARNDASH_PLUGIN_URL' ) ) {
 
 if ( is_admin() ) {
 	require_once plugin_dir_path( __FILE__ ) . '/includes/class-accredible-learndash-admin.php';
-	Accredible_Learndash_Admin::init();
+	add_action( 'plugins_loaded', array( 'Accredible_Learndash_Admin', 'init' ), 11 );
 }
 
 require_once plugin_dir_path( __FILE__ ) . '/includes/class-accredible-learndash.php';
