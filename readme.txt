@@ -3,7 +3,7 @@ Contributors: accredible
 Tags: accredible, learndash, certificate, certificates, digital certificates, online course, lms, learning management system, e-learning, elearning, badges, badge, open badge, mozilla open badge, blockchain, blockchain credential, credential, credentials
 Donate link: https://accredible.com/
 Requires at least: 5.9
-Tested up to: 5.9.2
+Tested up to: 6.0
 Requires PHP: 5.6
 Stable tag: 1.0.6
 License: GPLv2 or later
