@@ -212,6 +212,9 @@ if ( ! class_exists( 'Accredible_Learndash_Admin_Table_Helper' ) ) :
 				case 'course_completed':
 					$kind = 'Course Completed';
 					break;
+				case 'lesson_completed':
+					$kind = 'Lesson Completed';
+					break;
 				default:
 					$kind;
 			}
