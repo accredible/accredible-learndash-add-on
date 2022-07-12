@@ -123,6 +123,8 @@ body.accredible-learndash-admin .label {
 
 .accredible-radio-group {
     display: flex;
+    grid-gap: var(--accredible-spacing-2x);
+    gap: var(--accredible-spacing-2x);
 }
 
 .accredible-radio-group .radio-group-item {
