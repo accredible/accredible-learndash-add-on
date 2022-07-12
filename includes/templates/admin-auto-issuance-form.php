@@ -20,14 +20,24 @@ $accredible_learndash_issuance    = (object) array(
 	'id'                  => null,
 	'post_id'             => null,
 	'accredible_group_id' => null,
+	'kind'                => 'course_completed',
+	'course_id'           => null,
+	'lesson_id'           => null,
 );
 
 if ( ! is_null( $accredible_learndash_issuance_id ) ) {
 	$accredible_learndash_issuance_row = Accredible_Learndash_Model_Auto_Issuance::get_row( "id = $accredible_learndash_issuance_id" );
 
 	if ( isset( $accredible_learndash_issuance_row ) ) {
-		$accredible_learndash_form_action = 'edit_auto_issuance';
-		$accredible_learndash_issuance    = $accredible_learndash_issuance_row;
+		$accredible_learndash_form_action         = 'edit_auto_issuance';
+		$accredible_learndash_issuance            = $accredible_learndash_issuance_row;
+		$accredible_learndash_issuance->course_id = $accredible_learndash_issuance->post_id;
+
+		if ( 'lesson_completed' === $accredible_learndash_issuance->kind ) {
+			$accredible_learndash_issuance->lesson_id = $accredible_learndash_issuance->post_id;
+			$accredible_learndash_issuance->course_id = $accredible_learndash_utils->get_parent_course( $accredible_learndash_issuance->lesson_id )->ID;
+			$accredible_learndash_lessons             = $accredible_learndash_utils->get_lesson_options( $accredible_learndash_issuance->course_id );
+		}
 	}
 }
 ?>
@@ -55,11 +65,21 @@ if ( ! is_null( $accredible_learndash_issuance_id ) ) {
 
 					<div class="accredible-radio-group">
 						<div class="radio-group-item">
-							<input type='radio' name='accredible_learndash_object[kind]' value='course_completed' id='course_trigger' checked readonly>
+							<input type='radio' 
+								id='course_trigger' 
+								name='accredible_learndash_object[kind]'
+								value='course_completed' 
+								<?php checked( 'course_completed', $accredible_learndash_issuance->kind ); ?> 
+								readonly>
 							<label class="radio-label" for='course_trigger'>Course Completion</label>
 						</div>
 						<div class="radio-group-item">
-							<input type='radio' name='accredible_learndash_object[kind]' value='lesson_completed' id='lesson_trigger' readonly>
+							<input type='radio'
+								id='lesson_trigger'
+								name='accredible_learndash_object[kind]'
+								value='lesson_completed'
+								<?php checked( 'lesson_completed', $accredible_learndash_issuance->kind ); ?> 
+								readonly>
 							<label class="radio-label" for='lesson_trigger'>Lesson Completion</label>
 						</div>
 					</div>
@@ -71,7 +91,7 @@ if ( ! is_null( $accredible_learndash_issuance_id ) ) {
 					<select id="accredible_learndash_course" name="accredible_learndash_object[post_id]" required>
 						<option disabled selected value></option>
 						<?php foreach ( $accredible_learndash_courses as $accredible_learndash_key => $accredible_learndash_value ) : ?>
-							<option <?php selected( $accredible_learndash_key, $accredible_learndash_issuance->post_id ); ?> value="<?php echo esc_attr( $accredible_learndash_key ); ?>">
+							<option <?php selected( $accredible_learndash_key, $accredible_learndash_issuance->course_id ); ?> value="<?php echo esc_attr( $accredible_learndash_key ); ?>">
 								<?php echo esc_html( $accredible_learndash_value ); ?>
 							</option>
 						<?php endforeach; ?>
@@ -87,10 +107,10 @@ if ( ! is_null( $accredible_learndash_issuance_id ) ) {
 				<div id="accredible-learndash-lesson-form-field" class="accredible-form-field accredible-fill-width">
 					<label for="accredible_learndash_lesson"><?php esc_html_e( 'Select a lesson' ); ?></label>
 
-					<select id="accredible_learndash_lesson" name="accredible_learndash_object[post_id]" required>
+					<select id="accredible_learndash_lesson">
 						<option disabled selected value></option>
 						<?php foreach ( $accredible_learndash_lessons as $accredible_learndash_key => $accredible_learndash_value ) : ?>
-							<option <?php selected( $accredible_learndash_key, $accredible_learndash_issuance->post_id ); ?> value="<?php echo esc_attr( $accredible_learndash_key ); ?>">
+							<option <?php selected( $accredible_learndash_key, $accredible_learndash_issuance->lesson_id ); ?> value="<?php echo esc_attr( $accredible_learndash_key ); ?>">
 								<?php echo esc_html( $accredible_learndash_value ); ?>
 							</option>
 						<?php endforeach; ?>
