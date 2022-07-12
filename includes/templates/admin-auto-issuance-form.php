@@ -182,6 +182,19 @@ if ( ! is_null( $accredible_learndash_issuance_id ) ) {
 			});
 		}
 
+		function isFormValid() {
+			let isValid = true;
+			const controls = ['kind', 'post_id', 'accredible_group_id'];
+
+			for(i=0; i < controls.length; i++){
+				if (!jQuery(`[name="accredible_learndash_object[${controls[i]}]"]`).val()) {
+					isValid = false;
+					break;
+				}
+			};
+			return isValid;
+		}
+
 		// Initialize groups autocomplete.
 		accredibleAutoComplete.init();
 
@@ -211,7 +224,9 @@ if ( ! is_null( $accredible_learndash_issuance_id ) ) {
 
 		// Add loading spinner on click.
 		submitBtn.on('click', function(){
-			jQuery(this).addClass('accredible-button-spinner');
+			if (isFormValid()) {
+				jQuery(this).addClass('accredible-button-spinner');
+			}
 		});
 
 		// Close dialog on cancel click.
