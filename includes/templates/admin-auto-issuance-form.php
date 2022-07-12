@@ -153,32 +153,49 @@ if ( ! is_null( $accredible_learndash_issuance_id ) ) {
 </div>
 <script type="text/javascript">
 	jQuery( function(){
-		function toggleControlAttributes(displayControl, submittedControl) {
+		const courseControl = jQuery('#accredible_learndash_course');
+		const lessonControl = jQuery('#accredible_learndash_lesson');
+
+		function isLessonKind() {
+			return jQuery('[name="accredible_learndash_object[kind]"]:checked').val() === 'lesson_completed';
+		}
+
+		function toggleControls(displayControl, submittedControl) {
 			// Disable control from being submitted
 			const attributeValue = displayControl.attr('name');
 			displayControl.removeAttr('name');
 			displayControl.removeAttr('required');
-			// Enable control to be submitted
+			// Enable control for submission
 			submittedControl.attr('name', attributeValue);
 			submittedControl.attr('required', true);
 		}
 
-		function toggleSelectControls() {
-			const courseControl = jQuery('#accredible_learndash_course');
-			const lessonControl = jQuery('#accredible_learndash_lesson');
+		function toggleSelectControlToBeSubmitted() {
 			const lessonFormField = jQuery('#accredible-learndash-lesson-form-field');
-			if (jQuery('[name="accredible_learndash_object[kind]"]:checked').val() === 'lesson_completed') {
+			if (isLessonKind()) {
+				toggleControls(courseControl, lessonControl); // lesson control is submitted
+				// Disable selection if no course is selected
+				lessonControl.attr('disabled', !courseControl.val());
 				lessonFormField.show();
-				toggleControlAttributes(courseControl, lessonControl);
 			} else {
 				lessonFormField.hide();
-				toggleControlAttributes(lessonControl, courseControl);
+				toggleControls(lessonControl, courseControl); // default, course control is submitted
 			}
 		}
 
-		function setupSelectionChangeListener() {
+		function onSelectedKindChange() {
 			jQuery('[name="accredible_learndash_object[kind]"]').on('click', function(event){
-				toggleSelectControls();
+				toggleSelectControlToBeSubmitted();
+			});
+		}
+
+		function onSelectedCourseChange() {
+			courseControl.on('change', function(){
+				const course_id = jQuery(this).val();
+				if(course_id && isLessonKind()) {
+					lessonControl.attr('disabled', false);
+					// call BE to fetch lessons related to course
+				}
 			});
 		}
 
@@ -198,12 +215,14 @@ if ( ! is_null( $accredible_learndash_issuance_id ) ) {
 		// Initialize groups autocomplete.
 		accredibleAutoComplete.init();
 
-		// Toggle lesson controls on selection change
-		setupSelectionChangeListener();
+		// Handle changes to kind and course values
+		onSelectedKindChange();
+		onSelectedCourseChange();
+
 
 		// Check if we're editing
 		if (jQuery('[name="id"]').length) {
-			toggleSelectControls();
+			toggleSelectControlToBeSubmitted();
 		}
 
 		// Fetch saved group by id to fill autocomplete.
