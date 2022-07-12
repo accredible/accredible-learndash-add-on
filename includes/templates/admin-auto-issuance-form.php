@@ -55,11 +55,11 @@ if ( ! is_null( $accredible_learndash_issuance_id ) ) {
 					<div class="accredible-radio-group">
 						<div class="radio-group-item">
 							<input type='radio' name='accredible_learndash_object[kind]' value='course_completed' id='course_trigger' checked readonly>
-							<label class="radio-label" for='issuance_trigger'>Course Completion</label>
+							<label class="radio-label" for='course_trigger'>Course Completion</label>
 						</div>
 						<div class="radio-group-item">
 							<input type='radio' name='accredible_learndash_object[kind]' value='lesson_completed' id='lesson_trigger' disabled readonly>
-							<label class="radio-label" for='issuance_trigger'>Lesson Completion</label>
+							<label class="radio-label" for='lesson_trigger'>Lesson Completion</label>
 						</div>
 					</div>
 				</div>
