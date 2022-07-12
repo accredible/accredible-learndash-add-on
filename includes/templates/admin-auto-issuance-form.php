@@ -103,8 +103,7 @@ if ( ! is_null( $accredible_learndash_issuance_id ) ) {
 					<?php endif; ?>
 				</div>
 
-
-				<div id="accredible-learndash-lesson-form-field" class="accredible-form-field accredible-fill-width">
+				<div id="accredible-learndash-lesson-form-field" class="accredible-form-field accredible-fill-width" style="display: none;">
 					<label for="accredible_learndash_lesson"><?php esc_html_e( 'Select a lesson' ); ?></label>
 
 					<select id="accredible_learndash_lesson">
@@ -154,8 +153,45 @@ if ( ! is_null( $accredible_learndash_issuance_id ) ) {
 </div>
 <script type="text/javascript">
 	jQuery( function(){
+		function toggleControlAttributes(displayControl, submittedControl) {
+			// Disable control from being submitted
+			const attributeValue = displayControl.attr('name');
+			displayControl.removeAttr('name');
+			displayControl.removeAttr('required');
+			// Enable control to be submitted
+			submittedControl.attr('name', attributeValue);
+			submittedControl.attr('required', true);
+		}
+
+		function toggleSelectControls() {
+			const courseControl = jQuery('#accredible_learndash_course');
+			const lessonControl = jQuery('#accredible_learndash_lesson');
+			const lessonFormField = jQuery('#accredible-learndash-lesson-form-field');
+			if (jQuery('[name="accredible_learndash_object[kind]"]:checked').val() === 'lesson_completed') {
+				lessonFormField.show();
+				toggleControlAttributes(courseControl, lessonControl);
+			} else {
+				lessonFormField.hide();
+				toggleControlAttributes(lessonControl, courseControl);
+			}
+		}
+
+		function setupSelectionChangeListener() {
+			jQuery('[name="accredible_learndash_object[kind]"]').on('click', function(event){
+				toggleSelectControls();
+			});
+		}
+
 		// Initialize groups autocomplete.
 		accredibleAutoComplete.init();
+
+		// Toggle lesson controls on selection change
+		setupSelectionChangeListener();
+
+		// Check if we're editing
+		if (jQuery('[name="id"]').length) {
+			toggleSelectControls();
+		}
 
 		// Fetch saved group by id to fill autocomplete.
 		const submitBtn = jQuery('#submit');
