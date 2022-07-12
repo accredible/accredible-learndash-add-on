@@ -219,7 +219,6 @@ if ( ! is_null( $accredible_learndash_issuance_id ) ) {
 		onSelectedKindChange();
 		onSelectedCourseChange();
 
-
 		// Check if we're editing
 		if (jQuery('[name="id"]').length) {
 			toggleSelectControlToBeSubmitted();
