@@ -13,6 +13,7 @@ require_once plugin_dir_path( __DIR__ ) . '/helpers/class-accredible-learndash-a
 
 $accredible_learndash_utils       = new Accredible_Learndash_Learndash_Utils();
 $accredible_learndash_courses     = $accredible_learndash_utils->get_course_options();
+$accredible_learndash_lessons     = array();
 $accredible_learndash_group       = array();
 $accredible_learndash_form_action = 'add_auto_issuance';
 $accredible_learndash_issuance    = (object) array(
@@ -58,7 +59,7 @@ if ( ! is_null( $accredible_learndash_issuance_id ) ) {
 							<label class="radio-label" for='course_trigger'>Course Completion</label>
 						</div>
 						<div class="radio-group-item">
-							<input type='radio' name='accredible_learndash_object[kind]' value='lesson_completed' id='lesson_trigger' disabled readonly>
+							<input type='radio' name='accredible_learndash_object[kind]' value='lesson_completed' id='lesson_trigger' readonly>
 							<label class="radio-label" for='lesson_trigger'>Lesson Completion</label>
 						</div>
 					</div>
@@ -78,6 +79,25 @@ if ( ! is_null( $accredible_learndash_issuance_id ) ) {
 					<?php if ( empty( $accredible_learndash_courses ) ) : ?>
 						<span class="accredible-form-field-error">
 							<?php esc_html_e( 'No courses available. Add courses in LearnDash to continue.' ); ?>
+						</span>
+					<?php endif; ?>
+				</div>
+
+
+				<div id="accredible-learndash-lesson-form-field" class="accredible-form-field accredible-fill-width">
+					<label for="accredible_learndash_lesson"><?php esc_html_e( 'Select a lesson' ); ?></label>
+
+					<select id="accredible_learndash_lesson" name="accredible_learndash_object[post_id]" required>
+						<option disabled selected value></option>
+						<?php foreach ( $accredible_learndash_lessons as $accredible_learndash_key => $accredible_learndash_value ) : ?>
+							<option <?php selected( $accredible_learndash_key, $accredible_learndash_issuance->post_id ); ?> value="<?php echo esc_attr( $accredible_learndash_key ); ?>">
+								<?php echo esc_html( $accredible_learndash_value ); ?>
+							</option>
+						<?php endforeach; ?>
+					</select>
+					<?php if ( empty( $accredible_learndash_lessons ) ) : ?>
+						<span class="accredible-form-field-error">
+							<?php esc_html_e( 'No lessons available. Select a course or add lessons in LearnDash to continue.' ); ?>
 						</span>
 					<?php endif; ?>
 				</div>
