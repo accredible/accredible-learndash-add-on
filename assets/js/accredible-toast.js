@@ -1,4 +1,7 @@
-const accredibleToast = {};
+const accredibleToast = {
+    closeAll: function() {},
+    timeout: null,
+};
 
 jQuery(function(){
     function _escapeHTML(html) {
@@ -8,6 +11,7 @@ jQuery(function(){
     }
 
     function _open(type, message, duration) {
+        accredibleToast.closeAll();
         const toastHTML = `
         <div class="accredible-toast-message">
             <div><div class="alert-icon toast-${type}"></div></div>
@@ -31,19 +35,30 @@ jQuery(function(){
                     }
                 }
             ],
+            close: function(event, ui) {
+                _clearToastTimeout();
+                jQuery(this).dialog('destroy');
+            }
         });
 
         if (duration && !isNaN(Number(duration))) {
             dialogRef.dialog('option', 'open', function(event, ui) {
                 const toastRef = jQuery(this); 
-                setTimeout(function(){
-                    toastRef.dialog('close');
+                accredibleToast.timeout = setTimeout(function(){
+                    toastRef.dialog('destroy');
                 }, duration);
             });
         }
 
         dialogRef.dialog('open');
     };
+
+    function _clearToastTimeout() {
+        if (accredibleToast.timeout) {
+            clearTimeout(accredibleToast.timeout);
+            accredibleToast.timeout = null;
+        }
+    }
 
     accredibleToast.info = function(message, duration) {
         _open('info', message, duration);
@@ -55,5 +70,10 @@ jQuery(function(){
 
     accredibleToast.error = function(message, duration) {
         _open('error', message, duration);
+    }
+
+    accredibleToast.closeAll = function() {
+        _clearToastTimeout();
+        jQuery('.accredible-toast-message').dialog('destroy');
     }
 });

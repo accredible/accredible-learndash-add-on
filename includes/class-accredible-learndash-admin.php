@@ -29,24 +29,8 @@ if ( ! class_exists( 'Accredible_Learndash_Admin' ) ) :
 		 * Accredible_Learndash_Admin constructor.
 		 */
 		public function __construct() {
-			$this->set_activation_hooks();
 			$this->set_admin_hooks();
 		}
-
-		/**
-		 * Initialize WP activation hooks.
-		 */
-		private function set_activation_hooks() {
-			register_activation_hook(
-				ACCREDILBE_LEARNDASH_PLUGIN_BASENAME,
-				array( 'Accredible_Learndash_Admin_Setting', 'set_default' )
-			);
-			register_activation_hook(
-				ACCREDILBE_LEARNDASH_PLUGIN_BASENAME,
-				array( 'Accredible_Learndash_Admin_Database', 'setup' )
-			);
-		}
-
 		/**
 		 * Initialize WP admin hooks.
 		 */
@@ -114,6 +98,8 @@ if ( ! class_exists( 'Accredible_Learndash_Admin' ) ) :
 			add_action( 'wp_ajax_accredible_learndash_ajax_load_issuer_html', array( 'Accredible_Learndash_Ajax', 'load_issuer_html' ) );
 			add_action( 'wp_ajax_accredible_learndash_ajax_load_auto_issuance_list_html', array( 'Accredible_Learndash_Ajax', 'load_auto_issuance_list_html' ) );
 			add_action( 'wp_ajax_accredible_learndash_ajax_handle_auto_issuance_action', array( 'Accredible_Learndash_Ajax', 'handle_auto_issuance_action' ) );
+			add_action( 'wp_ajax_accredible_learndash_ajax_load_issuance_form_html', array( 'Accredible_Learndash_Ajax', 'load_issuance_form_html' ) );
+			add_action( 'wp_ajax_accredible_learndash_ajax_get_group', array( 'Accredible_Learndash_Ajax', 'get_group' ) );
 		}
 	}
 endif;

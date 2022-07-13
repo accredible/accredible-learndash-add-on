@@ -355,11 +355,12 @@ if ( ! class_exists( 'Accredible_Learndash_Admin_Table_Helper' ) ) :
 							);
 						}
 
+						$action_params = str_replace( admin_url( 'admin.php?' ), '', $url );
+
 						$actions .= sprintf(
-							'<a href="%1s" %2s %3s class="button accredible-button-outline-natural accredible-button-small">' . $value['label'] . '</a>',
-							$has_confirm_dialog ? 'javascript:void(0);' : $url,
-							$has_confirm_dialog ? 'data-accredible-dialog="true"' : '',
-							'data-accredible-action-params=' . str_replace( admin_url( 'admin.php?page=' . $page . '&amp;' ), '', $url )
+							'<a href="javascript:void(0);" %1s %2s class="button accredible-button-outline-natural accredible-button-small">' . $value['label'] . '</a>',
+							$has_confirm_dialog ? 'data-accredible-dialog="true"' : 'data-accredible-sidenav="true"',
+							'data-accredible-action-params=' . $action_params
 						);
 					}
 				}
