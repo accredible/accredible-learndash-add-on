@@ -194,7 +194,7 @@ if ( ! is_null( $accredible_learndash_issuance_id ) ) {
 						Object.keys(res.data).forEach(function(key) {
 							options += `<option value="${key}">${res.data[key]}</option>`;
 						});
-						lessonFormField.find('.accredible-form-field-error').toggle(); // hide "no lessons..." error
+						lessonFormField.find('.accredible-form-field-error').hide(); // hide "no lessons..." error
 						lessonControl.html('<option disabled="" selected="" value=""></option>'); // clear existing options
 						lessonControl.append(options); // update options
 					} else {
