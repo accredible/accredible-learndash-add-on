@@ -183,13 +183,6 @@ if ( ! is_null( $accredible_learndash_issuance_id ) ) {
 			}
 		}
 
-		function onSelectedKindChange() {
-			jQuery('[name="accredible_learndash_object[kind]"]').on('click', function(event){
-				toggleSelectControlToBeSubmitted();
-				getCourseLessons(); // fetch courses if we have a selected course
-			});
-		}
-
 		function getCourseLessons() {
 			const courseId = courseControl.val();
 			if(courseId && isLessonKind()) {
@@ -209,6 +202,13 @@ if ( ! is_null( $accredible_learndash_issuance_id ) ) {
 					}
 				});
 			}
+		}
+
+		function onSelectedKindChange() {
+			jQuery('[name="accredible_learndash_object[kind]"]').on('click', function(event){
+				toggleSelectControlToBeSubmitted();
+				getCourseLessons(); // fetch courses if we have a selected course
+			});
 		}
 
 		function onSelectedCourseChange() {
