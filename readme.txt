@@ -65,7 +65,7 @@ You can report any issues or bugs on our project [GitHub](https://github.com/acc
 
 == Changelog ==
 
-= 1.0.6 =
+= 1.0.7 =
 Improve auto issuance form with sidenav.
 
 = 1.0.6 =
