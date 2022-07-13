@@ -37,6 +37,16 @@ if ( ! defined( 'ACCREDIBLE_LEARNDASH_PLUGIN_URL' ) ) {
 	define( 'ACCREDIBLE_LEARNDASH_PLUGIN_URL', $accredible_learndash_plugin_url );
 }
 
+// XXX `register_activation_hook` needs to be executed in the plugin main file.
+register_activation_hook(
+	ACCREDILBE_LEARNDASH_PLUGIN_BASENAME,
+	array( 'Accredible_Learndash_Admin_Setting', 'set_default' )
+);
+register_activation_hook(
+	ACCREDILBE_LEARNDASH_PLUGIN_BASENAME,
+	array( 'Accredible_Learndash_Admin_Database', 'setup' )
+);
+
 if ( is_admin() ) {
 	require_once plugin_dir_path( __FILE__ ) . '/includes/class-accredible-learndash-admin.php';
 	Accredible_Learndash_Admin::init();

@@ -80,20 +80,6 @@ class Accredible_Learndash_Admin_Test extends WP_UnitTestCase {
 		$this->assertEquals(
 			10,
 			has_filter(
-				$activation_hook_name,
-				array( 'Accredible_Learndash_Admin_Setting', 'set_default' )
-			)
-		);
-		$this->assertEquals(
-			10,
-			has_filter(
-				$activation_hook_name,
-				array( 'Accredible_Learndash_Admin_Database', 'setup' )
-			)
-		);
-		$this->assertEquals(
-			10,
-			has_filter(
 				$action_links_hook_name,
 				array( 'Accredible_Learndash_Admin_Menu', 'add_action_links' )
 			)
