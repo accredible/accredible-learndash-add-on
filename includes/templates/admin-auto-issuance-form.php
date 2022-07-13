@@ -155,6 +155,7 @@ if ( ! is_null( $accredible_learndash_issuance_id ) ) {
 	jQuery( function(){
 		const courseControl = jQuery('#accredible_learndash_course');
 		const lessonControl = jQuery('#accredible_learndash_lesson');
+		const lessonFormField = jQuery('#accredible-learndash-lesson-form-field');
 
 		function isLessonKind() {
 			return jQuery('[name="accredible_learndash_object[kind]"]:checked').val() === 'lesson_completed';
@@ -171,7 +172,6 @@ if ( ! is_null( $accredible_learndash_issuance_id ) ) {
 		}
 
 		function toggleSelectControlToBeSubmitted() {
-			const lessonFormField = jQuery('#accredible-learndash-lesson-form-field');
 			if (isLessonKind()) {
 				toggleControls(courseControl, lessonControl); // lesson control is submitted
 				// Disable selection if no course is selected
@@ -186,16 +186,34 @@ if ( ! is_null( $accredible_learndash_issuance_id ) ) {
 		function onSelectedKindChange() {
 			jQuery('[name="accredible_learndash_object[kind]"]').on('click', function(event){
 				toggleSelectControlToBeSubmitted();
+				getCourseLessons(); // fetch courses if we have a selected course
 			});
+		}
+
+		function getCourseLessons() {
+			const courseId = courseControl.val();
+			if(courseId && isLessonKind()) {
+				lessonControl.attr('disabled', false);
+				// call BE to fetch lessons related to course
+				accredibleAjax.getLessons(courseId).done(function(res){
+					if (res.data) {
+						let options = '';
+						Object.keys(res.data).forEach(function(key) {
+							options += `<option value="${key}">${res.data[key]}</option>`;
+						});
+						lessonFormField.find('.accredible-form-field-error').toggle(); // hide "no lessons..." error
+						lessonControl.html('<option disabled="" selected="" value=""></option>'); // clear existing options
+						lessonControl.append(options); // update options
+					} else {
+						lessonFormField.find('.accredible-form-field-error').show(); // show "no lessons..." error
+					}
+				});
+			}
 		}
 
 		function onSelectedCourseChange() {
 			courseControl.on('change', function(){
-				const course_id = jQuery(this).val();
-				if(course_id && isLessonKind()) {
-					lessonControl.attr('disabled', false);
-					// call BE to fetch lessons related to course
-				}
+				getCourseLessons();
 			});
 		}
 
