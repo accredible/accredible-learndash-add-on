@@ -29,24 +29,8 @@ if ( ! class_exists( 'Accredible_Learndash_Admin' ) ) :
 		 * Accredible_Learndash_Admin constructor.
 		 */
 		public function __construct() {
-			$this->set_activation_hooks();
 			$this->set_admin_hooks();
 		}
-
-		/**
-		 * Initialize WP activation hooks.
-		 */
-		private function set_activation_hooks() {
-			register_activation_hook(
-				ACCREDILBE_LEARNDASH_PLUGIN_BASENAME,
-				array( 'Accredible_Learndash_Admin_Setting', 'set_default' )
-			);
-			register_activation_hook(
-				ACCREDILBE_LEARNDASH_PLUGIN_BASENAME,
-				array( 'Accredible_Learndash_Admin_Database', 'setup' )
-			);
-		}
-
 		/**
 		 * Initialize WP admin hooks.
 		 */
