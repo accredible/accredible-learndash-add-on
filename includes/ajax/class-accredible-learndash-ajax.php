@@ -10,6 +10,7 @@ defined( 'ABSPATH' ) || die;
 require_once plugin_dir_path( __DIR__ ) . '/helpers/class-accredible-learndash-issuer-helper.php';
 require_once plugin_dir_path( __DIR__ ) . '/helpers/class-accredible-learndash-auto-issuance-list-helper.php';
 require_once plugin_dir_path( __DIR__ ) . 'class-accredible-learndash-admin-action-handler.php';
+require_once plugin_dir_path( __DIR__ ) . '/learndash/class-accredible-learndash-learndash-utils.php';
 
 if ( ! class_exists( 'Accredible_Learndash_Ajax' ) ) :
 	/**
@@ -70,6 +71,22 @@ if ( ! class_exists( 'Accredible_Learndash_Ajax' ) ) :
 				);
 
 				wp_send_json_success( $group );
+			} else {
+				wp_send_json_error();
+			}
+		}
+
+		/**
+		 * Get lesson options.
+		 */
+		public static function get_lessons() {
+			$course_id = self::get_request_value( 'course_id', null );
+
+			if ( isset( $course_id ) ) {
+				$utils   = new Accredible_Learndash_Learndash_Utils();
+				$lessons = $utils->get_lesson_options( $course_id );
+
+				wp_send_json_success( $lessons );
 			} else {
 				wp_send_json_error();
 			}

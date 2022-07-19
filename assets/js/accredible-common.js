@@ -52,4 +52,12 @@ jQuery(function(){
         };
         return jQuery.post(accredibledata.ajaxurl, post_data).then();
     }
+
+    accredibleAjax.getLessons = function(courseId) {
+        var post_data = {
+            action: 'accredible_learndash_ajax_get_lessons',
+            course_id: courseId
+        };
+        return jQuery.post(accredibledata.ajaxurl, post_data).then();
+    }
 });

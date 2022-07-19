@@ -24,7 +24,7 @@ jQuery(function(){
             minHeight: 48,
             autoOpen: false,
             classes: {
-                'ui-dialog': 'accredible-toast'
+                'ui-dialog': `accredible-toast accredible-toast-${type}`
             },
             position: { my: 'bottom', at: 'center bottom', of: '.accredible-learndash-admin' },
             buttons: [

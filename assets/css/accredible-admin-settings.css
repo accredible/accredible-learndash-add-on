@@ -601,6 +601,10 @@ table.accredible-table {
     box-shadow: 0 3px 5px -1px #0003, 0 6px 10px #00000024, 0 1px 18px #0000001f;
 }
 
+.accredible-toast.accredible-toast-error.ui-dialog {
+    z-index: 1002;
+}
+
 .accredible-toast.ui-dialog .ui-dialog-buttonpane {
     display: flex;
     flex: 1;
