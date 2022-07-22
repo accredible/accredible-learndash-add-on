@@ -14,7 +14,16 @@ if ( ! class_exists( 'Accredible_Learndash_Auto_Issuance_List_Helper' ) ) :
 	 * Accredible LearnDash Add-on auto issuance list helper class
 	 */
 	class Accredible_Learndash_Auto_Issuance_List_Helper {
-		const TABLE_COLUMNS = array( 'post_id', 'accredible_group_id', 'kind', 'created_at' );
+		const TABLE_COLUMNS = array(
+			'post_id',
+			array(
+				'key'   => 'kind',
+				'alias' => 'post_type',
+			),
+			'accredible_group_id',
+			'kind',
+			'created_at',
+		);
 		const ROW_ACTIONS   = array(
 			array(
 				'action' => 'edit_auto_issuance',
@@ -46,7 +55,8 @@ if ( ! class_exists( 'Accredible_Learndash_Auto_Issuance_List_Helper' ) ) :
 					<thead>
 						<tr class="accredible-header-row">
 							<th></th>
-							<th>Course Name</th>
+							<th>Name</th>
+							<th>Type</th>
 							<th>Accredible Group</th>
 							<th>Issuance Trigger</th>
 							<th>Date Created</th>
