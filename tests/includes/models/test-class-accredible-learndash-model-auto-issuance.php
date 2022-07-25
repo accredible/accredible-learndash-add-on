@@ -30,7 +30,7 @@ class Accredible_Learndash_Model_Auto_Issuance_Test extends Accredible_Learndash
 			'created_at'          => time(),
 		);
 		$data2 = array(
-			'kind'                => 'course_completed',
+			'kind'                => 'lesson_completed',
 			'post_id'             => 2,
 			'accredible_group_id' => 2,
 			'created_at'          => time(),
@@ -45,6 +45,10 @@ class Accredible_Learndash_Model_Auto_Issuance_Test extends Accredible_Learndash
 
 		// With $where_sql.
 		$results = Accredible_Learndash_Model_Auto_Issuance::get_results( "post_id = 1 AND kind = 'course_completed'" );
+		$this->assertCount( 1, $results );
+
+		// With $where_sql.
+		$results = Accredible_Learndash_Model_Auto_Issuance::get_results( "post_id = 2 AND kind = 'lesson_completed'" );
 		$this->assertCount( 1, $results );
 
 		// With $limit.
@@ -82,7 +86,7 @@ class Accredible_Learndash_Model_Auto_Issuance_Test extends Accredible_Learndash
 			'created_at'          => time(),
 		);
 		$data2 = array(
-			'kind'                => 'course_completed',
+			'kind'                => 'lesson_completed',
 			'post_id'             => 2,
 			'accredible_group_id' => 2,
 			'created_at'          => time(),
@@ -119,7 +123,7 @@ class Accredible_Learndash_Model_Auto_Issuance_Test extends Accredible_Learndash
 			'created_at'          => time(),
 		);
 		$data2 = array(
-			'kind'                => 'course_completed',
+			'kind'                => 'lesson_completed',
 			'post_id'             => 2,
 			'accredible_group_id' => 2,
 			'created_at'          => time(),
@@ -131,6 +135,9 @@ class Accredible_Learndash_Model_Auto_Issuance_Test extends Accredible_Learndash
 		$this->assertEquals( 2, $results );
 
 		$results = Accredible_Learndash_Model_Auto_Issuance::get_total_count( "post_id = 1 AND kind = 'course_completed'" );
+		$this->assertEquals( 1, $results );
+
+		$results = Accredible_Learndash_Model_Auto_Issuance::get_total_count( "post_id = 2 AND kind = 'lesson_completed'" );
 		$this->assertEquals( 1, $results );
 	}
 
@@ -156,7 +163,7 @@ class Accredible_Learndash_Model_Auto_Issuance_Test extends Accredible_Learndash
 			'created_at'          => time(),
 		);
 		$data2 = array(
-			'kind'                => 'course_completed',
+			'kind'                => 'lesson_completed',
 			'post_id'             => 2,
 			'accredible_group_id' => 2,
 			'created_at'          => time(),
