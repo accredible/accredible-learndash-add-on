@@ -412,13 +412,13 @@ if ( ! class_exists( 'Accredible_Learndash_Admin_Table_Helper' ) ) :
 					</div>
 
 					<a	<?php disabled( null, $page_meta['prev_page'] ); ?>
-						href="<?php echo esc_attr( self::get_pagination_href( $page_meta['prev_page'], $page ) ); ?>"
+						href="<?php echo esc_attr( self::get_pagination_href( $page, $page_meta['prev_page'] ) ); ?>"
 						class="button accredible-button-outline-natural accredible-button-small"
 						aria-label="Go to next page">
 						<img src="<?php echo esc_url( ACCREDIBLE_LEARNDASH_PLUGIN_URL . 'assets/images/chevron-left.svg' ); ?>">
 					</a>
 					<a	<?php disabled( null, $page_meta['next_page'] ); ?>
-						href="<?php echo esc_attr( self::get_pagination_href( $page_meta['next_page'], $page ) ); ?>"
+						href="<?php echo esc_attr( self::get_pagination_href( $page, $page_meta['next_page'] ) ); ?>"
 						class="button accredible-button-outline-natural accredible-button-small" 
 						aria-label="Go to previous page">
 						<img src="<?php echo esc_url( ACCREDIBLE_LEARNDASH_PLUGIN_URL . 'assets/images/chevron-right.svg' ); ?>">
