@@ -61,7 +61,7 @@ if ( ! class_exists( 'Accredible_Learndash_Auto_Issuance_List_Helper' ) ) :
 				</table>
 				<?php
 				if ( ! empty( $page_results ) && ! empty( $page_results['meta'] ) ) :
-					Accredible_Learndash_Admin_Table_Helper::build_pagination_tile( $page_results['meta'], 'auto issuances' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+					Accredible_Learndash_Admin_Table_Helper::build_pagination_tile( 'accredible_learndash_issuance_list', $page_results['meta'], 'auto issuances' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 				endif;
 				?>
 			</div>

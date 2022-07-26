@@ -371,12 +371,13 @@ if ( ! class_exists( 'Accredible_Learndash_Admin_Table_Helper' ) ) :
 		/**
 		 * Build pagination tile.
 		 *
+		 * @param string $page page.
 		 * @param mixed  $page_meta pagination meta.
 		 * @param string $page_name page name used in the tile.
 		 *
 		 * @return void
 		 */
-		public static function build_pagination_tile( $page_meta, $page_name ) {
+		public static function build_pagination_tile( $page, $page_meta, $page_name ) {
 			$viewing_from_to = array(
 				'start' => self::eval_row_num( 1 ),
 				'end'   => intval( $page_meta['current_page'] ) === intval( $page_meta['total_pages'] ) ? $page_meta['total_count'] : $page_meta['current_page'] * $page_meta['page_size'],
@@ -411,13 +412,13 @@ if ( ! class_exists( 'Accredible_Learndash_Admin_Table_Helper' ) ) :
 					</div>
 
 					<a	<?php disabled( null, $page_meta['prev_page'] ); ?>
-						href="<?php echo esc_attr( self::get_pagination_href( $page_meta['prev_page'] ) ); ?>"
+						href="<?php echo esc_attr( self::get_pagination_href( $page_meta['prev_page'], $page ) ); ?>"
 						class="button accredible-button-outline-natural accredible-button-small"
 						aria-label="Go to next page">
 						<img src="<?php echo esc_url( ACCREDIBLE_LEARNDASH_PLUGIN_URL . 'assets/images/chevron-left.svg' ); ?>">
 					</a>
 					<a	<?php disabled( null, $page_meta['next_page'] ); ?>
-						href="<?php echo esc_attr( self::get_pagination_href( $page_meta['next_page'] ) ); ?>"
+						href="<?php echo esc_attr( self::get_pagination_href( $page_meta['next_page'], $page ) ); ?>"
 						class="button accredible-button-outline-natural accredible-button-small" 
 						aria-label="Go to previous page">
 						<img src="<?php echo esc_url( ACCREDIBLE_LEARNDASH_PLUGIN_URL . 'assets/images/chevron-right.svg' ); ?>">
@@ -430,14 +431,16 @@ if ( ! class_exists( 'Accredible_Learndash_Admin_Table_Helper' ) ) :
 		/**
 		 * Resolves href attribute for pagination.
 		 *
+		 * @param string $page page.
+		 *
 		 * @param string $page_num page num used passed to href.
 		 *
 		 * @return string
 		 */
-		private static function get_pagination_href( $page_num ) {
+		private static function get_pagination_href( $page, $page_num ) {
 			$href = 'javascript:void(0);';
 			if ( ! is_null( $page_num ) ) {
-				$href = 'admin.php?page=accredible_learndash_issuance_list&page_num=' . $page_num;
+				$href = 'admin.php?page=' . $page . '&page_num=' . $page_num;
 			}
 
 			return $href;

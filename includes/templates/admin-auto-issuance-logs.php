@@ -10,6 +10,8 @@ defined( 'ABSPATH' ) || die;
 require_once plugin_dir_path( __DIR__ ) . '/helpers/class-accredible-learndash-admin-table-helper.php';
 require_once plugin_dir_path( __DIR__ ) . '/models/class-accredible-learndash-model-auto-issuance-log.php';
 
+
+$accredible_learndash_page          = isset( $_GET['page'] ) ? sanitize_key( wp_unslash( $_GET['page'] ) ) : 1; // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 $accredible_learndash_current_page  = isset( $_GET['page_num'] ) ? sanitize_key( wp_unslash( $_GET['page_num'] ) ) : 1; // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 $accredible_learndash_page_size     = 20;
 $accredible_learndash_table_columns = array(
@@ -30,7 +32,7 @@ $accredible_learndash_table_helper = new Accredible_Learndash_Admin_Table_Helper
 	$accredible_learndash_page_size
 );
 
-$accredible_learndash_page = Accredible_Learndash_Model_Auto_Issuance_Log::get_paginated_results(
+$accredible_learndash_pagination = Accredible_Learndash_Model_Auto_Issuance_Log::get_paginated_results(
 	$accredible_learndash_current_page,
 	$accredible_learndash_page_size,
 	'',
@@ -58,13 +60,13 @@ $accredible_learndash_page = Accredible_Learndash_Model_Auto_Issuance_Log::get_p
 				</thead>
 				<tbody>
 					<?php
-					echo $accredible_learndash_table_helper->build_table_rows( $accredible_learndash_page['results'] ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+					echo $accredible_learndash_table_helper->build_table_rows( $accredible_learndash_pagination['results'] ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 					?>
 				</tbody>
 			</table>
 			<?php
-			if ( ! empty( $accredible_learndash_page ) && ! empty( $accredible_learndash_page['meta'] ) ) :
-				Accredible_Learndash_Admin_Table_Helper::build_pagination_tile( $accredible_learndash_page['meta'], 'auto issuances' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+			if ( ! empty( $accredible_learndash_pagination ) && ! empty( $accredible_learndash_pagination['meta'] ) ) :
+				Accredible_Learndash_Admin_Table_Helper::build_pagination_tile( $accredible_learndash_page, $accredible_learndash_pagination['meta'], 'issuance logs' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 			endif;
 			?>
 		</div>
