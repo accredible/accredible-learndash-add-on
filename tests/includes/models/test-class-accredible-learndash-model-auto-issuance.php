@@ -379,9 +379,9 @@ class Accredible_Learndash_Model_Auto_Issuance_Test extends Accredible_Learndash
 	}
 
 	/**
-	 * Test if it passes with valid data when updating when kind is course_completed.
+	 * Test if it passes with valid data when updating with kind course_completed.
 	 */
-	public function test_validate_when_updating_when_kind_is_course_completed() {
+	public function test_validate_when_updating_with_kind_course_completed() {
 		$data1 = array(
 			'kind'                => 'course_completed',
 			'post_id'             => 1,
@@ -406,9 +406,9 @@ class Accredible_Learndash_Model_Auto_Issuance_Test extends Accredible_Learndash
 	}
 
 	/**
-	 * Test if it passes with valid data when updating when kind is lesson_completed.
+	 * Test if it passes with valid data when updating with kind lesson_completed.
 	 */
-	public function test_validate_when_updating_when_kind_is_lesson_completed() {
+	public function test_validate_when_updating_with_kind_lesson_completed() {
 		$data1 = array(
 			'kind'                => 'lesson_completed',
 			'post_id'             => 1,
