@@ -47,6 +47,34 @@ if ( ! class_exists( 'Accredible_Learndash_Event_Handler' ) ) :
 		}
 
 		/**
+		 * Handle `learndash_lesson_completed` Action Hooks
+		 *
+		 * @param Array $data lesson data.
+		 */
+		public static function handle_lesson_completed( $data ) {
+			$api_key = get_option( Accredible_Learndash_Admin_Setting::OPTION_API_KEY );
+			if ( empty( $api_key ) ) {
+				return 0;
+			}
+
+			$lesson_id      = $data['lesson']->ID;
+			$where_sql      = "kind = 'lesson_completed' AND post_id = $lesson_id";
+			$auto_issuances = Accredible_Learndash_Model_Auto_Issuance::get_results( $where_sql );
+			if ( empty( $auto_issuances ) ) {
+				return 0;
+			}
+
+			$user            = $data['user'];
+			$recipient_email = $user->user_email;
+			$recipient_name  = self::get_recipient_name( $user );
+
+			foreach ( $auto_issuances as $auto_issuance ) {
+				self::create_credential( $auto_issuance, $user->ID, $recipient_name, $recipient_email, $lesson_id );
+			}
+			return count( $auto_issuances );
+		}
+
+		/**
 		 * Return the recipient name for credential issuance.
 		 *
 		 * @param object $user User object.
