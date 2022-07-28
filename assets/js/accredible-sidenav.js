@@ -9,7 +9,7 @@ const accredibleSidenav = {};
 jQuery(function(){
     accredibleSidenav.open = function(html, options) {
         if (!html) {
-            html = '<div class="accredible-sidenav"></div';
+            html = `<div></div>`;
         }
 
         html = 
