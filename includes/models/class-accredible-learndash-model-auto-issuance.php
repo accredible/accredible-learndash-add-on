@@ -16,7 +16,7 @@ if ( ! class_exists( 'Accredible_Learndash_Model_Auto_Issuance' ) ) :
 	 */
 	class Accredible_Learndash_Model_Auto_Issuance extends Accredible_Learndash_Model {
 		const REQUIRED_FIELDS = array( 'kind', 'post_id', 'accredible_group_id' );
-		const KINDS           = array( 'course_completed' );
+		const KINDS           = array( 'course_completed', 'lesson_completed' );
 
 		/**
 		 * Define the DB table name.

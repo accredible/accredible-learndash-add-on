@@ -30,7 +30,7 @@ class Accredible_Learndash_Model_Auto_Issuance_Test extends Accredible_Learndash
 			'created_at'          => time(),
 		);
 		$data2 = array(
-			'kind'                => 'course_completed',
+			'kind'                => 'lesson_completed',
 			'post_id'             => 2,
 			'accredible_group_id' => 2,
 			'created_at'          => time(),
@@ -45,6 +45,10 @@ class Accredible_Learndash_Model_Auto_Issuance_Test extends Accredible_Learndash
 
 		// With $where_sql.
 		$results = Accredible_Learndash_Model_Auto_Issuance::get_results( "post_id = 1 AND kind = 'course_completed'" );
+		$this->assertCount( 1, $results );
+
+		// With $where_sql.
+		$results = Accredible_Learndash_Model_Auto_Issuance::get_results( "post_id = 2 AND kind = 'lesson_completed'" );
 		$this->assertCount( 1, $results );
 
 		// With $limit.
@@ -82,7 +86,7 @@ class Accredible_Learndash_Model_Auto_Issuance_Test extends Accredible_Learndash
 			'created_at'          => time(),
 		);
 		$data2 = array(
-			'kind'                => 'course_completed',
+			'kind'                => 'lesson_completed',
 			'post_id'             => 2,
 			'accredible_group_id' => 2,
 			'created_at'          => time(),
@@ -119,7 +123,7 @@ class Accredible_Learndash_Model_Auto_Issuance_Test extends Accredible_Learndash
 			'created_at'          => time(),
 		);
 		$data2 = array(
-			'kind'                => 'course_completed',
+			'kind'                => 'lesson_completed',
 			'post_id'             => 2,
 			'accredible_group_id' => 2,
 			'created_at'          => time(),
@@ -131,6 +135,9 @@ class Accredible_Learndash_Model_Auto_Issuance_Test extends Accredible_Learndash
 		$this->assertEquals( 2, $results );
 
 		$results = Accredible_Learndash_Model_Auto_Issuance::get_total_count( "post_id = 1 AND kind = 'course_completed'" );
+		$this->assertEquals( 1, $results );
+
+		$results = Accredible_Learndash_Model_Auto_Issuance::get_total_count( "post_id = 2 AND kind = 'lesson_completed'" );
 		$this->assertEquals( 1, $results );
 	}
 
@@ -156,7 +163,7 @@ class Accredible_Learndash_Model_Auto_Issuance_Test extends Accredible_Learndash
 			'created_at'          => time(),
 		);
 		$data2 = array(
-			'kind'                => 'course_completed',
+			'kind'                => 'lesson_completed',
 			'post_id'             => 2,
 			'accredible_group_id' => 2,
 			'created_at'          => time(),
@@ -330,9 +337,9 @@ class Accredible_Learndash_Model_Auto_Issuance_Test extends Accredible_Learndash
 	}
 
 	/**
-	 * Test if it passes with valid data when creating.
+	 * Test if it passes with valid data when creating with course_completed.
 	 */
-	public function test_validate_when_creating() {
+	public function test_validate_when_creating_with_course_completed() {
 		$data = array(
 			'kind'                => 'course_completed',
 			'post_id'             => 1,
@@ -351,11 +358,59 @@ class Accredible_Learndash_Model_Auto_Issuance_Test extends Accredible_Learndash
 	}
 
 	/**
-	 * Test if it passes with valid data when updating.
+	 * Test if it passes with valid data when creating with lesson_completed.
 	 */
-	public function test_validate_when_updating() {
+	public function test_validate_when_creating_with_lesson_completed() {
+		$data = array(
+			'kind'                => 'lesson_completed',
+			'post_id'             => 1,
+			'accredible_group_id' => 1,
+			'created_at'          => time(),
+		);
+
+		try {
+			Accredible_Learndash_Model_Auto_Issuance::validate( $data );
+			$caught_exception = null;
+		} catch ( \Exception $error ) {
+			$caught_exception = $error->getMessage();
+		}
+
+		$this->assertNull( $caught_exception );
+	}
+
+	/**
+	 * Test if it passes with valid data when updating with kind course_completed.
+	 */
+	public function test_validate_when_updating_with_kind_course_completed() {
 		$data1 = array(
 			'kind'                => 'course_completed',
+			'post_id'             => 1,
+			'accredible_group_id' => 1,
+			'created_at'          => time(),
+		);
+
+		global $wpdb;
+		$wpdb->insert( $wpdb->prefix . 'accredible_learndash_auto_issuances', $data1 );
+		$id = $wpdb->insert_id;
+
+		$data = array( 'post_id' => 2 );
+
+		try {
+			Accredible_Learndash_Model_Auto_Issuance::validate( $data, $id );
+			$caught_exception = null;
+		} catch ( \Exception $error ) {
+			$caught_exception = $error->getMessage();
+		}
+
+		$this->assertNull( $caught_exception );
+	}
+
+	/**
+	 * Test if it passes with valid data when updating with kind lesson_completed.
+	 */
+	public function test_validate_when_updating_with_kind_lesson_completed() {
+		$data1 = array(
+			'kind'                => 'lesson_completed',
 			'post_id'             => 1,
 			'accredible_group_id' => 1,
 			'created_at'          => time(),
