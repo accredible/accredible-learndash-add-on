@@ -24,26 +24,9 @@ if ( ! class_exists( 'Accredible_Learndash_Event_Handler' ) ) :
 		 * @param Array $data course data.
 		 */
 		public static function handle_course_completed( $data ) {
-			$api_key = get_option( Accredible_Learndash_Admin_Setting::OPTION_API_KEY );
-			if ( empty( $api_key ) ) {
-				return 0;
-			}
+			$auto_issuances_count = self::handle_learndash_event_completed( 'course_completed', $data['course']->ID, $data['user'] );
 
-			$course_id      = $data['course']->ID;
-			$where_sql      = "kind = 'course_completed' AND post_id = $course_id";
-			$auto_issuances = Accredible_Learndash_Model_Auto_Issuance::get_results( $where_sql );
-			if ( empty( $auto_issuances ) ) {
-				return 0;
-			}
-
-			$user            = $data['user'];
-			$recipient_email = $user->user_email;
-			$recipient_name  = self::get_recipient_name( $user );
-
-			foreach ( $auto_issuances as $auto_issuance ) {
-				self::create_credential( $auto_issuance, $user->ID, $recipient_name, $recipient_email, $course_id );
-			}
-			return count( $auto_issuances );
+			return $auto_issuances_count;
 		}
 
 		/**
@@ -52,24 +35,36 @@ if ( ! class_exists( 'Accredible_Learndash_Event_Handler' ) ) :
 		 * @param Array $data lesson data.
 		 */
 		public static function handle_lesson_completed( $data ) {
+			$auto_issuances_count = self::handle_learndash_event_completed( 'lesson_completed', $data['lesson']->ID, $data['user'] );
+
+			return $auto_issuances_count;
+		}
+
+		/**
+		 * Find auto issuance and create credential when a course/lesson is completed by a student.
+		 *
+		 * @param Array $kind Auto issuance kind.
+		 * @param Array $post_id Auto issuance post ID.
+		 * @param Array $user user data.
+		 */
+		private static function handle_learndash_event_completed( $kind, $post_id, $user ) {
 			$api_key = get_option( Accredible_Learndash_Admin_Setting::OPTION_API_KEY );
 			if ( empty( $api_key ) ) {
 				return 0;
 			}
 
-			$lesson_id      = $data['lesson']->ID;
-			$where_sql      = "kind = 'lesson_completed' AND post_id = $lesson_id";
+			$where_sql      = "kind = '$kind' AND post_id = $post_id";
 			$auto_issuances = Accredible_Learndash_Model_Auto_Issuance::get_results( $where_sql );
+
 			if ( empty( $auto_issuances ) ) {
 				return 0;
 			}
 
-			$user            = $data['user'];
 			$recipient_email = $user->user_email;
 			$recipient_name  = self::get_recipient_name( $user );
 
 			foreach ( $auto_issuances as $auto_issuance ) {
-				self::create_credential( $auto_issuance, $user->ID, $recipient_name, $recipient_email, $lesson_id );
+				self::create_credential( $auto_issuance, $user->ID, $recipient_name, $recipient_email, $post_id );
 			}
 			return count( $auto_issuances );
 		}
