@@ -168,6 +168,157 @@ class Accredible_Learndash_Event_Handler_Test extends Accredible_Learndash_Custo
 	}
 
 	/**
+	 * Test if it handles `learndash_lesson_completed` Action Hooks when API key not found.
+	 */
+	public function test_handle_lesson_completed() {
+		update_option( 'accredible_learndash_api_key', 'someapikey' );
+		update_option( 'accredible_learndash_server_region', 'us' );
+		$user_id       = $this->factory->user->create(
+			array(
+				'first_name' => 'Tom',
+				'last_name'  => 'Test',
+				'user_email' => 'tom@example.com',
+			)
+		);
+		$user          = get_user_by( 'id', $user_id );
+		$lesson        = self::init_lesson_object();
+		$data          = array(
+			'lesson' => $lesson,
+			'user'   => $user,
+		);
+		$auto_issuance = array(
+			'post_id'             => $lesson->ID,
+			'kind'                => 'lesson_completed',
+			'accredible_group_id' => 9549,
+		);
+		Accredible_Learndash_Model_Auto_Issuance::insert( $auto_issuance );
+
+		// Stub the HTTP request.
+		$this->request_count = 0;
+		$this->post_data     = array(
+			'credential' => array(
+				'group_id'  => '9549',
+				'recipient' => array(
+					'name'  => 'Tom Test',
+					'email' => 'tom@example.com',
+				),
+				'meta_data' => array(
+					'learndash_post_id' => $lesson->ID,
+				),
+			),
+		);
+		$this->response_body = file_get_contents( ACCREDILBE_LEARNDASH_API_FIXTURES_PATH . '/credentials/create_success.json' );
+		add_filter(
+			'pre_http_request',
+			function( $_preempt, $args, $url ) {
+				$this->assertEquals( 'https://api.accredible.com/v1/credentials', $url );
+				$this->assertEquals( 'POST', $args['method'] );
+				$this->assertEquals( wp_json_encode( $this->post_data ), $args['body'] );
+
+				$this->request_count++;
+				return array(
+					'response' => array( 'code' => 200 ),
+					'body'     => $this->response_body,
+				);
+			},
+			10,
+			3
+		);
+
+		$result = Accredible_Learndash_Event_Handler::handle_lesson_completed( $data );
+		$this->assertEquals( 1, $result );
+		$this->assertEquals( 1, $this->request_count );
+	}
+
+	/**
+	 * Test if it handles `learndash_lesson_completed` Action Hooks when auto issuance not found.
+	 */
+	public function test_handle_lesson_completed_when_auto_issuance_not_found() {
+		update_option( 'accredible_learndash_api_key', 'someapikey' );
+		update_option( 'accredible_learndash_server_region', 'us' );
+		$user_id       = $this->factory->user->create(
+			array(
+				'first_name' => 'Tom',
+				'last_name'  => 'Test',
+				'user_email' => 'tom@example.com',
+			)
+		);
+		$user          = get_user_by( 'id', $user_id );
+		$lesson        = self::init_lesson_object();
+		$data          = array(
+			'lesson' => $lesson,
+			'user'   => $user,
+		);
+		$auto_issuance = array(
+			'post_id'             => 99999,
+			'kind'                => 'lesson_completed',
+			'accredible_group_id' => 9549,
+		);
+		Accredible_Learndash_Model_Auto_Issuance::insert( $auto_issuance );
+
+		// Stub the HTTP request.
+		$this->request_count = 0;
+		add_filter(
+			'pre_http_request',
+			function( $_preempt, $args, $url ) {
+				if ( 'https://api.accredible.com/v1/credentials' === $url && 'POST' === $args['method'] ) {
+					$this->request_count++;
+				}
+			},
+			10,
+			3
+		);
+
+		$result = Accredible_Learndash_Event_Handler::handle_lesson_completed( $data );
+		$this->assertEquals( 0, $result );
+		$this->assertEquals( 0, $this->request_count );
+	}
+
+	/**
+	 * Test if it handles `learndash_lesson_completed` Action Hooks when API key not found.
+	 */
+	public function test_handle_lesson_completed_when_api_key_not_found() {
+		update_option( 'accredible_learndash_api_key', '' );
+		update_option( 'accredible_learndash_server_region', 'us' );
+		$user_id       = $this->factory->user->create(
+			array(
+				'first_name' => 'Tom',
+				'last_name'  => 'Test',
+				'user_email' => 'tom@example.com',
+			)
+		);
+		$user          = get_user_by( 'id', $user_id );
+		$lesson        = self::init_lesson_object();
+		$data          = array(
+			'lesson' => $lesson,
+			'user'   => $user,
+		);
+		$auto_issuance = array(
+			'post_id'             => $lesson->ID,
+			'kind'                => 'lesson_completed',
+			'accredible_group_id' => 9549,
+		);
+		Accredible_Learndash_Model_Auto_Issuance::insert( $auto_issuance );
+
+		// Stub the HTTP request.
+		$this->request_count = 0;
+		add_filter(
+			'pre_http_request',
+			function( $_preempt, $args, $url ) {
+				if ( 'https://api.accredible.com/v1/credentials' === $url && 'POST' === $args['method'] ) {
+					$this->request_count++;
+				}
+			},
+			10,
+			3
+		);
+
+		$result = Accredible_Learndash_Event_Handler::handle_lesson_completed( $data );
+		$this->assertEquals( 0, $result );
+		$this->assertEquals( 0, $this->request_count );
+	}
+
+	/**
 	 * Test if it returns user's full name.
 	 */
 	public function test_get_recipient_name() {
@@ -473,6 +624,15 @@ class Accredible_Learndash_Event_Handler_Test extends Accredible_Learndash_Custo
 	 * Initialize a mock course object.
 	 */
 	private static function init_course_object() {
+		return (object) array(
+			'ID' => 1,
+		);
+	}
+
+	/**
+	 * Initialize a mock lesson object.
+	 */
+	private static function init_lesson_object() {
 		return (object) array(
 			'ID' => 1,
 		);
