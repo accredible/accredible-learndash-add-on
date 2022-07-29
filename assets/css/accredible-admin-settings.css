@@ -536,7 +536,10 @@ table.accredible-table {
     gap: var(--accredible-spacing-3x);
 }
 
-.accredible-learndash-admin .ui-widget-overlay {
+/* OVERLAYS */
+
+.accredible-learndash-admin .ui-widget-overlay,
+.accredible-learndash-admin .accredible-sidenav-overlay {
     background: rgba(0,0,0,.32);
     position: absolute;
     top: 0;
@@ -550,22 +553,44 @@ table.accredible-table {
 }
 
 /* SIDENAV */
-.accredible-sidenav.ui-dialog .accredible-wrapper {
+
+.accredible-sidenav {
+    position: fixed;
+    top: var(--accredible-spacing-6x);
+    height: calc(100% - 80px); /* top offset + padding (top + bottom) */
+    min-height: 75vh;
+    width: 500px;
+    z-index: 1001;
     display: flex;
-    height: calc(100% - var(--accredible-spacing-6x));
+    flex-direction: column;
+    padding: var(--accredible-spacing-5x);
+    background-color: white;
+    box-shadow: 0 0 5px rgb(0 0 0 / 64%);
+    font: 400 16px/24px Source Sans Pro;
 }
 
-.accredible-sidenav.ui-dialog .ui-dialog-content .accredible-wrapper {
-    padding: var(--accredible-spacing-6x) 0 0;
+.accredible-sidenav .accredible-sidenav-title {
+    font-size: var(--accredible-font-size-l);
+    font-weight: var(--accredible-font-weight-semibold);
+    padding-bottom: var(--accredible-spacing-6x);
 }
 
-.accredible-sidenav.ui-dialog .accredible-form-wrapper {
+.accredible-sidenav .accredible-wrapper {
+    flex: 1;
+    padding: 0;
+}
+
+.accredible-sidenav .accredible-content {
+    height: 100%;
+}
+
+.accredible-sidenav .accredible-form-wrapper {
     display: flex;
     flex-direction: column;
     height: 100%;
 }
 
-.accredible-sidenav.ui-dialog .accredible-form-wrapper form {
+.accredible-sidenav .accredible-form-wrapper form {
     flex: 1;
     display: flex;
     flex-direction: column;
