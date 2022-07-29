@@ -43,9 +43,9 @@ if ( ! class_exists( 'Accredible_Learndash_Event_Handler' ) ) :
 		/**
 		 * Find auto issuance and create credential when a course/lesson is completed by a student.
 		 *
-		 * @param Array $kind Auto issuance kind.
-		 * @param Array $post_id Auto issuance post ID.
-		 * @param Array $user user data.
+		 * @param string  $kind Auto issuance kind.
+		 * @param integer $post_id Auto issuance post ID.
+		 * @param Object  $user User object.
 		 */
 		private static function handle_learndash_event_completed( $kind, $post_id, $user ) {
 			$api_key = get_option( Accredible_Learndash_Admin_Setting::OPTION_API_KEY );
