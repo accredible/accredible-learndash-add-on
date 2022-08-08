@@ -42,6 +42,12 @@ if ( ! class_exists( 'Accredible_Learndash' ) ) :
 				array( 'Accredible_Learndash_Event_Handler', 'handle_course_completed' ),
 				$priority
 			);
+
+			add_action(
+				'learndash_lesson_completed',
+				array( 'Accredible_Learndash_Event_Handler', 'handle_lesson_completed' ),
+				$priority
+			);
 		}
 	}
 endif;

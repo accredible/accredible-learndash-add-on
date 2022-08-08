@@ -13,20 +13,31 @@ require_once plugin_dir_path( __DIR__ ) . '/helpers/class-accredible-learndash-a
 
 $accredible_learndash_utils       = new Accredible_Learndash_Learndash_Utils();
 $accredible_learndash_courses     = $accredible_learndash_utils->get_course_options();
+$accredible_learndash_lessons     = array();
 $accredible_learndash_group       = array();
 $accredible_learndash_form_action = 'add_auto_issuance';
 $accredible_learndash_issuance    = (object) array(
 	'id'                  => null,
 	'post_id'             => null,
 	'accredible_group_id' => null,
+	'kind'                => 'course_completed',
+	'course_id'           => null,
+	'lesson_id'           => null,
 );
 
 if ( ! is_null( $accredible_learndash_issuance_id ) ) {
 	$accredible_learndash_issuance_row = Accredible_Learndash_Model_Auto_Issuance::get_row( "id = $accredible_learndash_issuance_id" );
 
 	if ( isset( $accredible_learndash_issuance_row ) ) {
-		$accredible_learndash_form_action = 'edit_auto_issuance';
-		$accredible_learndash_issuance    = $accredible_learndash_issuance_row;
+		$accredible_learndash_form_action         = 'edit_auto_issuance';
+		$accredible_learndash_issuance            = $accredible_learndash_issuance_row;
+		$accredible_learndash_issuance->course_id = $accredible_learndash_issuance->post_id;
+
+		if ( 'lesson_completed' === $accredible_learndash_issuance->kind ) {
+			$accredible_learndash_issuance->lesson_id = $accredible_learndash_issuance->post_id;
+			$accredible_learndash_issuance->course_id = $accredible_learndash_utils->get_parent_course( $accredible_learndash_issuance->lesson_id )->ID;
+			$accredible_learndash_lessons             = $accredible_learndash_utils->get_lesson_options( $accredible_learndash_issuance->course_id );
+		}
 	}
 }
 ?>
@@ -54,8 +65,22 @@ if ( ! is_null( $accredible_learndash_issuance_id ) ) {
 
 					<div class="accredible-radio-group">
 						<div class="radio-group-item">
-							<input type='radio' name='accredible_learndash_object[kind]' value='course_completed' id='issuance_trigger' checked readonly>
-							<label class="radio-label" for='issuance_trigger'>Course Completion</label>
+							<input type='radio' 
+								id='course_trigger' 
+								name='accredible_learndash_object[kind]'
+								value='course_completed' 
+								<?php checked( 'course_completed', $accredible_learndash_issuance->kind ); ?> 
+								readonly>
+							<label class="radio-label" for='course_trigger'>Course Completion</label>
+						</div>
+						<div class="radio-group-item">
+							<input type='radio'
+								id='lesson_trigger'
+								name='accredible_learndash_object[kind]'
+								value='lesson_completed'
+								<?php checked( 'lesson_completed', $accredible_learndash_issuance->kind ); ?> 
+								readonly>
+							<label class="radio-label" for='lesson_trigger'>Lesson Completion</label>
 						</div>
 					</div>
 				</div>
@@ -66,7 +91,7 @@ if ( ! is_null( $accredible_learndash_issuance_id ) ) {
 					<select id="accredible_learndash_course" name="accredible_learndash_object[post_id]" required>
 						<option disabled selected value></option>
 						<?php foreach ( $accredible_learndash_courses as $accredible_learndash_key => $accredible_learndash_value ) : ?>
-							<option <?php selected( $accredible_learndash_key, $accredible_learndash_issuance->post_id ); ?> value="<?php echo esc_attr( $accredible_learndash_key ); ?>">
+							<option <?php selected( $accredible_learndash_key, $accredible_learndash_issuance->course_id ); ?> value="<?php echo esc_attr( $accredible_learndash_key ); ?>">
 								<?php echo esc_html( $accredible_learndash_value ); ?>
 							</option>
 						<?php endforeach; ?>
@@ -74,6 +99,24 @@ if ( ! is_null( $accredible_learndash_issuance_id ) ) {
 					<?php if ( empty( $accredible_learndash_courses ) ) : ?>
 						<span class="accredible-form-field-error">
 							<?php esc_html_e( 'No courses available. Add courses in LearnDash to continue.' ); ?>
+						</span>
+					<?php endif; ?>
+				</div>
+
+				<div id="accredible-learndash-lesson-form-field" class="accredible-form-field accredible-fill-width" style="display: none;">
+					<label for="accredible_learndash_lesson"><?php esc_html_e( 'Select a lesson' ); ?></label>
+
+					<select id="accredible_learndash_lesson">
+						<option disabled selected value></option>
+						<?php foreach ( $accredible_learndash_lessons as $accredible_learndash_key => $accredible_learndash_value ) : ?>
+							<option <?php selected( $accredible_learndash_key, $accredible_learndash_issuance->lesson_id ); ?> value="<?php echo esc_attr( $accredible_learndash_key ); ?>">
+								<?php echo esc_html( $accredible_learndash_value ); ?>
+							</option>
+						<?php endforeach; ?>
+					</select>
+					<?php if ( empty( $accredible_learndash_lessons ) ) : ?>
+						<span class="accredible-form-field-error">
+							<?php esc_html_e( 'No lessons available. Select a course or add lessons in LearnDash to continue.' ); ?>
 						</span>
 					<?php endif; ?>
 				</div>
@@ -110,8 +153,94 @@ if ( ! is_null( $accredible_learndash_issuance_id ) ) {
 </div>
 <script type="text/javascript">
 	jQuery( function(){
+		const courseControl = jQuery('#accredible_learndash_course');
+		const lessonControl = jQuery('#accredible_learndash_lesson');
+		const lessonFormField = jQuery('#accredible-learndash-lesson-form-field');
+
+		function isLessonKind() {
+			return jQuery('[name="accredible_learndash_object[kind]"]:checked').val() === 'lesson_completed';
+		}
+
+		function toggleControls(displayControl, submittedControl) {
+			// Disable control from being submitted
+			const attributeValue = displayControl.attr('name');
+			displayControl.removeAttr('name');
+			displayControl.removeAttr('required');
+			// Enable control for submission
+			submittedControl.attr('name', attributeValue);
+			submittedControl.attr('required', true);
+		}
+
+		function toggleSelectControlToBeSubmitted() {
+			if (isLessonKind()) {
+				toggleControls(courseControl, lessonControl); // lesson control is submitted
+				// Disable selection if no course is selected
+				lessonControl.attr('disabled', !courseControl.val());
+				lessonFormField.show();
+			} else {
+				lessonFormField.hide();
+				toggleControls(lessonControl, courseControl); // default, course control is submitted
+			}
+		}
+
+		function getCourseLessons() {
+			const courseId = courseControl.val();
+			if(courseId && isLessonKind()) {
+				lessonControl.attr('disabled', false);
+				// call BE to fetch lessons related to course
+				accredibleAjax.getLessons(courseId).done(function(res){
+					if (res.data) {
+						let options = '';
+						Object.keys(res.data).forEach(function(key) {
+							options += `<option value="${key}">${res.data[key]}</option>`;
+						});
+						lessonFormField.find('.accredible-form-field-error').hide(); // hide "no lessons..." error
+						lessonControl.html('<option disabled="" selected="" value=""></option>'); // clear existing options
+						lessonControl.append(options); // update options
+					} else {
+						lessonFormField.find('.accredible-form-field-error').show(); // show "no lessons..." error
+					}
+				});
+			}
+		}
+
+		function onSelectedKindChange() {
+			jQuery('[name="accredible_learndash_object[kind]"]').on('click', function(event){
+				toggleSelectControlToBeSubmitted();
+				getCourseLessons(); // fetch courses if we have a selected course
+			});
+		}
+
+		function onSelectedCourseChange() {
+			courseControl.on('change', function(){
+				getCourseLessons();
+			});
+		}
+
+		function isFormValid() {
+			let isValid = true;
+			const controls = ['kind', 'post_id', 'accredible_group_id'];
+
+			for(i=0; i < controls.length; i++){
+				if (!jQuery(`[name="accredible_learndash_object[${controls[i]}]"]`).val()) {
+					isValid = false;
+					break;
+				}
+			};
+			return isValid;
+		}
+
 		// Initialize groups autocomplete.
 		accredibleAutoComplete.init();
+
+		// Handle changes to kind and course values
+		onSelectedKindChange();
+		onSelectedCourseChange();
+
+		// Check if we're editing
+		if (jQuery('[name="id"]').length) {
+			toggleSelectControlToBeSubmitted();
+		}
 
 		// Fetch saved group by id to fill autocomplete.
 		const submitBtn = jQuery('#submit');
@@ -131,7 +260,9 @@ if ( ! is_null( $accredible_learndash_issuance_id ) ) {
 
 		// Add loading spinner on click.
 		submitBtn.on('click', function(){
-			jQuery(this).addClass('accredible-button-spinner');
+			if (isFormValid()) {
+				jQuery(this).addClass('accredible-button-spinner');
+			}
 		});
 
 		// Close dialog on cancel click.

@@ -15,6 +15,7 @@ if ( ! class_exists( 'Accredible_Learndash_Admin_Table_Helper' ) ) :
 	 */
 	class Accredible_Learndash_Admin_Table_Helper {
 		const POST_ID        = 'post_id';
+		const POST_TYPE      = 'post_type';
 		const GROUP_ID       = 'accredible_group_id';
 		const KIND           = 'kind';
 		const DATE_CREATED   = 'created_at';
@@ -117,8 +118,11 @@ if ( ! class_exists( 'Accredible_Learndash_Admin_Table_Helper' ) ) :
 				$value = $row_data->$data_key;
 				switch ( $key ) {
 					case self::POST_ID:
-						$course_name = get_the_title( $value );
-						$value       = ! empty( $course_name ) ? $course_name : self::eval_error( 'Not found' );
+						$name  = get_the_title( $value );
+						$value = ! empty( $name ) ? $name : self::eval_error( 'Not found' );
+						break;
+					case self::POST_TYPE:
+						$value = self::eval_kind_to_type( $value );
 						break;
 					case self::GROUP_ID:
 						$value = self::eval_group_id( $value );
@@ -212,11 +216,37 @@ if ( ! class_exists( 'Accredible_Learndash_Admin_Table_Helper' ) ) :
 				case 'course_completed':
 					$kind = 'Course Completed';
 					break;
+				case 'lesson_completed':
+					$kind = 'Lesson Completed';
+					break;
 				default:
 					$kind;
 			}
 
 			return $kind;
+		}
+
+		/**
+		 * Evaluates kind enum to type string.
+		 *
+		 * @param string $kind enum value.
+		 *
+		 * @return string
+		 */
+		private static function eval_kind_to_type( $kind ) {
+			$type = '';
+			switch ( $kind ) {
+				case 'course_completed':
+					$type = 'Course';
+					break;
+				case 'lesson_completed':
+					$type = 'Lesson';
+					break;
+				default:
+					$type;
+			}
+
+			return $type;
 		}
 
 		/**

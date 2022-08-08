@@ -100,6 +100,7 @@ if ( ! class_exists( 'Accredible_Learndash_Admin' ) ) :
 			add_action( 'wp_ajax_accredible_learndash_ajax_handle_auto_issuance_action', array( 'Accredible_Learndash_Ajax', 'handle_auto_issuance_action' ) );
 			add_action( 'wp_ajax_accredible_learndash_ajax_load_issuance_form_html', array( 'Accredible_Learndash_Ajax', 'load_issuance_form_html' ) );
 			add_action( 'wp_ajax_accredible_learndash_ajax_get_group', array( 'Accredible_Learndash_Ajax', 'get_group' ) );
+			add_action( 'wp_ajax_accredible_learndash_ajax_get_lessons', array( 'Accredible_Learndash_Ajax', 'get_lessons' ) );
 		}
 	}
 endif;

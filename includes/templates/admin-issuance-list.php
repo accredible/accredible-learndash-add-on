@@ -70,11 +70,7 @@ $accredible_learndash_page_results = Accredible_Learndash_Model_Auto_Issuance::g
 					pageData.id = params['id'];
 				}
 				accredibleAjax.loadIssuanceSidenav(pageData).done(function(res){
-					const options = {
-						title: sidenavTitle,
-						showCancelAction: false
-					};
-					accredibleSidenav.open(res.data, options);
+					accredibleSidenav.open(res.data, { title: sidenavTitle });
 				});
 			}
 		});
