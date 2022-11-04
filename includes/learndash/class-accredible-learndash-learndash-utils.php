@@ -34,7 +34,8 @@ if ( ! class_exists( 'Accredible_Learndash_Learndash_Utils' ) ) :
 		 */
 		public static function get_course_options() {
 			$args    = array(
-				'post_type' => 'sfwd-courses',
+				'post_type'   => 'sfwd-courses',
+				'numberposts' => -1, // returns all posts, removing the default limit of 5.
 			);
 			$courses = array();
 			$posts   = get_posts( $args );
