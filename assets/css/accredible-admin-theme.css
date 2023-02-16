@@ -113,5 +113,6 @@ body {
     --accredible-spacing-12x: 60px;
     --accredible-spacing-16x: 80px;
     --accredible-spacing-20x: 100px;
+    --accredible-z-index: 1001;
 }
   

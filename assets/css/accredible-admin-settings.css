@@ -167,10 +167,11 @@ body.accredible-learndash-admin .label {
 /* AUTOCOMPLETE */
 
 .ui-autocomplete.accredible-autocomplete {
+    z-index: var(--accredible-z-index);
+    box-sizing: border-box;
     font: 400 16px/20px Source Sans Pro;
     background: var(--accredible-color-white);
     border: 1px solid var(--accredible-color-natural-40);
-    box-sizing: border-box;
     box-shadow: 0px 2px 4px rgb(0 0 0 / 5%);
     border-radius: 4px;
 }
@@ -501,7 +502,7 @@ table.accredible-table {
 /* DIALOG */
 
 .accredible-dialog.ui-dialog {
-    z-index: 1001;
+    z-index: var(--accredible-z-index);
     padding: var(--accredible-spacing-5x);
     border: 1px solid var(--accredible-color-natural-20);
     border-radius: 4px;
@@ -560,7 +561,7 @@ table.accredible-table {
     height: calc(100% - 80px); /* top offset + padding (top + bottom) */
     min-height: 75vh;
     width: 500px;
-    z-index: 1001;
+    z-index: var(--accredible-z-index);
     display: flex;
     flex-direction: column;
     padding: var(--accredible-spacing-5x);
