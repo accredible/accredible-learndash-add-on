@@ -21,7 +21,7 @@ if ( ! class_exists( 'Accredible_Learndash_Admin_Form_Helper' ) ) :
 		public static function value_attr( $obj, $key ) {
 			$obj = (array) $obj;
 			if ( ! empty( $obj ) && isset( $obj[ $key ] ) ) {
-				echo sprintf(
+				printf(
 					'value="%s"',
 					esc_attr( $obj[ $key ] )
 				);

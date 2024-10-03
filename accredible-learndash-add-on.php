@@ -22,7 +22,7 @@ define( 'ACCREDILBE_LEARNDASH_PLUGIN_PATH', plugin_dir_path( __FILE__ ) );
 define( 'ACCREDIBLE_LEARNDASH_SCRIPT_VERSION_TOKEN', ACCREDIBLE_LEARNDASH_VERSION );
 
 if ( ! defined( 'ACCREDIBLE_LEARNDASH_PLUGIN_URL' ) ) {
-	$accredible_learndash_plugin_url = trailingslashit( WP_PLUGIN_URL . '/' . basename( dirname( __FILE__ ) ) );
+	$accredible_learndash_plugin_url = trailingslashit( WP_PLUGIN_URL . '/' . basename( __DIR__ ) );
 	$accredible_learndash_plugin_url = str_replace( array( 'https://', 'http://' ), array( '//', '//' ), $accredible_learndash_plugin_url );
 
 	/**

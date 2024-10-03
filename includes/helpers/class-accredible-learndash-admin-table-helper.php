@@ -93,7 +93,7 @@ if ( ! class_exists( 'Accredible_Learndash_Admin_Table_Helper' ) ) :
 				}
 				$row_cells .= '</tr>';
 
-				$index ++;
+				++$index;
 			}
 
 			return $row_cells;

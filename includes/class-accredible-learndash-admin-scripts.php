@@ -138,7 +138,6 @@ if ( ! class_exists( 'Accredible_Learndash_Admin_Scripts' ) ) :
 
 			return $classes;
 		}
-
 	}
 
 endif;
