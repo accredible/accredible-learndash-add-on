@@ -32,11 +32,11 @@ if ( ! class_exists( 'Accredible_Learndash_Admin_Form_Helper' ) ) :
 		 * Returns value if present else shows default value.
 		 *
 		 * @param mixed $value value.
-		 * @param mixed $default default value.
+		 * @param mixed $default_value default value.
 		 */
-		public static function html( $value, $default = 'N/A' ) {
+		public static function html( $value, $default_value = 'N/A' ) {
 			if ( empty( $value ) ) {
-				$value = $default;
+				$value = $default_value;
 			}
 
 			echo esc_html( $value );
