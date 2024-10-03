@@ -157,10 +157,8 @@ if ( ! class_exists( 'Accredible_Learndash_Model' ) ) :
 					if ( ! isset( $data[ $field ] ) || '' === trim( $data[ $field ] ) ) {
 						throw new Exception( esc_attr( $field ) . ' is a required field.' );
 					}
-				} else {
-					if ( array_key_exists( $field, $data ) && ( null === $data[ $field ] || '' === trim( $data[ $field ] ) ) ) {
+				} elseif ( array_key_exists( $field, $data ) && ( null === $data[ $field ] || '' === trim( $data[ $field ] ) ) ) {
 						throw new Exception( esc_attr( $field ) . ' is a required field.' );
-					}
 				}
 			}
 		}

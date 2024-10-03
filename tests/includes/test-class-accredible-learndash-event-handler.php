@@ -59,7 +59,7 @@ class Accredible_Learndash_Event_Handler_Test extends Accredible_Learndash_Custo
 		$this->response_body = file_get_contents( ACCREDILBE_LEARNDASH_API_FIXTURES_PATH . '/credentials/create_success.json' );
 		add_filter(
 			'pre_http_request',
-			function( $_preempt, $args, $url ) {
+			function ( $_preempt, $args, $url ) {
 				$this->assertEquals( 'https://api.accredible.com/v1/credentials', $url );
 				$this->assertEquals( 'POST', $args['method'] );
 				$this->assertEquals( wp_json_encode( $this->post_data ), $args['body'] );
@@ -109,7 +109,7 @@ class Accredible_Learndash_Event_Handler_Test extends Accredible_Learndash_Custo
 		$this->request_count = 0;
 		add_filter(
 			'pre_http_request',
-			function( $_preempt, $args, $url ) {
+			function ( $_preempt, $args, $url ) {
 				if ( 'https://api.accredible.com/v1/credentials' === $url && 'POST' === $args['method'] ) {
 					$this->request_count++;
 				}
@@ -153,7 +153,7 @@ class Accredible_Learndash_Event_Handler_Test extends Accredible_Learndash_Custo
 		$this->request_count = 0;
 		add_filter(
 			'pre_http_request',
-			function( $_preempt, $args, $url ) {
+			function ( $_preempt, $args, $url ) {
 				if ( 'https://api.accredible.com/v1/credentials' === $url && 'POST' === $args['method'] ) {
 					$this->request_count++;
 				}
@@ -210,7 +210,7 @@ class Accredible_Learndash_Event_Handler_Test extends Accredible_Learndash_Custo
 		$this->response_body = file_get_contents( ACCREDILBE_LEARNDASH_API_FIXTURES_PATH . '/credentials/create_success.json' );
 		add_filter(
 			'pre_http_request',
-			function( $_preempt, $args, $url ) {
+			function ( $_preempt, $args, $url ) {
 				$this->assertEquals( 'https://api.accredible.com/v1/credentials', $url );
 				$this->assertEquals( 'POST', $args['method'] );
 				$this->assertEquals( wp_json_encode( $this->post_data ), $args['body'] );
@@ -260,7 +260,7 @@ class Accredible_Learndash_Event_Handler_Test extends Accredible_Learndash_Custo
 		$this->request_count = 0;
 		add_filter(
 			'pre_http_request',
-			function( $_preempt, $args, $url ) {
+			function ( $_preempt, $args, $url ) {
 				if ( 'https://api.accredible.com/v1/credentials' === $url && 'POST' === $args['method'] ) {
 					$this->request_count++;
 				}
@@ -304,7 +304,7 @@ class Accredible_Learndash_Event_Handler_Test extends Accredible_Learndash_Custo
 		$this->request_count = 0;
 		add_filter(
 			'pre_http_request',
-			function( $_preempt, $args, $url ) {
+			function ( $_preempt, $args, $url ) {
 				if ( 'https://api.accredible.com/v1/credentials' === $url && 'POST' === $args['method'] ) {
 					$this->request_count++;
 				}
@@ -433,7 +433,7 @@ class Accredible_Learndash_Event_Handler_Test extends Accredible_Learndash_Custo
 		$this->response_body = file_get_contents( ACCREDILBE_LEARNDASH_API_FIXTURES_PATH . '/credentials/create_success.json' );
 		add_filter(
 			'pre_http_request',
-			function( $_preempt, $args, $url ) {
+			function ( $_preempt, $args, $url ) {
 				$this->assertEquals( 'https://api.accredible.com/v1/credentials', $url );
 				$this->assertEquals( 'POST', $args['method'] );
 				$this->assertEquals( wp_json_encode( $this->post_data ), $args['body'] );
@@ -504,7 +504,7 @@ class Accredible_Learndash_Event_Handler_Test extends Accredible_Learndash_Custo
 		);
 		add_filter(
 			'pre_http_request',
-			function( $_preempt, $args, $url ) {
+			function ( $_preempt, $args, $url ) {
 				$this->assertEquals( 'https://api.accredible.com/v1/credentials', $url );
 				$this->assertEquals( 'POST', $args['method'] );
 				$this->assertEquals( wp_json_encode( $this->post_data ), $args['body'] );
@@ -575,7 +575,7 @@ class Accredible_Learndash_Event_Handler_Test extends Accredible_Learndash_Custo
 		);
 		add_filter(
 			'pre_http_request',
-			function( $_preempt, $args, $url ) {
+			function ( $_preempt, $args, $url ) {
 				$this->assertEquals( 'https://api.accredible.com/v1/credentials', $url );
 				$this->assertEquals( 'POST', $args['method'] );
 				$this->assertEquals( wp_json_encode( $this->post_data ), $args['body'] );
