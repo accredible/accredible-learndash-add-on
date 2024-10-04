@@ -89,7 +89,7 @@ class Accredible_Learndash_Api_V1_Client_Test extends Accredible_Learndash_Custo
 		// Stub the HTTP request.
 		add_filter(
 			'pre_http_request',
-			function( $_preempt, $args, $url ) {
+			function ( $_preempt, $args, $url ) {
 				$this->assertEquals( 'https://api.accredible.com/v1/credentials', $url );
 				$this->assertEquals( 'POST', $args['method'] );
 				$this->assertEquals( wp_json_encode( $this->post_data ), $args['body'] );
@@ -133,7 +133,7 @@ class Accredible_Learndash_Api_V1_Client_Test extends Accredible_Learndash_Custo
 		// Stub the HTTP request.
 		add_filter(
 			'pre_http_request',
-			function( $_preempt, $args, $url ) {
+			function ( $_preempt, $args, $url ) {
 				$this->assertEquals( 'https://api.accredible.com/v1/credentials', $url );
 				$this->assertEquals( 'POST', $args['method'] );
 				$this->assertEquals( wp_json_encode( $this->post_data ), $args['body'] );
@@ -177,7 +177,7 @@ class Accredible_Learndash_Api_V1_Client_Test extends Accredible_Learndash_Custo
 		// Stub the HTTP request.
 		add_filter(
 			'pre_http_request',
-			function( $_preempt, $args, $url ) {
+			function ( $_preempt, $args, $url ) {
 				$this->assertEquals( 'https://api.accredible.com/v1/credentials', $url );
 				$this->assertEquals( 'POST', $args['method'] );
 				$this->assertEquals( wp_json_encode( $this->post_data ), $args['body'] );
@@ -207,7 +207,7 @@ class Accredible_Learndash_Api_V1_Client_Test extends Accredible_Learndash_Custo
 		// Stub the HTTP request.
 		add_filter(
 			'pre_http_request',
-			function( $_preempt, $args, $url ) {
+			function ( $_preempt, $args, $url ) {
 				$this->assertEquals( 'https://api.accredible.com/v1/issuer/details', $url );
 				$this->assertEquals( 'GET', $args['method'] );
 
@@ -235,7 +235,7 @@ class Accredible_Learndash_Api_V1_Client_Test extends Accredible_Learndash_Custo
 		// Stub the HTTP request.
 		add_filter(
 			'pre_http_request',
-			function( $_preempt, $args, $url ) {
+			function ( $_preempt, $args, $url ) {
 				$this->assertEquals( 'https://eu.api.accredible.com/v1/issuer/details', $url );
 				$this->assertEquals( 'GET', $args['method'] );
 
@@ -265,7 +265,7 @@ class Accredible_Learndash_Api_V1_Client_Test extends Accredible_Learndash_Custo
 		// Stub the HTTP request.
 		add_filter(
 			'pre_http_request',
-			function( $_preempt, $args, $url ) {
+			function ( $_preempt, $args, $url ) {
 				$this->assertEquals( 'https://api.accredible.com/v1/issuer/groups/' . $this->group_id, $url );
 				$this->assertEquals( 'GET', $args['method'] );
 
@@ -294,7 +294,7 @@ class Accredible_Learndash_Api_V1_Client_Test extends Accredible_Learndash_Custo
 		// Stub the HTTP request.
 		add_filter(
 			'pre_http_request',
-			function( $_preempt, $args, $url ) {
+			function ( $_preempt, $args, $url ) {
 				$this->assertEquals( 'https://api.accredible.com/v1/issuer/groups/' . $this->group_id, $url );
 				$this->assertEquals( 'GET', $args['method'] );
 
@@ -324,7 +324,7 @@ class Accredible_Learndash_Api_V1_Client_Test extends Accredible_Learndash_Custo
 		// Stub the HTTP request.
 		add_filter(
 			'pre_http_request',
-			function( $_preempt, $args, $url ) {
+			function ( $_preempt, $args, $url ) {
 				$this->assertEquals( 'https://api.accredible.com/v1/issuer/groups/' . $this->group_id, $url );
 				$this->assertEquals( 'GET', $args['method'] );
 
@@ -359,7 +359,7 @@ class Accredible_Learndash_Api_V1_Client_Test extends Accredible_Learndash_Custo
 		// Stub the HTTP request.
 		add_filter(
 			'pre_http_request',
-			function( $_preempt, $args, $url ) {
+			function ( $_preempt, $args, $url ) {
 				$this->assertEquals( 'https://api.accredible.com/v1/issuer/groups/search', $url );
 				$this->assertEquals( 'POST', $args['method'] );
 				$this->assertEquals( wp_json_encode( $this->post_data ), $args['body'] );
@@ -394,7 +394,7 @@ class Accredible_Learndash_Api_V1_Client_Test extends Accredible_Learndash_Custo
 		// Stub the HTTP request.
 		add_filter(
 			'pre_http_request',
-			function( $_preempt, $args, $url ) {
+			function ( $_preempt, $args, $url ) {
 				$this->assertEquals( 'https://api.accredible.com/v1/issuer/groups/search', $url );
 				$this->assertEquals( 'POST', $args['method'] );
 				$this->assertEquals( wp_json_encode( $this->post_data ), $args['body'] );
@@ -429,7 +429,7 @@ class Accredible_Learndash_Api_V1_Client_Test extends Accredible_Learndash_Custo
 		// Stub the HTTP request.
 		add_filter(
 			'pre_http_request',
-			function( $_preempt, $args, $url ) {
+			function ( $_preempt, $args, $url ) {
 				$this->assertEquals( 'https://api.accredible.com/v1/issuer/groups/search', $url );
 				$this->assertEquals( 'POST', $args['method'] );
 				$this->assertEquals( wp_json_encode( $this->post_data ), $args['body'] );

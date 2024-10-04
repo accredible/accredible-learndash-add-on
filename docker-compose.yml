@@ -27,7 +27,7 @@ services:
       WORDPRESS_DB_USER: wordpress
       WORDPRESS_DB_PASSWORD: wordpress
       WORDPRESS_DB_NAME: wordpress
-      WORDPRESS_VERSION: 5.9
+      WORDPRESS_VERSION: 6.6
       PLUGIN_DIR: /var/www/html/wp-content/plugins/accredible-learndash-add-on
       ACCREDIBLE_LEARNDASH_API_ENDPOINT:
     volumes:

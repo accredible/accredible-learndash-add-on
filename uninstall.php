@@ -12,4 +12,3 @@ Accredible_Learndash_Admin_Database::drop_all();
 
 require_once plugin_dir_path( __FILE__ ) . '/includes/class-accredible-learndash-admin-setting.php';
 Accredible_Learndash_Admin_Setting::delete_options();
-

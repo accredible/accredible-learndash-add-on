@@ -23,7 +23,7 @@ if ( ! class_exists( 'Accredible_Learndash_Admin_Menu' ) ) :
 			add_menu_page(
 				'Accredible LearnDash Add-on',
 				'Accredible LearnDash Add-on',
-				'administrator',
+				'manage_options',
 				'accredible_learndash',
 				array( 'Accredible_Learndash_Admin_Menu', 'admin_settings_page' ),
 				'dashicons-awards',
@@ -34,7 +34,7 @@ if ( ! class_exists( 'Accredible_Learndash_Admin_Menu' ) ) :
 				'accredible_learndash',
 				'Auto Issuances',
 				'Auto Issuances',
-				'administrator',
+				'manage_options',
 				'accredible_learndash_issuance_list',
 				array( 'Accredible_Learndash_Admin_Menu', 'admin_issuance_list_page' )
 			);
@@ -43,7 +43,7 @@ if ( ! class_exists( 'Accredible_Learndash_Admin_Menu' ) ) :
 				'accredible_learndash',
 				'Issuance Logs',
 				'Issuance Logs',
-				'administrator',
+				'manage_options',
 				'accredible_learndash_issuance_log',
 				array( 'Accredible_Learndash_Admin_Menu', 'admin_issuance_logs_page' )
 			);
@@ -52,7 +52,7 @@ if ( ! class_exists( 'Accredible_Learndash_Admin_Menu' ) ) :
 				'accredible_learndash',
 				'Settings',
 				'Settings',
-				'administrator',
+				'manage_options',
 				'accredible_learndash_settings',
 				array( 'Accredible_Learndash_Admin_Menu', 'admin_settings_page' )
 			);
@@ -62,7 +62,7 @@ if ( ! class_exists( 'Accredible_Learndash_Admin_Menu' ) ) :
 				null,
 				'Admin Action',
 				'Admin Action',
-				'administrator',
+				'manage_options',
 				'accredible_learndash_admin_action',
 				array( 'Accredible_Learndash_Admin_Action_Handler', 'call' )
 			);
