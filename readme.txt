@@ -65,6 +65,9 @@ You can report any issues or bugs on our project [GitHub](https://github.com/acc
 
 == Changelog ==
 
+= 1.0.14 =
+Plugin dependency updates and improvements
+
 = 1.0.13 =
 Bump Tested up to version to 6.6
 
