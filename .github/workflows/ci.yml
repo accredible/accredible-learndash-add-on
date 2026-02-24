@@ -1,89 +1,124 @@
-## Linting and Unit Tests using phpcs and phpunit
-
 name: "Linting and Unit Tests"
 
 on:
   workflow_dispatch:
+    inputs:
+      php_version:
+        description: 'PHP version to use for linting and tests'
+        required: false
+        default: '8.1'
+        type: string
+      wordpress_version:
+        description: 'WordPress version to use for tests'
+        required: false
+        default: '6.6'
+        type: string
   push:
     branches:
       - develop
       - master
   pull_request:
+    types: [opened, synchronize]
     branches: ['develop', 'master']
 
 jobs:
-  unit_tests:
+  code_sniffer:
+    name: "PHP CodeSniffer"
     runs-on: ubuntu-latest
-    services:
-      mysql:
-        image: mysql:5.7
-        env:
-          MYSQL_ROOT_PASSWORD: wordpress
-          MYSQL_DATABASE: wordpress
-          MYSQL_USER: wordpress
-          MYSQL_PASSWORD: wordpress
-        ports:
-          - 3306
-        options: --health-cmd="mysqladmin ping" --health-interval 10s --health-timeout 5s --health-retries 3
-
-    strategy:
-      fail-fast: false
-      matrix:
-        include:
-          - php: '5.6'
-            composer: 1
-            wordpress: '6.2'
-          - php: '7.1'
-            composer: 1
-            wordpress: '6.5'
-          - php: '7.4'
-            composer: 2
-            wordpress: '6.6'
-          - php: '8.2'
-            composer: 2
-            wordpress: '6.6'
-
-    name: WP version ${{ matrix.wordpress }} on PHP ${{ matrix.php }}
-
+    
     steps:
-      - name: Checkout repo
-        uses: actions/checkout@v2
+      - name: Checkout code
+        uses: actions/checkout@v4
 
-      - name: Setup PHP ${{ matrix.php }}
+      - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: ${{ matrix.php }}
-          ini-values: upload_max_filesize=512M
+          php-version: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.php_version || '8.1' }}
+          extensions: mbstring, xml, ctype, iconv, intl, pdo_mysql, mysqlnd
+          coverage: none
+          tools: composer:v2
 
-      - name: Build Composer Version ${{ matrix.composer }}
-        uses: php-actions/composer@v6
-        with:
-          php_version: ${{ matrix.php }}
-          version: ${{ matrix.composer }}
-          command: update
-
-      - name: Initialise WP
-        env:
-          DB_PORT: ${{ job.services.mysql.ports[3306] }}
+      - name: Install Project Dependencies
         run: |
-          git clone -b main https://github.com/WordPress/WordPress-Coding-Standards.git vendor/wp-coding-standards/wpcs
-          composer global config --no-plugins allow-plugins.dealerdirect/phpcodesniffer-composer-installer true
-          composer global require wp-coding-standards/wpcs
-          composer global require phpcompatibility/phpcompatibility-paragonie
-          composer global require phpcompatibility/phpcompatibility-wp
-          composer global require phpcsstandards/phpcsutils
-          composer global require phpcsstandards/phpcsextra
-          sudo vendor/bin/phpcs --config-set installed_paths vendor/wp-coding-standards/wpcs,vendor/phpcompatibility/php-compatibility,vendor/phpcompatibility/phpcompatibility-paragonie,vendor/phpcompatibility/phpcompatibility-wp,vendor/phpcsstandards/phpcsutils,vendor/phpcsstandards/phpcsextra
-          vendor/bin/phpcs -i
-          bash bin/install-wp-tests.sh wordpress wordpress wordpress 127.0.0.1:${{ job.services.mysql.ports[3306] }} ${{ matrix.wordpress }} true
+          PHP_VERSION="${{ github.event_name == 'workflow_dispatch' && github.event.inputs.php_version || '8.1' }}"
+          if [ "$PHP_VERSION" = "7.4" ]; then
+            composer update --prefer-dist --no-progress --no-suggest --with-dependencies
+          else
+            composer install --prefer-dist --no-progress --no-suggest
+          fi
+
+      - name: Install WordPress Coding Standards
+        run: |
+          composer global config allow-plugins.dealerdirect/phpcodesniffer-composer-installer true
+          composer global require phpcompatibility/phpcompatibility-paragonie phpcompatibility/phpcompatibility-wp 
+          composer global require phpcsstandards/phpcsutils phpcsstandards/phpcsextra wp-coding-standards/wpcs dealerdirect/phpcodesniffer-composer-installer
+          phpcs -i
 
       - name: Run PHP CodeSniffer
         run: |
-          php --version
-          vendor/bin/phpcs --version
-          vendor/bin/phpcs -v
+          phpcs --version
+          phpcs # relies on .phpcs.xml.dist
 
-      - name: Run PHP Unit Tests
-        run: |
-          vendor/bin/phpunit --version
-          vendor/bin/phpunit
+  unit_tests:
+      runs-on: ubuntu-latest
+      strategy:
+        fail-fast: false
+        matrix:
+          include: >-
+            ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.php_version != '' && github.event.inputs.wordpress_version != '' && fromJson(format('[{{"php":"{0}","wordpress":"{1}","composer":2}}]', github.event.inputs.php_version, github.event.inputs.wordpress_version)) || fromJson('[
+              {"php":"7.4","wordpress":"6.2","composer":2},
+              {"php":"8.2","wordpress":"6.6","composer":2},
+              {"php":"8.3","wordpress":"6.8","composer":2}
+            ]') }}
+
+      services:
+        mysql:
+          image: mysql:5.7
+          env:
+            MYSQL_ROOT_PASSWORD: wordpress
+            MYSQL_DATABASE: wordpress
+            MYSQL_USER: wordpress
+            MYSQL_PASSWORD: wordpress
+          ports:
+            - 3306:3306
+          options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
+
+      name: Testing WordPress ${{ matrix.wordpress }} on PHP ${{ matrix.php }}
+
+      steps:
+        - name: Checkout code
+          uses: actions/checkout@v4
+
+        - name: Setup PHP ${{ matrix.php }}
+          uses: shivammathur/setup-php@v2
+          with:
+            php-version: ${{ matrix.php }}
+            tools: composer:v${{ matrix.composer }}
+
+        - name: Build Composer v${{ matrix.composer }}
+          run: |
+            composer --version
+            if [ "${{ matrix.php }}" = "7.4" ]; then
+              composer update --prefer-dist --no-progress --no-suggest --with-dependencies
+            else
+              composer install --prefer-dist --no-progress --no-suggest
+            fi
+
+        - name: Install SVN
+          run: |
+            sudo apt-get update
+            sudo apt-get install -y subversion
+
+        - name: Initialise WP Test environment
+          env:
+            DB_PORT: 3306
+          run: |
+            bash bin/install-wp-tests.sh wordpress wordpress wordpress 127.0.0.1:3306 ${{ matrix.wordpress }} true
+
+        - name: Run PHPUnit tests
+          run: |
+            ./vendor/bin/phpunit --version
+            ./vendor/bin/phpunit
+          env:
+            WP_TESTS_DIR: /tmp/wordpress-tests-lib
+            WP_CORE_DIR: /tmp/wordpress
