@@ -3,9 +3,9 @@ Contributors: accredible
 Tags: accredible, learndash, certificate, certificates, digital certificates, online course, lms, learning management system, e-learning, elearning, badges, badge, open badge, mozilla open badge, blockchain, blockchain credential, credential, credentials
 Donate link: https://accredible.com/
 Requires at least: 6.2
-Tested up to: 6.8
+Tested up to: 6.9
 Requires PHP: 5.6
-Stable tag: 1.0.13
+Stable tag: 1.0.16
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -64,6 +64,12 @@ You can report any issues or bugs on our project [GitHub](https://github.com/acc
 7. Example Google certificate.
 
 == Changelog ==
+
+= 1.0.16 =
+Bump Tested up to version to 6.9
+
+= 1.0.15 =
+Bump Tested up to version to 6.8
 
 = 1.0.14 =
 Plugin dependency updates and improvements
