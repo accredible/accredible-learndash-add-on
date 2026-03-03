@@ -3,6 +3,11 @@ name: "Deploy to WordPress.org"
 on:
   release:
     types: [released]
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: "Tag to deploy (e.g. v1.0.14)"
+        required: true
 
 jobs:
   deploy:
@@ -12,6 +17,8 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v6
+        with:
+          ref: ${{ github.event.inputs.tag || github.ref }}
 
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
@@ -35,7 +42,7 @@ jobs:
       - name: Rename zip with version
         id: rename
         run: |
-          VERSION="${{ github.event.release.tag_name }}"
+          VERSION="${{ github.event.release.tag_name || github.event.inputs.tag }}"
           VERSION="${VERSION#v}"
           cp "${{ steps.deploy.outputs.zip-path }}" "${GITHUB_WORKSPACE}/accredible-learndash-add-on.${VERSION}.zip"
           echo "zip_path=${GITHUB_WORKSPACE}/accredible-learndash-add-on.${VERSION}.zip" >> "$GITHUB_OUTPUT"
