@@ -24,7 +24,7 @@ on:
 jobs:
   code_sniffer:
     name: "PHP CodeSniffer"
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-26.04
     
     steps:
       - name: Checkout code
@@ -54,7 +54,7 @@ jobs:
           phpcs # relies on .phpcs.xml.dist
 
   unit_tests:
-      runs-on: ubuntu-latest
+      runs-on: ubuntu-26.04
       strategy:
         fail-fast: false
         matrix:
