@@ -61,8 +61,8 @@ jobs:
           include: >-
             ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.php_version != '' && github.event.inputs.wordpress_version != '' && fromJson(format('[{{"php":"{0}","wordpress":"{1}","composer":2}}]', github.event.inputs.php_version, github.event.inputs.wordpress_version)) || fromJson('[
               {"php":"7.4","wordpress":"6.2","composer":2},
-              {"php":"8.2","wordpress":"6.6","composer":2},
-              {"php":"8.3","wordpress":"6.8","composer":2}
+              {"php":"8.2","wordpress":"6.9","composer":2},
+              {"php":"8.3","wordpress":"7.1","composer":2}
             ]') }}
 
       services:
