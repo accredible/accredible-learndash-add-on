@@ -118,8 +118,8 @@ if ( ! class_exists( 'Accredible_Learndash_Admin_Action_Handler' ) ) :
 		 * @param string $key The key of the parameter.
 		 */
 		private static function sanitize_id_parameter( $key ) {
-			$value = self::sanitize_parameter( $key );
-			return is_numeric( $value ) ? absint( $value ) : null;
+			$value = isset( $_REQUEST[ $key ] ) ? sanitize_text_field( wp_unslash( $_REQUEST[ $key ] ) ) : null; // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+			return self::to_positive_id( $value );
 		}
 
 		/**
@@ -163,8 +163,19 @@ if ( ! class_exists( 'Accredible_Learndash_Admin_Action_Handler' ) ) :
 		 * @param string $field The name of the field.
 		 */
 		private static function sanitize_object_id_field( $field ) {
-			$value = self::sanitize_object_field( $field );
-			return is_numeric( $value ) ? absint( $value ) : null;
+			return self::to_positive_id( self::sanitize_object_field( $field ) );
+		}
+
+		/**
+		 * Return the value as an ID, or null unless it is a string of digits greater than zero.
+		 *
+		 * @param mixed $value The value to convert.
+		 */
+		private static function to_positive_id( $value ) {
+			if ( ! is_string( $value ) || ! preg_match( '/\A[0-9]+\z/', $value ) || absint( $value ) < 1 ) {
+				return null;
+			}
+			return absint( $value );
 		}
 
 		/**
