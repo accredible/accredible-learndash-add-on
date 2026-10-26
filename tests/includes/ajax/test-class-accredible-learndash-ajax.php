@@ -91,6 +91,36 @@ class Accredible_Learndash_Ajax_Test extends WP_Ajax_UnitTestCase {
 	}
 
 	/**
+	 * Test if the issuance form ignores SQL in the id parameter.
+	 */
+	public function test_load_issuance_form_html_with_sql_in_id() {
+		global $wpdb;
+		$wpdb->insert(
+			$wpdb->prefix . 'accredible_learndash_auto_issuances',
+			array(
+				'kind'                => 'course_completed',
+				'post_id'             => 1,
+				'accredible_group_id' => 1,
+				'created_at'          => time(),
+			)
+		);
+
+		$this->_setRole( 'administrator' );
+		$_POST['nonce'] = wp_create_nonce( Accredible_Learndash_Ajax::NONCE_ACTION );
+		$_POST['id']    = '0 OR 1=1';
+
+		try {
+			$this->_handleAjax( 'accredible_learndash_ajax_load_issuance_form_html' );
+		} catch ( WPAjaxDieContinueException $e ) {
+			unset( $e );
+		}
+
+		$response = json_decode( $this->_last_response, true );
+		$this->assertTrue( $response['success'] );
+		$this->assertStringContainsString( 'name="call_action" value="add_auto_issuance"', $response['data'] );
+	}
+
+	/**
 	 * Assert that the ajax action responds with a JSON error and does nothing else.
 	 *
 	 * @param string $action Ajax action name.

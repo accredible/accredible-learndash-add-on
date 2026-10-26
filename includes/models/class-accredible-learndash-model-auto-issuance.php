@@ -71,22 +71,24 @@ if ( ! class_exists( 'Accredible_Learndash_Model_Auto_Issuance' ) ) :
 		 */
 		private static function is_duplicate( $post_id, $kind, $id ) {
 			$where_array = array();
+			$where_args  = array();
 
 			// When updating the existing record.
 			if ( ! empty( $id ) ) {
-				$auto_issuance = static::get_results( "id = $id" )[0];
+				$auto_issuance = static::get_row( 'id = %d', array( $id ) );
 				if ( empty( $post_id ) ) {
 					$post_id = $auto_issuance->post_id;
 				}
 				if ( empty( $kind ) ) {
 					$kind = $auto_issuance->kind;
 				}
-				array_push( $where_array, "id != $id" );
+				array_push( $where_array, 'id != %d' );
+				array_push( $where_args, $id );
 			}
-			array_push( $where_array, "post_id = $post_id" );
-			array_push( $where_array, "kind = '$kind'" );
+			array_push( $where_array, 'post_id = %d', 'kind = %s' );
+			array_push( $where_args, $post_id, $kind );
 
-			$duplicate_count = static::get_total_count( join( ' AND ', $where_array ) );
+			$duplicate_count = static::get_total_count( join( ' AND ', $where_array ), $where_args );
 			return $duplicate_count > 0;
 		}
 	}

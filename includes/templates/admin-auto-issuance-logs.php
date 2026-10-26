@@ -36,6 +36,7 @@ $accredible_learndash_pagination = Accredible_Learndash_Model_Auto_Issuance_Log:
 	$accredible_learndash_current_page,
 	$accredible_learndash_page_size,
 	'',
+	array(),
 	array( 'order_by' => 'id DESC' )
 );
 ?>
