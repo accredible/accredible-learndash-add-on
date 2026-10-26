@@ -14,6 +14,8 @@ if ( ! class_exists( 'Accredible_Learndash_Admin_Action_Handler' ) ) :
 	 * Accredible LearnDash Add-on admin action handler class
 	 */
 	class Accredible_Learndash_Admin_Action_Handler {
+		const ACTIONS = array( 'add_auto_issuance', 'edit_auto_issuance', 'delete_auto_issuance' );
+
 		/**
 		 * Call the requested action.
 		 *
@@ -22,11 +24,10 @@ if ( ! class_exists( 'Accredible_Learndash_Admin_Action_Handler' ) ) :
 		 * @return mixed results from called action.
 		 */
 		public static function call() {
-			$action        = self::sanitize_parameter( 'call_action' );
-			$class_methods = get_class_methods( 'Accredible_Learndash_Admin_Action_Handler' );
-			if ( in_array( $action, $class_methods, true ) ) {
+			$action = self::sanitize_parameter( 'call_action' );
+			if ( in_array( $action, self::ACTIONS, true ) ) {
 				$data = array(
-					'id'                          => self::sanitize_parameter( 'id' ),
+					'id'                          => self::sanitize_id_parameter( 'id' ),
 					'nonce'                       => self::sanitize_parameter( '_mynonce' ),
 					'page_num'                    => self::sanitize_parameter( 'page_num' ),
 					'accredible_learndash_object' => self::sanitize_object( $action ),
@@ -112,6 +113,16 @@ if ( ! class_exists( 'Accredible_Learndash_Admin_Action_Handler' ) ) :
 		}
 
 		/**
+		 * Sanitize an ID parameter.
+		 *
+		 * @param string $key The key of the parameter.
+		 */
+		private static function sanitize_id_parameter( $key ) {
+			$value = self::sanitize_parameter( $key );
+			return is_numeric( $value ) ? absint( $value ) : null;
+		}
+
+		/**
 		 * Sanitize accredible learndash object.
 		 *
 		 * @param string $action The name of the action.
@@ -127,8 +138,8 @@ if ( ! class_exists( 'Accredible_Learndash_Admin_Action_Handler' ) ) :
 				case 'edit_auto_issuance':
 					$object = array(
 						'kind'                => self::sanitize_object_field( 'kind' ),
-						'post_id'             => self::sanitize_object_field( 'post_id' ),
-						'accredible_group_id' => self::sanitize_object_field( 'accredible_group_id' ),
+						'post_id'             => self::sanitize_object_id_field( 'post_id' ),
+						'accredible_group_id' => self::sanitize_object_id_field( 'accredible_group_id' ),
 					);
 					break;
 				default:
@@ -147,6 +158,16 @@ if ( ! class_exists( 'Accredible_Learndash_Admin_Action_Handler' ) ) :
 		}
 
 		/**
+		 * Sanitize accredible learndash object ID field.
+		 *
+		 * @param string $field The name of the field.
+		 */
+		private static function sanitize_object_id_field( $field ) {
+			$value = self::sanitize_object_field( $field );
+			return is_numeric( $value ) ? absint( $value ) : null;
+		}
+
+		/**
 		 * Verify WP nonce for the action.
 		 *
 		 * @param string $nonce Nonce value that was used for verification.
@@ -156,18 +177,6 @@ if ( ! class_exists( 'Accredible_Learndash_Admin_Action_Handler' ) ) :
 			if ( ! ( isset( $nonce ) && wp_verify_nonce( $nonce, $action ) ) ) {
 				wp_die( 'Invalid nonce.' );
 			}
-		}
-
-		/**
-		 * Redirect to the page.
-		 *
-		 * @param string $redirect_url Redirect URL.
-		 */
-		private static function redirect_to( $redirect_url ) {
-			// You cannot use `wp_redirect` at the `admin_menu` Action Hook callback
-			// since http headers were already sent to the browser.
-			echo '<p>Processing...</p>';
-			print( "<script>window.location.href='" . esc_url_raw( $redirect_url ) . "'</script>" );
 		}
 	}
 endif;
