@@ -10,6 +10,7 @@ jQuery( function(){
                 source: function(request, response){
                     var post_data = {
                         'action': 'accredible_learndash_ajax_search_groups',
+                        'nonce': ajaxdata.nonce,
                         'search_term': request.term
                     };
                     jQuery.post(ajaxdata.ajaxurl, post_data, function (res) {

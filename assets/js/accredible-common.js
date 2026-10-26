@@ -3,14 +3,16 @@ accredibleAjax = {};
 jQuery(function(){
     accredibleAjax.loadIssuerInfo = function() {
         var post_data = {
-            action: 'accredible_learndash_ajax_load_issuer_html'
+            action: 'accredible_learndash_ajax_load_issuer_html',
+            nonce: accredibledata.nonce
         };
         return jQuery.post(accredibledata.ajaxurl, post_data).then();
     };
 
     accredibleAjax.loadIssuanceSidenav = function(data) {
         const post_data = {
-            action: 'accredible_learndash_ajax_load_issuance_form_html'
+            action: 'accredible_learndash_ajax_load_issuance_form_html',
+            nonce: accredibledata.nonce
         };
         if (data) {
             Object.assign(post_data, data);
@@ -21,6 +23,7 @@ jQuery(function(){
     accredibleAjax.doAutoIssuanceAction = function(formData) {
         var post_data = {
             action: 'accredible_learndash_ajax_handle_auto_issuance_action',
+            nonce: accredibledata.nonce
         };
         post_data = Object.assign(post_data, formData);
         return jQuery.post(accredibledata.ajaxurl, post_data).then(function(res){
@@ -40,6 +43,7 @@ jQuery(function(){
     accredibleAjax.loadAutoIssuanceListInfo = function(currentPage) {
         var post_data = {
             action: 'accredible_learndash_ajax_load_auto_issuance_list_html',
+            nonce: accredibledata.nonce,
             page_num: currentPage
         };
         return jQuery.post(accredibledata.ajaxurl, post_data).then();
@@ -48,6 +52,7 @@ jQuery(function(){
     accredibleAjax.getGroup = function(groupId) {
         var post_data = {
             action: 'accredible_learndash_ajax_get_group',
+            nonce: accredibledata.nonce,
             group_id: groupId
         };
         return jQuery.post(accredibledata.ajaxurl, post_data).then();
@@ -56,6 +61,7 @@ jQuery(function(){
     accredibleAjax.getLessons = function(courseId) {
         var post_data = {
             action: 'accredible_learndash_ajax_get_lessons',
+            nonce: accredibledata.nonce,
             course_id: courseId
         };
         return jQuery.post(accredibledata.ajaxurl, post_data).then();
