@@ -53,8 +53,7 @@ if ( ! class_exists( 'Accredible_Learndash_Event_Handler' ) ) :
 				return 0;
 			}
 
-			$where_sql      = "kind = '$kind' AND post_id = $post_id";
-			$auto_issuances = Accredible_Learndash_Model_Auto_Issuance::get_results( $where_sql );
+			$auto_issuances = Accredible_Learndash_Model_Auto_Issuance::get_results( 'kind = %s AND post_id = %d', array( $kind, $post_id ) );
 
 			if ( empty( $auto_issuances ) ) {
 				return 0;

@@ -51,25 +51,25 @@ class Accredible_Learndash_Model_Auto_Issuance_Log_Test extends Accredible_Learn
 		$this->assertCount( 2, $results );
 
 		// With $where_sql.
-		$results = Accredible_Learndash_Model_Auto_Issuance_Log::get_results( "user_id = 1 AND recipient_name = 'Tom Test'" );
+		$results = Accredible_Learndash_Model_Auto_Issuance_Log::get_results( 'user_id = %d AND recipient_name = %s', array( 1, 'Tom Test' ) );
 		$this->assertCount( 1, $results );
 
 		// With $limit.
 		$limit   = 1;
-		$results = Accredible_Learndash_Model_Auto_Issuance_Log::get_results( '', $limit );
+		$results = Accredible_Learndash_Model_Auto_Issuance_Log::get_results( '', array(), $limit );
 		$this->assertCount( 1, $results );
 		$this->assertEquals( $data1_id, $results[0]->id );
 
 		// With $limit & $offset.
 		$offset  = 1;
-		$results = Accredible_Learndash_Model_Auto_Issuance_Log::get_results( '', $limit, $offset );
+		$results = Accredible_Learndash_Model_Auto_Issuance_Log::get_results( '', array(), $limit, $offset );
 		$this->assertCount( 1, $results );
 		$this->assertEquals( $data2_id, $results[0]->id );
 
 		// With $limit & $offset & order_by.
 		$offset  = 1;
 		$options = array( 'order_by' => 'id DESC' );
-		$results = Accredible_Learndash_Model_Auto_Issuance_Log::get_results( '', $limit, $offset, $options );
+		$results = Accredible_Learndash_Model_Auto_Issuance_Log::get_results( '', array(), $limit, $offset, $options );
 		$this->assertCount( 1, $results );
 		$this->assertEquals( $data1_id, $results[0]->id );
 	}
@@ -110,11 +110,11 @@ class Accredible_Learndash_Model_Auto_Issuance_Log_Test extends Accredible_Learn
 		$this->assertEquals( $data1_id, $result->id );
 
 		// With $where_sql.
-		$result = Accredible_Learndash_Model_Auto_Issuance_Log::get_row( "user_id = 2 AND recipient_name = 'Jerry Test'" );
+		$result = Accredible_Learndash_Model_Auto_Issuance_Log::get_row( 'user_id = %d AND recipient_name = %s', array( 2, 'Jerry Test' ) );
 		$this->assertEquals( $data2_id, $result->id );
 
 		// With no results.
-		$result = Accredible_Learndash_Model_Auto_Issuance_Log::get_row( 'user_id = 3' );
+		$result = Accredible_Learndash_Model_Auto_Issuance_Log::get_row( 'user_id = %d', array( 3 ) );
 		$this->assertEquals( null, $result );
 	}
 
@@ -151,7 +151,7 @@ class Accredible_Learndash_Model_Auto_Issuance_Log_Test extends Accredible_Learn
 		$results = Accredible_Learndash_Model_Auto_Issuance_Log::get_total_count();
 		$this->assertEquals( 2, $results );
 
-		$results = Accredible_Learndash_Model_Auto_Issuance_Log::get_total_count( "user_id = 1 AND recipient_name = 'Tom Test'" );
+		$results = Accredible_Learndash_Model_Auto_Issuance_Log::get_total_count( 'user_id = %d AND recipient_name = %s', array( 1, 'Tom Test' ) );
 		$this->assertEquals( 1, $results );
 	}
 
@@ -249,7 +249,7 @@ class Accredible_Learndash_Model_Auto_Issuance_Log_Test extends Accredible_Learn
 		$this->assertEquals( 1, $page_meta['page_size'] );
 
 		// With $where_sql.
-		$page      = Accredible_Learndash_Model_Auto_Issuance_Log::get_paginated_results( 1, null, "user_id = 1 AND recipient_name = 'Tom Test'" );
+		$page      = Accredible_Learndash_Model_Auto_Issuance_Log::get_paginated_results( 1, null, 'user_id = %d AND recipient_name = %s', array( 1, 'Tom Test' ) );
 		$page_meta = $page['meta'];
 		$this->assertCount( 1, $page['results'] );
 		$this->assertEquals( 1, $page_meta['current_page'] );
@@ -261,7 +261,7 @@ class Accredible_Learndash_Model_Auto_Issuance_Log_Test extends Accredible_Learn
 
 		// With $options.
 		$options   = array( 'order_by' => 'id DESC' );
-		$page      = Accredible_Learndash_Model_Auto_Issuance_Log::get_paginated_results( 1, null, '', $options );
+		$page      = Accredible_Learndash_Model_Auto_Issuance_Log::get_paginated_results( 1, null, '', array(), $options );
 		$page_meta = $page['meta'];
 		$this->assertCount( 3, $page['results'] );
 		$this->assertEquals( $data3_id, $page['results'][0]->id );

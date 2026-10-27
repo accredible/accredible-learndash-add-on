@@ -14,6 +14,126 @@ require_once ACCREDILBE_LEARNDASH_PLUGIN_PATH . '/includes/class-accredible-lear
  */
 class Accredible_Learndash_Admin_Action_Handler_Test extends Accredible_Learndash_Custom_Unit_Test_Case {
 	/**
+	 * Add custom logic to tearDown.
+	 */
+	public function tear_down() {
+		parent::tear_down();
+		$_REQUEST = array();
+	}
+
+	/**
+	 * Test if it rejects an action that is not an auto issuance action.
+	 */
+	public function test_call_with_non_action_method() {
+		$_REQUEST = array( 'call_action' => 'verify_nonce' );
+
+		try {
+			Accredible_Learndash_Admin_Action_Handler::call();
+			$caught_exception = null;
+		} catch ( \Exception $error ) {
+			$caught_exception = $error->getMessage();
+		}
+
+		$this->assertEquals( 'An action type mismatch has been detected.', $caught_exception );
+	}
+
+	/**
+	 * Return post_id values that are not a positive integer.
+	 */
+	public function invalid_post_ids() {
+		return array(
+			array( '2 OR 1=1' ),
+			array( '2.5' ),
+			array( '2e1' ),
+			array( '-2' ),
+			array( '0' ),
+		);
+	}
+
+	/**
+	 * Test if it drops a post_id that is not a positive integer instead of saving it.
+	 *
+	 * @dataProvider invalid_post_ids
+	 *
+	 * @param string $post_id Invalid post_id value.
+	 */
+	public function test_call_with_invalid_post_id( $post_id ) {
+		global $wpdb;
+		$table_name = $wpdb->prefix . 'accredible_learndash_auto_issuances';
+
+		// Login as an admin.
+		$admin_user = self::factory()->user->create( array( 'role' => 'administrator' ) );
+		wp_set_current_user( $admin_user );
+		$_REQUEST = array(
+			'call_action'                 => 'add_auto_issuance',
+			'_mynonce'                    => wp_create_nonce( 'add_auto_issuance' ),
+			'accredible_learndash_object' => array(
+				'kind'                => 'course_completed',
+				'post_id'             => $post_id,
+				'accredible_group_id' => '4',
+			),
+		);
+
+		try {
+			Accredible_Learndash_Admin_Action_Handler::call();
+			$caught_exception = null;
+		} catch ( \Exception $error ) {
+			$caught_exception = $error->getMessage();
+		}
+
+		$results = $wpdb->get_results(
+			$wpdb->prepare( 'SELECT * FROM %1s;', $table_name )
+		);
+
+		$this->assertEquals( 'post_id is a required field.', $caught_exception );
+		$this->assertCount( 0, $results );
+	}
+
+	/**
+	 * Test if it does not read an id in exponent notation as another record's id.
+	 */
+	public function test_call_with_exponent_id() {
+		global $wpdb;
+		$table_name = $wpdb->prefix . 'accredible_learndash_auto_issuances';
+		$wpdb->insert(
+			$table_name,
+			array(
+				'kind'                => 'course_completed',
+				'post_id'             => 1,
+				'accredible_group_id' => 1,
+				'created_at'          => time(),
+			)
+		);
+		$record_id = $wpdb->insert_id;
+
+		// Login as an admin.
+		$admin_user = self::factory()->user->create( array( 'role' => 'administrator' ) );
+		wp_set_current_user( $admin_user );
+		$_REQUEST = array(
+			'call_action'                 => 'edit_auto_issuance',
+			'id'                          => $record_id . 'e0',
+			'_mynonce'                    => wp_create_nonce( "edit_auto_issuance$record_id" ),
+			'accredible_learndash_object' => array(
+				'post_id' => '2',
+			),
+		);
+
+		try {
+			Accredible_Learndash_Admin_Action_Handler::call();
+			$caught_exception = null;
+		} catch ( \Exception $error ) {
+			$caught_exception = $error->getMessage();
+		}
+
+		$row = $wpdb->get_row(
+			$wpdb->prepare( 'SELECT * FROM %1s WHERE id = %d;', $table_name, $record_id )
+		);
+
+		$this->assertEquals( 'Invalid nonce.', $caught_exception );
+		$this->assertEquals( 1, $row->post_id );
+	}
+
+	/**
 	 * Test if it adds an auto issuance.
 	 */
 	public function test_add_auto_issuance() {
