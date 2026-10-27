@@ -121,6 +121,25 @@ class Accredible_Learndash_Ajax_Test extends WP_Ajax_UnitTestCase {
 	}
 
 	/**
+	 * Test if the auto issuance list falls back to the first page when the page number is not numeric.
+	 */
+	public function test_load_auto_issuance_list_html_with_non_numeric_page_num() {
+		$this->_setRole( 'administrator' );
+		$_POST['nonce']    = wp_create_nonce( Accredible_Learndash_Ajax::NONCE_ACTION );
+		$_POST['page_num'] = 'abc';
+
+		try {
+			$this->_handleAjax( 'accredible_learndash_ajax_load_auto_issuance_list_html' );
+		} catch ( WPAjaxDieContinueException $e ) {
+			unset( $e );
+		}
+
+		$response = json_decode( $this->_last_response, true );
+		$this->assertTrue( $response['success'] );
+		$this->assertStringContainsString( 'accredible-pagination-tile', $response['data'] );
+	}
+
+	/**
 	 * Assert that the ajax action responds with a JSON error and does nothing else.
 	 *
 	 * @param string $action Ajax action name.
