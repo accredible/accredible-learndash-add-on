@@ -136,7 +136,7 @@ class Accredible_Learndash_Ajax_Test extends WP_Ajax_UnitTestCase {
 
 		$response = json_decode( $this->_last_response, true );
 		$this->assertTrue( $response['success'] );
-		$this->assertStringContainsString( 'accredible-pagination-tile', $response['data'] );
+		$this->assertStringContainsString( 'Viewing 1 - ', $response['data'] );
 	}
 
 	/**
