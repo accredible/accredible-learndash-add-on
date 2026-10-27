@@ -18,10 +18,14 @@ if ( ! class_exists( 'Accredible_Learndash_Ajax' ) ) :
 	 * All methods in this class are only called via ajax.
 	 */
 	class Accredible_Learndash_Ajax {
+		const NONCE_ACTION = 'accredible_learndash_ajax';
+
 		/**
 		 * Get group options.
 		 */
 		public static function search_groups() {
+			self::verify_admin_request();
+
 			$groups   = array();
 			$response = array();
 
@@ -54,6 +58,8 @@ if ( ! class_exists( 'Accredible_Learndash_Ajax' ) ) :
 		 * Get group by id.
 		 */
 		public static function get_group() {
+			self::verify_admin_request();
+
 			$response = array();
 
 			// phpcs:ignore WordPress.Security.NonceVerification.Recommended
@@ -80,6 +86,8 @@ if ( ! class_exists( 'Accredible_Learndash_Ajax' ) ) :
 		 * Get lesson options.
 		 */
 		public static function get_lessons() {
+			self::verify_admin_request();
+
 			$course_id = self::get_request_value( 'course_id', null );
 
 			if ( isset( $course_id ) ) {
@@ -96,6 +104,8 @@ if ( ! class_exists( 'Accredible_Learndash_Ajax' ) ) :
 		 * Get issuer details html.
 		 */
 		public static function load_issuer_html() {
+			self::verify_admin_request();
+
 			$issuer     = null;
 			$api_client = new Accredible_Learndash_Api_V1_Client();
 			$response   = $api_client->organization_search();
@@ -116,6 +126,8 @@ if ( ! class_exists( 'Accredible_Learndash_Ajax' ) ) :
 		 * Load auto issuances
 		 */
 		public static function load_auto_issuance_list_html() {
+			self::verify_admin_request();
+
 			$current_page = self::get_request_value( 'page_num', 1 );
 			$page_size    = 20;
 
@@ -136,6 +148,8 @@ if ( ! class_exists( 'Accredible_Learndash_Ajax' ) ) :
 		 * Triggers the appropriate action in Accredible_Learndash_Admin_Action_Handler
 		 */
 		public static function handle_auto_issuance_action() {
+			self::verify_admin_request();
+
 			try {
 				$results = Accredible_Learndash_Admin_Action_Handler::call();
 				wp_send_json_success( $results );
@@ -148,6 +162,8 @@ if ( ! class_exists( 'Accredible_Learndash_Ajax' ) ) :
 		 * Get page html.
 		 */
 		public static function load_issuance_form_html() {
+			self::verify_admin_request();
+
 			$accredible_learndash_issuance_id           = self::get_request_value( 'id', null );
 			$accredible_learndash_issuance_current_page = self::get_request_value( 'page_num', null );
 
@@ -160,6 +176,15 @@ if ( ! class_exists( 'Accredible_Learndash_Ajax' ) ) :
 
 			wp_send_json_success( $page_html );
 			wp_die();
+		}
+
+		/**
+		 * Stop the request with a 403 unless it comes from an administrator with a valid nonce.
+		 */
+		private static function verify_admin_request() {
+			if ( ! current_user_can( 'manage_options' ) || ! check_ajax_referer( self::NONCE_ACTION, 'nonce', false ) ) {
+				wp_send_json_error( 'You are not allowed to perform this action.', 403 );
+			}
 		}
 
 		/**

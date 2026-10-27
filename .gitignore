@@ -9,3 +9,5 @@ vendor/*
 
 # IDEs and editors
 /.idea
+
+/.claude/

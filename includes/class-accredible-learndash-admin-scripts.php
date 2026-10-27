@@ -61,6 +61,7 @@ if ( ! class_exists( 'Accredible_Learndash_Admin_Scripts' ) ) :
 				'accredibledata',
 				array(
 					'ajaxurl' => admin_url( 'admin-ajax.php' ),
+					'nonce'   => wp_create_nonce( Accredible_Learndash_Ajax::NONCE_ACTION ),
 				)
 			);
 
@@ -87,6 +88,7 @@ if ( ! class_exists( 'Accredible_Learndash_Admin_Scripts' ) ) :
 				'ajaxdata',
 				array(
 					'ajaxurl' => admin_url( 'admin-ajax.php' ),
+					'nonce'   => wp_create_nonce( Accredible_Learndash_Ajax::NONCE_ACTION ),
 				)
 			);
 		}

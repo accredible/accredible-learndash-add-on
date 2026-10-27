@@ -69,7 +69,7 @@ if ( ! class_exists( 'Accredible_Learndash_Admin_Table_Helper' ) ) :
 		 */
 		public function __construct( $table_columns, $current_page, $page_size = self::DEFAULT_PAGE_SIZE, $row_actions = array() ) {
 			self::$table_columns = $table_columns;
-			self::$current_page  = empty( $current_page ) ? 1 : $current_page;
+			self::$current_page  = max( 1, absint( $current_page ) );
 			self::$page_size     = $page_size;
 			self::$row_actions   = $row_actions;
 		}
@@ -390,7 +390,7 @@ if ( ! class_exists( 'Accredible_Learndash_Admin_Table_Helper' ) ) :
 						$actions .= sprintf(
 							'<a href="javascript:void(0);" %1s %2s class="button accredible-button-outline-natural accredible-button-small">' . $value['label'] . '</a>',
 							$has_confirm_dialog ? 'data-accredible-dialog="true"' : 'data-accredible-sidenav="true"',
-							'data-accredible-action-params=' . $action_params
+							'data-accredible-action-params="' . esc_attr( $action_params ) . '"'
 						);
 					}
 				}

@@ -14,63 +14,45 @@ if ( ! class_exists( 'Accredible_Learndash_Model' ) ) :
 	abstract class Accredible_Learndash_Model {
 		const DEFAULT_PAGE_SIZE = 50;
 		const REQUIRED_FIELDS   = array();
+		const ORDER_BY_OPTIONS  = array( 'id ASC', 'id DESC' );
 
 		/**
 		 * Return a list of DB records.
 		 *
-		 * @param string $where_sql SQL where clause.
+		 * @param string $where_sql SQL where clause with %d / %s placeholders.
+		 * @param array  $where_args Values for the placeholders in `$where_sql`.
 		 * @param int    $limit Limit value.
 		 * @param int    $offset Offset value.
 		 * @param array  $options SQL options.
 		 */
-		public static function get_results( $where_sql = '', $limit = null, $offset = null, $options = array() ) {
+		public static function get_results( $where_sql = '', $where_args = array(), $limit = null, $offset = null, $options = array() ) {
 			global $wpdb;
-			$sql = 'SELECT * FROM ' . static::table_name();
-			if ( ! empty( $where_sql ) ) {
-				$sql .= " WHERE $where_sql";
-			}
-			if ( isset( $options['order_by'] ) ) {
-				$sql .= ' ORDER BY ' . $options['order_by'];
-			}
-			if ( ! empty( $limit ) ) {
-				$sql .= " LIMIT $limit";
-			}
-			if ( ! empty( $offset ) ) {
-				$sql .= " OFFSET $offset";
-			}
-			// XXX `$where_sql` is a raw SQL so `$wpdb->prepare` cannot be used.
-			return $wpdb->get_results( $sql ); // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
+			$sql = self::build_query( 'SELECT *', $where_sql, $where_args, $limit, $offset, $options );
+			return $wpdb->get_results( $sql ); // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared -- prepared in build_query.
 		}
 
 		/**
 		 * Return a DB record.
 		 *
-		 * @param string $where_sql SQL where clause.
+		 * @param string $where_sql SQL where clause with %d / %s placeholders.
+		 * @param array  $where_args Values for the placeholders in `$where_sql`.
 		 */
-		public static function get_row( $where_sql = '' ) {
+		public static function get_row( $where_sql = '', $where_args = array() ) {
 			global $wpdb;
-			$sql = 'SELECT * FROM ' . static::table_name();
-			if ( ! empty( $where_sql ) ) {
-				$sql .= " WHERE $where_sql";
-			}
-
-			// XXX `$where_sql` is a raw SQL so `$wpdb->prepare` cannot be used.
-			return $wpdb->get_row( $sql ); // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
+			$sql = self::build_query( 'SELECT *', $where_sql, $where_args );
+			return $wpdb->get_row( $sql ); // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared -- prepared in build_query.
 		}
 
 		/**
 		 * Return the total count of the records.
 		 *
-		 * @param string $where_sql SQL where clause.
+		 * @param string $where_sql SQL where clause with %d / %s placeholders.
+		 * @param array  $where_args Values for the placeholders in `$where_sql`.
 		 */
-		public static function get_total_count( $where_sql = '' ) {
+		public static function get_total_count( $where_sql = '', $where_args = array() ) {
 			global $wpdb;
-			$sql = 'SELECT COUNT(*) FROM ' . static::table_name();
-			if ( ! empty( $where_sql ) ) {
-				$sql .= " WHERE $where_sql";
-			}
-			// XXX `$where_sql` is a raw SQL so `$wpdb->prepare` cannot be used.
-			return $wpdb->get_var( $sql ); // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
+			$sql = self::build_query( 'SELECT COUNT(*)', $where_sql, $where_args );
+			return $wpdb->get_var( $sql ); // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared -- prepared in build_query.
 		}
 
 		/**
@@ -78,18 +60,19 @@ if ( ! class_exists( 'Accredible_Learndash_Model' ) ) :
 		 *
 		 * @param int    $page_num The current page number.
 		 * @param int    $page_size Page size.
-		 * @param string $where_sql SQL where clause.
+		 * @param string $where_sql SQL where clause with %d / %s placeholders.
+		 * @param array  $where_args Values for the placeholders in `$where_sql`.
 		 * @param array  $options SQL options.
 		 */
-		public static function get_paginated_results( $page_num, $page_size, $where_sql = '', $options = array() ) {
+		public static function get_paginated_results( $page_num, $page_size, $where_sql = '', $where_args = array(), $options = array() ) {
 			if ( empty( $page_size ) ) {
 				$page_size = static::DEFAULT_PAGE_SIZE;
 			}
-			$current_page = empty( $page_num ) ? 1 : $page_num;
+			$current_page = max( 1, absint( $page_num ) );
 			$offset       = $page_size * ( $current_page - 1 );
 
-			$results     = static::get_results( $where_sql, $page_size, $offset, $options );
-			$total_count = static::get_total_count( $where_sql );
+			$results     = static::get_results( $where_sql, $where_args, $page_size, $offset, $options );
+			$total_count = static::get_total_count( $where_sql, $where_args );
 			$total_pages = ceil( $total_count / $page_size );
 			$next_page   = $current_page < $total_pages ? $current_page + 1 : null;
 			$prev_page   = $current_page > 1 ? $current_page - 1 : null;
@@ -105,6 +88,46 @@ if ( ! class_exists( 'Accredible_Learndash_Model' ) ) :
 					'page_size'    => $page_size,
 				),
 			);
+		}
+
+		/**
+		 * Build a prepared SELECT query.
+		 *
+		 * @throws Exception Exception when the order_by option is not allowed.
+		 *
+		 * @param string $select SELECT expression.
+		 * @param string $where_sql SQL where clause with %d / %s placeholders.
+		 * @param array  $where_args Values for the placeholders in `$where_sql`.
+		 * @param int    $limit Limit value.
+		 * @param int    $offset Offset value.
+		 * @param array  $options SQL options.
+		 */
+		private static function build_query( $select, $where_sql, $where_args, $limit = null, $offset = null, $options = array() ) {
+			global $wpdb;
+			$sql  = $select . ' FROM ' . static::table_name();
+			$args = array();
+			if ( ! empty( $where_sql ) ) {
+				$sql .= " WHERE $where_sql";
+				$args = $where_args;
+			}
+			if ( isset( $options['order_by'] ) ) {
+				if ( ! in_array( $options['order_by'], self::ORDER_BY_OPTIONS, true ) ) {
+					throw new Exception( esc_attr( $options['order_by'] ) . ' is an invalid order_by option.' );
+				}
+				$sql .= ' ORDER BY ' . $options['order_by'];
+			}
+			if ( ! empty( $limit ) ) {
+				$sql   .= ' LIMIT %d';
+				$args[] = $limit;
+			}
+			if ( ! empty( $offset ) ) {
+				$sql   .= ' OFFSET %d';
+				$args[] = $offset;
+			}
+			if ( empty( $args ) ) {
+				return $sql;
+			}
+			return $wpdb->prepare( $sql, $args ); // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared -- the only interpolated parts are the table name, the allowlisted ORDER BY and placeholders.
 		}
 
 		/**

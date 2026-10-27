@@ -448,7 +448,7 @@ class Accredible_Learndash_Event_Handler_Test extends Accredible_Learndash_Custo
 			3
 		);
 
-		$auto_issuance   = Accredible_Learndash_Model_Auto_Issuance::get_results( "kind = 'course_completed' AND post_id = $course->ID" )[0];
+		$auto_issuance   = Accredible_Learndash_Model_Auto_Issuance::get_results( 'kind = %s AND post_id = %d', array( 'course_completed', $course->ID ) )[0];
 		$recipient_name  = 'Tom Test';
 		$recipient_email = 'tom@example.com';
 
@@ -456,7 +456,7 @@ class Accredible_Learndash_Event_Handler_Test extends Accredible_Learndash_Custo
 		$private_method->invokeArgs( null, array( $auto_issuance, $user_id, $recipient_name, $recipient_email, $course->ID ) );
 
 		$this->assertEquals( 1, $this->request_count );
-		$auto_issuance_log = Accredible_Learndash_Model_Auto_Issuance_Log::get_results( "accredible_learndash_auto_issuance_id = $auto_issuance->id" )[0];
+		$auto_issuance_log = Accredible_Learndash_Model_Auto_Issuance_Log::get_results( 'accredible_learndash_auto_issuance_id = %d', array( $auto_issuance->id ) )[0];
 		$this->assertEquals( $user_id, $auto_issuance_log->user_id );
 		$this->assertEquals( 9549, $auto_issuance->accredible_group_id );
 		$this->assertEquals( 'Example Certificate Design', $auto_issuance_log->accredible_group_name );
@@ -519,7 +519,7 @@ class Accredible_Learndash_Event_Handler_Test extends Accredible_Learndash_Custo
 			3
 		);
 
-		$auto_issuance   = Accredible_Learndash_Model_Auto_Issuance::get_results( "kind = 'course_completed' AND post_id = $course->ID" )[0];
+		$auto_issuance   = Accredible_Learndash_Model_Auto_Issuance::get_results( 'kind = %s AND post_id = %d', array( 'course_completed', $course->ID ) )[0];
 		$recipient_name  = 'Tom Test';
 		$recipient_email = 'tom@example.com';
 
@@ -527,7 +527,7 @@ class Accredible_Learndash_Event_Handler_Test extends Accredible_Learndash_Custo
 		$private_method->invokeArgs( null, array( $auto_issuance, $user_id, $recipient_name, $recipient_email, $course->ID ) );
 
 		$this->assertEquals( 1, $this->request_count );
-		$auto_issuance_log = Accredible_Learndash_Model_Auto_Issuance_Log::get_results( "accredible_learndash_auto_issuance_id = $auto_issuance->id" )[0];
+		$auto_issuance_log = Accredible_Learndash_Model_Auto_Issuance_Log::get_results( 'accredible_learndash_auto_issuance_id = %d', array( $auto_issuance->id ) )[0];
 		$this->assertEquals( $user_id, $auto_issuance_log->user_id );
 		$this->assertEquals( 9549, $auto_issuance->accredible_group_id );
 		$this->assertEmpty( $auto_issuance_log->accredible_group_name );
@@ -590,7 +590,7 @@ class Accredible_Learndash_Event_Handler_Test extends Accredible_Learndash_Custo
 			3
 		);
 
-		$auto_issuance   = Accredible_Learndash_Model_Auto_Issuance::get_results( "kind = 'course_completed' AND post_id = $course->ID" )[0];
+		$auto_issuance   = Accredible_Learndash_Model_Auto_Issuance::get_results( 'kind = %s AND post_id = %d', array( 'course_completed', $course->ID ) )[0];
 		$recipient_name  = 'Tom Test';
 		$recipient_email = 'tom@example.com';
 
@@ -598,7 +598,7 @@ class Accredible_Learndash_Event_Handler_Test extends Accredible_Learndash_Custo
 		$private_method->invokeArgs( null, array( $auto_issuance, $user_id, $recipient_name, $recipient_email, $course->ID ) );
 
 		$this->assertEquals( 1, $this->request_count );
-		$auto_issuance_log = Accredible_Learndash_Model_Auto_Issuance_Log::get_results( "accredible_learndash_auto_issuance_id = $auto_issuance->id" )[0];
+		$auto_issuance_log = Accredible_Learndash_Model_Auto_Issuance_Log::get_results( 'accredible_learndash_auto_issuance_id = %d', array( $auto_issuance->id ) )[0];
 		$this->assertEquals( $user_id, $auto_issuance_log->user_id );
 		$this->assertEquals( 9549, $auto_issuance->accredible_group_id );
 		$this->assertEmpty( $auto_issuance_log->accredible_group_name );

@@ -44,29 +44,29 @@ class Accredible_Learndash_Model_Auto_Issuance_Test extends Accredible_Learndash
 		$this->assertCount( 2, $results );
 
 		// With $where_sql.
-		$results = Accredible_Learndash_Model_Auto_Issuance::get_results( "post_id = 1 AND kind = 'course_completed'" );
+		$results = Accredible_Learndash_Model_Auto_Issuance::get_results( 'post_id = %d AND kind = %s', array( 1, 'course_completed' ) );
 		$this->assertCount( 1, $results );
 
 		// With $where_sql.
-		$results = Accredible_Learndash_Model_Auto_Issuance::get_results( "post_id = 2 AND kind = 'lesson_completed'" );
+		$results = Accredible_Learndash_Model_Auto_Issuance::get_results( 'post_id = %d AND kind = %s', array( 2, 'lesson_completed' ) );
 		$this->assertCount( 1, $results );
 
 		// With $limit.
 		$limit   = 1;
-		$results = Accredible_Learndash_Model_Auto_Issuance::get_results( '', $limit );
+		$results = Accredible_Learndash_Model_Auto_Issuance::get_results( '', array(), $limit );
 		$this->assertCount( 1, $results );
 		$this->assertEquals( $data1_id, $results[0]->id );
 
 		// With $limit & $offset.
 		$offset  = 1;
-		$results = Accredible_Learndash_Model_Auto_Issuance::get_results( '', $limit, $offset );
+		$results = Accredible_Learndash_Model_Auto_Issuance::get_results( '', array(), $limit, $offset );
 		$this->assertCount( 1, $results );
 		$this->assertEquals( $data2_id, $results[0]->id );
 
 		// With $limit & $offset & order_by.
 		$offset  = 1;
 		$options = array( 'order_by' => 'id DESC' );
-		$results = Accredible_Learndash_Model_Auto_Issuance::get_results( '', $limit, $offset, $options );
+		$results = Accredible_Learndash_Model_Auto_Issuance::get_results( '', array(), $limit, $offset, $options );
 		$this->assertCount( 1, $results );
 		$this->assertEquals( $data1_id, $results[0]->id );
 	}
@@ -100,11 +100,11 @@ class Accredible_Learndash_Model_Auto_Issuance_Test extends Accredible_Learndash
 		$this->assertEquals( $data1_id, $result->id );
 
 		// With $where_sql.
-		$result = Accredible_Learndash_Model_Auto_Issuance::get_row( 'post_id = 2' );
+		$result = Accredible_Learndash_Model_Auto_Issuance::get_row( 'post_id = %d', array( 2 ) );
 		$this->assertEquals( $data2_id, $result->id );
 
 		// With no results.
-		$result = Accredible_Learndash_Model_Auto_Issuance::get_row( 'post_id = 10' );
+		$result = Accredible_Learndash_Model_Auto_Issuance::get_row( 'post_id = %d', array( 10 ) );
 		$this->assertEquals( null, $result );
 	}
 
@@ -134,10 +134,10 @@ class Accredible_Learndash_Model_Auto_Issuance_Test extends Accredible_Learndash
 		$results = Accredible_Learndash_Model_Auto_Issuance::get_total_count();
 		$this->assertEquals( 2, $results );
 
-		$results = Accredible_Learndash_Model_Auto_Issuance::get_total_count( "post_id = 1 AND kind = 'course_completed'" );
+		$results = Accredible_Learndash_Model_Auto_Issuance::get_total_count( 'post_id = %d AND kind = %s', array( 1, 'course_completed' ) );
 		$this->assertEquals( 1, $results );
 
-		$results = Accredible_Learndash_Model_Auto_Issuance::get_total_count( "post_id = 2 AND kind = 'lesson_completed'" );
+		$results = Accredible_Learndash_Model_Auto_Issuance::get_total_count( 'post_id = %d AND kind = %s', array( 2, 'lesson_completed' ) );
 		$this->assertEquals( 1, $results );
 	}
 
@@ -224,7 +224,7 @@ class Accredible_Learndash_Model_Auto_Issuance_Test extends Accredible_Learndash
 		$this->assertEquals( 1, $page_meta['page_size'] );
 
 		// With $where_sql.
-		$page      = Accredible_Learndash_Model_Auto_Issuance::get_paginated_results( 1, null, "post_id = 1 AND kind = 'course_completed'" );
+		$page      = Accredible_Learndash_Model_Auto_Issuance::get_paginated_results( 1, null, 'post_id = %d AND kind = %s', array( 1, 'course_completed' ) );
 		$page_meta = $page['meta'];
 		$this->assertCount( 1, $page['results'] );
 		$this->assertEquals( 1, $page_meta['current_page'] );
@@ -236,7 +236,7 @@ class Accredible_Learndash_Model_Auto_Issuance_Test extends Accredible_Learndash
 
 		// With $options.
 		$options   = array( 'order_by' => 'id DESC' );
-		$page      = Accredible_Learndash_Model_Auto_Issuance::get_paginated_results( 1, null, '', $options );
+		$page      = Accredible_Learndash_Model_Auto_Issuance::get_paginated_results( 1, null, '', array(), $options );
 		$page_meta = $page['meta'];
 		$this->assertCount( 3, $page['results'] );
 		$this->assertEquals( $data3_id, $page['results'][0]->id );
@@ -571,5 +571,28 @@ class Accredible_Learndash_Model_Auto_Issuance_Test extends Accredible_Learndash
 		}
 
 		$this->assertEquals( 'Post ID 1 already has the same kind of auto issuance.', $caught_exception );
+	}
+
+	/**
+	 * Test if it rejects an order_by option that is not allowed.
+	 */
+	public function test_get_results_with_invalid_order_by() {
+		try {
+			Accredible_Learndash_Model_Auto_Issuance::get_results( '', array(), null, null, array( 'order_by' => 'id; DROP TABLE users' ) );
+			$caught_exception = null;
+		} catch ( \Exception $error ) {
+			$caught_exception = $error->getMessage();
+		}
+
+		$this->assertEquals( 'id; DROP TABLE users is an invalid order_by option.', $caught_exception );
+	}
+
+	/**
+	 * Test if it falls back to the first page when the page number is not numeric.
+	 */
+	public function test_get_paginated_results_with_non_numeric_page_num() {
+		$page = Accredible_Learndash_Model_Auto_Issuance::get_paginated_results( '1 OR 1=1', null );
+
+		$this->assertEquals( 1, $page['meta']['current_page'] );
 	}
 }
