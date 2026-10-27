@@ -19,7 +19,12 @@ jQuery( function(){
                             results = res.data;
                         }
                         response(results);
-                    }, "json");
+                    }, "json").fail(function(xhr){
+                        response([]);
+                        if (xhr.status === 403 && typeof accredibleToast !== 'undefined') {
+                            accredibleToast.error('Your session has expired. Please reload the page.', 5000);
+                        }
+                    });
                 },
                 select: function(event, ui) {
                     var group_name = "";

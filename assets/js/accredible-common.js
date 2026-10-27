@@ -1,12 +1,22 @@
 accredibleAjax = {};
 
 jQuery(function(){
+    const SESSION_EXPIRED_MESSAGE = 'Your session has expired. Please reload the page.';
+
+    function post(post_data) {
+        return jQuery.post(accredibledata.ajaxurl, post_data).fail(function(xhr) {
+            if (xhr.status === 403 && typeof accredibleToast !== 'undefined') {
+                accredibleToast.error(SESSION_EXPIRED_MESSAGE, 5000);
+            }
+        });
+    }
+
     accredibleAjax.loadIssuerInfo = function() {
         var post_data = {
             action: 'accredible_learndash_ajax_load_issuer_html',
             nonce: accredibledata.nonce
         };
-        return jQuery.post(accredibledata.ajaxurl, post_data).then();
+        return post(post_data);
     };
 
     accredibleAjax.loadIssuanceSidenav = function(data) {
@@ -17,7 +27,7 @@ jQuery(function(){
         if (data) {
             Object.assign(post_data, data);
         }
-        return jQuery.post(accredibledata.ajaxurl, post_data).then();
+        return post(post_data);
     };
 
     accredibleAjax.doAutoIssuanceAction = function(formData) {
@@ -37,6 +47,14 @@ jQuery(function(){
                 }
                 return response;
            }
+        }, function(xhr){
+            // Callers toast res.data on failure, so return the same shape instead of the jqXHR.
+            return {
+                success: false,
+                data: xhr.status === 403
+                    ? SESSION_EXPIRED_MESSAGE
+                    : 'Failed to perform requested action. Please try again later.'
+            };
         });
     };
 
@@ -46,7 +64,7 @@ jQuery(function(){
             nonce: accredibledata.nonce,
             page_num: currentPage
         };
-        return jQuery.post(accredibledata.ajaxurl, post_data).then();
+        return post(post_data);
     }
 
     accredibleAjax.getGroup = function(groupId) {
@@ -55,7 +73,7 @@ jQuery(function(){
             nonce: accredibledata.nonce,
             group_id: groupId
         };
-        return jQuery.post(accredibledata.ajaxurl, post_data).then();
+        return post(post_data);
     }
 
     accredibleAjax.getLessons = function(courseId) {
@@ -64,6 +82,6 @@ jQuery(function(){
             nonce: accredibledata.nonce,
             course_id: courseId
         };
-        return jQuery.post(accredibledata.ajaxurl, post_data).then();
+        return post(post_data);
     }
 });
